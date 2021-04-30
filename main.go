@@ -116,10 +116,55 @@ func connect() (*sql.DB, error) {
 	return db, nil
 }
 
+func allPoliticianQuery() {
+	db, err := connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM politicians")
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer rows.Close()
+
+	var result []Politician
+
+	for rows.Next() {
+		var each = Politician{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		result = append(result, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for _, each := range result {
+		fmt.Println("Politician ID:", each.PoliticianID)
+		fmt.Println("Name:", each.Name)
+		fmt.Println("Party:", each.Party)
+		fmt.Println("Location:", each.Location)
+		fmt.Println("Grade Current:", each.GradeCurrent)
+	}
+}
+
 func main() {
 	// p := decodePoliticianData("politicians.json")
-	v := decodeVotingData("voting.json")
+	// v := decodeVotingData("voting.json")
 
 	// insertPoliticianDataToDb(p)
-	insertVotingDataToDb(v)
+	// insertVotingDataToDb(v)
+
+	allPoliticianQuery()
 }
