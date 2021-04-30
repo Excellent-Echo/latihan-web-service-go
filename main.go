@@ -28,10 +28,11 @@ type Voting struct {
 
 type Votes []Voting
 
-func getPoliticianData() {
+func decodeJsonData(file string) {
 	var politicians Politicians
+	var votes Votes
 
-	jsonFile, err := os.Open("politicians.json")
+	jsonFile, err := os.Open(file)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -40,7 +41,11 @@ func getPoliticianData() {
 	defer jsonFile.Close()
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	err = json.Unmarshal(byteValue, &politicians)
+	if file == "politicians.json" {
+		err = json.Unmarshal(byteValue, &politicians)
+	} else if file == "voting.json" {
+		err = json.Unmarshal(byteValue, &votes)
+	}
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -52,25 +57,6 @@ func getPoliticianData() {
 		fmt.Println("Party: ", val.Party)
 		fmt.Println("Location: ", val.Location)
 		fmt.Println("Grade Current: ", val.GradeCurrent)
-	}
-}
-
-func getVotingData() {
-	var votes Votes
-
-	jsonFile, err := os.Open("voting.json")
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-
-	defer jsonFile.Close()
-
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	err = json.Unmarshal(byteValue, &votes)
-	if err != nil {
-		fmt.Println(err.Error())
-		return
 	}
 
 	for _, val := range votes {
@@ -84,6 +70,6 @@ func getVotingData() {
 }
 
 func main() {
-	getPoliticianData()
-	getVotingData()
+	decodeJsonData("politicians.json")
+	decodeJsonData("voting.json")
 }
