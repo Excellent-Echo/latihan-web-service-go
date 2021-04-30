@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -26,8 +27,14 @@ type Voting struct {
 	Age           string `json:"age"`
 }
 
-func connect() {
-	// db, err :=sql.Open("mysql","root")
+func connect() (*sql.DB, error) {
+	db, err := sql.Open("mysql", "root:@tcp(localhost)/voting_app")
+
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Println("sukses connect database")
+	return db, nil
 }
 
 func main() {
@@ -42,7 +49,7 @@ func main() {
 	defer politicians.Close()
 
 	byteValue, _ := ioutil.ReadAll(politicians)
-	var result []Politician
-	json.Unmarshal(byteValue, &result)
-	fmt.Println(result)
+	var politicianData []Politician
+	json.Unmarshal(byteValue, &politicianData)
+	connect()
 }
