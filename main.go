@@ -1,10 +1,13 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Politician struct {
@@ -28,8 +31,41 @@ type Voting struct {
 
 type Votes []Voting
 
-func decodeJsonData(file string) {
+func decodePoliticianData(file string) {
 	var politicians Politicians
+
+	jsonFile, err := os.Open(file)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	defer jsonFile.Close()
+
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	err = json.Unmarshal(byteValue, &politicians)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	db, err := connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	for _, val := range politicians {
+		_, err = db.Exec("INSERT INTO politicians (name, party, location, grade_current) VALUES (?, ?, ?, ?)", val.Name, val.Party, val.Location, val.GradeCurrent)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+	}
+	fmt.Println("insert data succeed")
+}
+
+func decodeVotingData(file string) {
 	var votes Votes
 
 	jsonFile, err := os.Open(file)
@@ -41,22 +77,10 @@ func decodeJsonData(file string) {
 	defer jsonFile.Close()
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	if file == "politicians.json" {
-		err = json.Unmarshal(byteValue, &politicians)
-	} else if file == "voting.json" {
-		err = json.Unmarshal(byteValue, &votes)
-	}
+	err = json.Unmarshal(byteValue, &votes)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
-	}
-
-	for _, val := range politicians {
-		fmt.Println("Politician ID: ", val.PoliticianID)
-		fmt.Println("Name: ", val.Name)
-		fmt.Println("Party: ", val.Party)
-		fmt.Println("Location: ", val.Location)
-		fmt.Println("Grade Current: ", val.GradeCurrent)
 	}
 
 	for _, val := range votes {
@@ -69,7 +93,17 @@ func decodeJsonData(file string) {
 	}
 }
 
+func connect() (*sql.DB, error) {
+	db, err := sql.Open("mysql", "root:marwanajunolii@tcp(localhost)/election")
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return db, nil
+}
+
 func main() {
-	decodeJsonData("politicians.json")
-	decodeJsonData("voting.json")
+	decodePoliticianData("politicians.json")
+	// decodeVotingData("voting.json")
 }
