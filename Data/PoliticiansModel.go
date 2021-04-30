@@ -1,10 +1,7 @@
 package Data
 
 import (
-	"database/sql"
 	"fmt"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
 type PoliticiansDB struct {
@@ -15,18 +12,41 @@ type PoliticiansDB struct {
 	Grade_current float32
 }
 
-func connect() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "Radika:!Satu234limA!@tcp(localhost)/elections")
-
+//get data Politicians by ID
+func GetDataPoliticianById(id int) (dataPoliticianDB PoliticiansDB) {
+	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
 	}
+	defer db.Close()
 
-	return db, nil
+	data, err := db.Query("SELECT * FROM politicians WHERE politician_id = ?", id)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat PoliticiansDB
+
+		if data.Scan(
+			&dat.Politician_id,
+			&dat.Name,
+			&dat.Party,
+			&dat.Location,
+			&dat.Grade_current); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPoliticianDB = dat
+	}
+	return
 }
 
+//Get All data Politicians
 func GetDataPoliticians() (dataPoliticiansDB []PoliticiansDB) {
-	db, err := connect()
+	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -58,7 +78,7 @@ func GetDataPoliticians() (dataPoliticiansDB []PoliticiansDB) {
 
 //this function for initial post from json only do not use for others
 func InitialPostDataPoliticians(id int, name string, party string, location string, grade float32) {
-	db, err := connect()
+	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
 	}
