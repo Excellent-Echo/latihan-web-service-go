@@ -22,7 +22,7 @@ type Politicians []Politician
 
 type Voting struct {
 	VoterID      int    `json:"voter_id"`
-	PoliticianID int    `json:"politician_id"`
+	PoliticianID int    `json:"policitian_id"`
 	FirstName    string `json:"first_name"`
 	LastName     string `json:"last_name"`
 	Gender       string `json:"gender"`
@@ -48,6 +48,7 @@ func decodePoliticianData(file string) {
 		fmt.Println(err.Error())
 		return
 	}
+
 	db, err := connect()
 	if err != nil {
 		panic(err.Error())
@@ -63,6 +64,7 @@ func decodePoliticianData(file string) {
 		}
 	}
 	fmt.Println("insert data succeed")
+
 }
 
 func decodeVotingData(file string) {
@@ -83,14 +85,22 @@ func decodeVotingData(file string) {
 		return
 	}
 
-	for _, val := range votes {
-		fmt.Println("Voter ID: ", val.VoterID)
-		fmt.Println("Politician ID: ", val.PoliticianID)
-		fmt.Println("First Name: ", val.FirstName)
-		fmt.Println("Last Name: ", val.LastName)
-		fmt.Println("Gender: ", val.Gender)
-		fmt.Println("Age: ", val.Age)
+	db, err := connect()
+	if err != nil {
+		panic(err.Error())
 	}
+	defer db.Close()
+
+	for _, val := range votes {
+		_, err = db.Exec("INSERT INTO votings (politician_id, first_name, last_name, gender, age) VALUES (?, ?, ?, ?, ?)", val.PoliticianID, val.FirstName, val.LastName, val.Gender, val.Age)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+	}
+	fmt.Println("insert data succeed")
+
 }
 
 func connect() (*sql.DB, error) {
@@ -105,5 +115,5 @@ func connect() (*sql.DB, error) {
 
 func main() {
 	decodePoliticianData("politicians.json")
-	// decodeVotingData("voting.json")
+	decodeVotingData("voting.json")
 }
