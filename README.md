@@ -18,7 +18,7 @@
 
 
 ## release 3
-- Buatlah sebuah routing dengan penjelasan sebagai berikut :
+- Buatlah sebuah routing dengan output berupa API JSON , penjelasan sebagai berikut :
 1. GET "/votings" , untuk menampilkan semua data voting 
 2. GET "/votings_male" , untuk menampilkan semua data voting 
 3. GET "/votings_female" , untuk menampilkan semua data voting 
