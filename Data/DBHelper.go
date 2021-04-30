@@ -16,7 +16,7 @@ type PoliticiansDB struct {
 }
 
 func connect() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "Radika:!Satu234limA!@tcp(localhost)/tokobuku")
+	db, err := sql.Open("mysql", "Radika:!Satu234limA!@tcp(localhost)/elections")
 
 	if err != nil {
 		panic(err.Error())
@@ -57,6 +57,19 @@ func getDataPoliticians() {
 	//return dataPoliticiansDB
 }
 
-func postDataPoliticians() {
+func InitialPostDataPoliticians(id int, name string, party string, location string, grade float32) {
+	db, err := connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
 
+	//query
+	_, err = db.Exec("INSERT INTO politicians VALUES (?,?,?,?,?)", id, name, party, location, grade)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	fmt.Println("Success initial insert data")
 }

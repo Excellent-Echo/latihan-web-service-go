@@ -39,12 +39,13 @@ func PoliticianData() {
 		fmt.Println(err.Error())
 		return
 	}
-
-	// for _, data := range politiciansData {
-	// 	fmt.Println(data.Politician_id)
-	// 	fmt.Println(data.Name)
-	// 	fmt.Println(data.Party)
-	// 	fmt.Println(data.Location)
-	// 	fmt.Println(data.Grade_current)
-	// }
+	//store to database
+	for _, data := range politiciansData {
+		InitialPostDataPoliticians(
+			data.Politician_id,
+			data.Name,
+			data.Party,
+			data.Location,
+			data.Grade_current)
+	}
 }
