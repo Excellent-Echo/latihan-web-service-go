@@ -31,13 +31,12 @@ type Voting struct {
 
 type Votes []Voting
 
-func decodePoliticianData(file string) {
+func decodePoliticianData(file string) Politicians {
 	var politicians Politicians
 
 	jsonFile, err := os.Open(file)
 	if err != nil {
 		fmt.Println(err.Error())
-		return
 	}
 
 	defer jsonFile.Close()
@@ -46,16 +45,19 @@ func decodePoliticianData(file string) {
 	err = json.Unmarshal(byteValue, &politicians)
 	if err != nil {
 		fmt.Println(err.Error())
-		return
 	}
 
+	return politicians
+}
+
+func insertPoliticianDataToDb(p Politicians) {
 	db, err := connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	for _, val := range politicians {
+	for _, val := range p {
 		_, err = db.Exec("INSERT INTO politicians (name, party, location, grade_current) VALUES (?, ?, ?, ?)", val.Name, val.Party, val.Location, val.GradeCurrent)
 
 		if err != nil {
@@ -64,16 +66,14 @@ func decodePoliticianData(file string) {
 		}
 	}
 	fmt.Println("insert data succeed")
-
 }
 
-func decodeVotingData(file string) {
+func decodeVotingData(file string) Votes {
 	var votes Votes
 
 	jsonFile, err := os.Open(file)
 	if err != nil {
 		fmt.Println(err.Error())
-		return
 	}
 
 	defer jsonFile.Close()
@@ -82,16 +82,19 @@ func decodeVotingData(file string) {
 	err = json.Unmarshal(byteValue, &votes)
 	if err != nil {
 		fmt.Println(err.Error())
-		return
 	}
 
+	return votes
+}
+
+func insertVotingDataToDb(v Votes) {
 	db, err := connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	for _, val := range votes {
+	for _, val := range v {
 		_, err = db.Exec("INSERT INTO votings (politician_id, first_name, last_name, gender, age) VALUES (?, ?, ?, ?, ?)", val.PoliticianID, val.FirstName, val.LastName, val.Gender, val.Age)
 
 		if err != nil {
@@ -99,8 +102,8 @@ func decodeVotingData(file string) {
 			return
 		}
 	}
-	fmt.Println("insert data succeed")
 
+	fmt.Println("insert data succeed")
 }
 
 func connect() (*sql.DB, error) {
@@ -114,6 +117,9 @@ func connect() (*sql.DB, error) {
 }
 
 func main() {
-	decodePoliticianData("politicians.json")
-	decodeVotingData("voting.json")
+	// p := decodePoliticianData("politicians.json")
+	v := decodeVotingData("voting.json")
+
+	// insertPoliticianDataToDb(p)
+	insertVotingDataToDb(v)
 }
