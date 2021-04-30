@@ -37,6 +37,8 @@ type Voting struct {
 
 type Votes []Voting
 
+var port = "localhost:4444"
+
 func decodePoliticianData(file string) Politicians {
 	var politicians Politicians
 
@@ -337,13 +339,41 @@ func votingsRoute(v Votes) {
 
 			w.Write(byteJson)
 			return
-
 		}
 
-		http.Error(w, "error not method GET", http.StatusInternalServerError)
+		http.Error(w, "", http.StatusBadRequest)
 	})
 
-	port := "localhost:4444"
+	fmt.Println("server running on port", port)
+
+	http.ListenAndServe(port, nil)
+}
+
+func votingsMaleRoute(v Votes) {
+	http.HandleFunc("/votings_male", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		if r.Method == "GET" {
+			var result []byte
+			var err error
+
+			for _, each := range v {
+				if each.Gender == "male" {
+					result, err = json.Marshal(each)
+
+					if err != nil {
+						http.Error(w, err.Error(), http.StatusInternalServerError)
+						return
+					}
+
+					w.Write(result)
+				}
+			}
+			return
+		}
+
+		http.Error(w, "", http.StatusBadRequest)
+	})
 
 	fmt.Println("server running on port", port)
 
@@ -361,5 +391,6 @@ func main() {
 	// voterMaleQuery()
 	// popularPoliticianNYQuery()
 	// threePopularPoliticianQuery()
-	votingsRoute(v)
+	// votingsRoute(v)
+	votingsMaleRoute(v)
 }
