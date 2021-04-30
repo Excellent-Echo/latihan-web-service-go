@@ -1,11 +1,9 @@
 package main
 
-import "latihan-web-service-go/Data"
-
 func main() {
 	//initial get data from json to database, just activate the function in beginning
 	//Data.PoliticianData()
-	Data.VoterData()
+	//Data.VoterData()
 
 	// Get Data ALL politician from database
 	// datas := Data.GetDataPoliticians()
