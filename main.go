@@ -323,12 +323,12 @@ func threePopularPoliticianQuery() {
 	}
 }
 
-func webService(p Politicians) {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+func votingsRoute(v Votes) {
+	http.HandleFunc("/votings", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
 		if r.Method == "GET" {
-			byteJson, err := json.Marshal(p)
+			byteJson, err := json.Marshal(v)
 
 			if err != nil {
 				http.Error(w, "error internal server", http.StatusInternalServerError)
@@ -351,8 +351,8 @@ func webService(p Politicians) {
 }
 
 func main() {
-	p := decodePoliticianData("politicians.json")
-	// v := decodeVotingData("voting.json")
+	// p := decodePoliticianData("politicians.json")
+	v := decodeVotingData("voting.json")
 
 	// insertPoliticianDataToDb(p)
 	// insertVotingDataToDb(v)
@@ -361,5 +361,5 @@ func main() {
 	// voterMaleQuery()
 	// popularPoliticianNYQuery()
 	// threePopularPoliticianQuery()
-	webService(p)
+	votingsRoute(v)
 }
