@@ -171,6 +171,53 @@ func allPoliticianQuery() {
 	}
 }
 
+func voterMaleQuery() {
+	db, err := connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(
+		`SELECT * FROM votings
+		WHERE gender = 'male' AND first_name LIKE 'B%'`,
+	)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer rows.Close()
+
+	var p []Voting
+
+	for rows.Next() {
+		var each = Voting{}
+		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		p = append(p, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for _, each := range p {
+		fmt.Println("Voter ID:", each.VoterID)
+		fmt.Println("First Name:", each.FirstName)
+		fmt.Println("Last Name:", each.LastName)
+		fmt.Println("Gender:", each.Gender)
+		fmt.Println("Age:", each.Age)
+		fmt.Println("Vote For Politician ID:", each.PoliticianID)
+	}
+}
+
 func main() {
 	// p := decodePoliticianData("politicians.json")
 	// v := decodeVotingData("voting.json")
@@ -178,5 +225,6 @@ func main() {
 	// insertPoliticianDataToDb(p)
 	// insertVotingDataToDb(v)
 
-	allPoliticianQuery()
+	// allPoliticianQuery()
+	voterMaleQuery()
 }
