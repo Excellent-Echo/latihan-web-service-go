@@ -20,6 +20,11 @@ type Politician struct {
 
 type Politicians []Politician
 
+type PoliticianWithTotalVotes struct {
+	Politician
+	TotalVotes int
+}
+
 type Voting struct {
 	VoterID      int    `json:"voter_id"`
 	PoliticianID int    `json:"policitian_id"`
@@ -123,7 +128,13 @@ func allPoliticianQuery() {
 	}
 	defer db.Close()
 
-	rows, err := db.Query("SELECT * FROM politicians")
+	rows, err := db.Query(
+		`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
+		COUNT(v.politician_id) as total_votes
+		FROM politicians AS p
+		JOIN votings AS v ON p.politician_id = v.politician_id
+		GROUP BY p.politician_id`,
+	)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -131,18 +142,18 @@ func allPoliticianQuery() {
 	}
 	defer rows.Close()
 
-	var result []Politician
+	var p []PoliticianWithTotalVotes
 
 	for rows.Next() {
-		var each = Politician{}
-		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent)
+		var each = PoliticianWithTotalVotes{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
 
-		result = append(result, each)
+		p = append(p, each)
 	}
 
 	if err = rows.Err(); err != nil {
@@ -150,12 +161,13 @@ func allPoliticianQuery() {
 		return
 	}
 
-	for _, each := range result {
+	for _, each := range p {
 		fmt.Println("Politician ID:", each.PoliticianID)
 		fmt.Println("Name:", each.Name)
 		fmt.Println("Party:", each.Party)
 		fmt.Println("Location:", each.Location)
 		fmt.Println("Grade Current:", each.GradeCurrent)
+		fmt.Println("Total Votes:", each.TotalVotes)
 	}
 }
 
