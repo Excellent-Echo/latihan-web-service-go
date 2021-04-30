@@ -1,7 +1,8 @@
 package main
 
-import "latihan-web-service/Data"
+import "latihan-web-service/Data/Politicians"
 
 func main() {
-	Data.PoloticianData()
+	//Voting.VoterData()
+	Politicians.PoliticianData()
 }

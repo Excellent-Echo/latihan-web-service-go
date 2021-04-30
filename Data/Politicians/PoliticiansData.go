@@ -1,4 +1,4 @@
-package Data
+package Politicians
 
 import (
 	"encoding/json"
@@ -8,16 +8,16 @@ import (
 )
 
 type Potilicians []struct {
-	PoliticianId 	int `json:"politician_id"`
-	Name 			string `json:"name"`
-	Party 			string `json:"party"`
-	Location 		string `json:"location"`
-	GradeCurrent 	float32 `json:"grade_current"`
+	PoliticianId 	int 	`json:"politician_id"`
+	Name 			string 	`json:"name"`
+	Party 			string 	`json:"party"`
+	Location 		string 	`json:"location"`
+	GradeCurrent 	float32	`json:"grade_current"`
 }
 
-func PoloticianData() {
+func PoliticianData() {
 	var politiciansData Potilicians
-	jsonFile, err := os.Open("Data/politicians.json")
+	jsonFile, err := os.Open("Data/Politicians/politicians.json")
 	if err != nil{
 		fmt.Println(err.Error())
 		return
