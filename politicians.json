@@ -1,91 +1,107 @@
-[{
-        "politician_id" : 1,
-        "name" : "Aaron Schock",
-        "party" : "REPUBLIC",
-        "location" : "IL",
-        "grade_current" : 11.536
-    },{
-        "politician_id" : 2,
-        "name" : "Basuki Kinzinger",
-        "party" : "REPUBLIC",
-        "location" : "IL",
-        "grade_current" : 8.536
-    }, {
-        "politician_id" : 3,
-        "name" : "Basuki Kinzinger",
-        "party" : "DEMOCRATIC",
-        "location" : "LA",
-        "grade_current" : 10.536
-    }, {
-        "politician_id" : 4,
-        "name" : "Arnold Sneidzer",
-        "party" : "DEMOCRATIC",
-        "location" : "LA",
-        "grade_current" : 10.113
-    }, {
-        "politician_id" : 5,
-        "name" : "Albert Weidger",
-        "party" : "DEMOCRATIC",
-        "location" : "NY",
-        "grade_current" : 13.536
-    }, {
-        "politician_id" : 6,
-        "name" : "Cristian Bonson",
-        "party" : "REPUBIC",
-        "location" : "NY",
-        "grade_current" : 12.678
-    }, {
-        "politician_id" : 7,
-        "name" : "Joseph Lieberman",
-        "party" : "DEMOCRATIC",
-        "location" : "LA",
-        "grade_current" : 12.443
-    }, {
-        "politician_id" : 8,
-        "name" : "Zoe Lofgren",
-        "party" : "DEMOCRATIC",
-        "location" : "TX",
-        "grade_current" : 5.993
-    }, {
-        "politician_id" : 9,
-        "name" : "John Kerry",
-        "party" : "REPUBLIC",
-        "location" : "TX",
-        "grade_current" : 10.646
-    }, {
-        "politician_id" : 10,
-        "name" : "Carolyn Maloney",
-        "party" : "DEMOCRATIC",
-        "location" : "WA",
-        "grade_current" : 11.691
-    }, {
-        "politician_id" : 11,
-        "name" : "Bill Cassidy",
-        "party" : "REPUBLIC",
-        "location" : "FL",
-        "grade_current" : 10.703
-    }, {
-        "politician_id" : 12,
-        "name" : "Adam Smith",
-        "party" : "REPUBLIC",
-        "location" : "FL",
-        "grade_current" : 13.555
-    },{
-        "politician_id" : 13,
-        "name" : "Eric Paulsen",
-        "party" : "DEMOCRATIC",
-        "location" : "NY",
-        "grade_current" : 11.733
-    },{
-        "politician_id" : 14,
-        "name" : "Frank LoBiondo",
-        "party" : "DEMOCRATIC",
-        "location" : "HI",
-        "grade_current" : 7.167
-    },{
-        "politician_id" : 15,
-        "name" : "Michael Benneth",
-        "party" : "DEMOCRATIC",
-        "location" : "HI",
-        "grade_current" : 7.703
-    }]
+[
+  {
+    "politician_id": 1,
+    "name": "Aaron Schock",
+    "party": "REPUBLIC",
+    "location": "IL",
+    "grade_current": 11.536
+  },
+  {
+    "politician_id": 2,
+    "name": "Basuki Kinzinger",
+    "party": "REPUBLIC",
+    "location": "IL",
+    "grade_current": 8.536
+  },
+  {
+    "politician_id": 3,
+    "name": "Basuki Kinzinger",
+    "party": "DEMOCRATIC",
+    "location": "LA",
+    "grade_current": 10.536
+  },
+  {
+    "politician_id": 4,
+    "name": "Arnold Sneidzer",
+    "party": "DEMOCRATIC",
+    "location": "LA",
+    "grade_current": 10.113
+  },
+  {
+    "politician_id": 5,
+    "name": "Albert Weidger",
+    "party": "DEMOCRATIC",
+    "location": "NY",
+    "grade_current": 13.536
+  },
+  {
+    "politician_id": 6,
+    "name": "Cristian Bonson",
+    "party": "REPUBIC",
+    "location": "NY",
+    "grade_current": 12.678
+  },
+  {
+    "politician_id": 7,
+    "name": "Joseph Lieberman",
+    "party": "DEMOCRATIC",
+    "location": "LA",
+    "grade_current": 12.443
+  },
+  {
+    "politician_id": 8,
+    "name": "Zoe Lofgren",
+    "party": "DEMOCRATIC",
+    "location": "TX",
+    "grade_current": 5.993
+  },
+  {
+    "politician_id": 9,
+    "name": "John Kerry",
+    "party": "REPUBLIC",
+    "location": "TX",
+    "grade_current": 10.646
+  },
+  {
+    "politician_id": 10,
+    "name": "Carolyn Maloney",
+    "party": "DEMOCRATIC",
+    "location": "WA",
+    "grade_current": 11.691
+  },
+  {
+    "politician_id": 11,
+    "name": "Bill Cassidy",
+    "party": "REPUBLIC",
+    "location": "FL",
+    "grade_current": 10.703
+  },
+  {
+    "politician_id": 12,
+    "name": "Adam Smith",
+    "party": "REPUBLIC",
+    "location": "FL",
+    "grade_current": 13.555
+  },
+  {
+    "politician_id": 13,
+    "name": "Eric Paulsen",
+    "party": "DEMOCRATIC",
+    "location": "NY",
+    "grade_current": 11.733
+  },
+  {
+    "politician_id": 14,
+    "name": "Frank LoBiondo",
+    "party": "DEMOCRATIC",
+    "location": "HI",
+    "grade_current": 7.167
+  },
+  {
+    "politician_id": 15,
+    "name": "Michael Benneth",
+    "party": "DEMOCRATIC",
+    "location": "HI",
+    "grade_current": 7.703
+  }
+]
