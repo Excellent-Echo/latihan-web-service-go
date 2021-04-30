@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -218,7 +219,7 @@ func voterMaleQuery() {
 	}
 }
 
-func popularPoliticianNY() {
+func popularPoliticianNYQuery() {
 	db, err := connect()
 	if err != nil {
 		panic(err.Error())
@@ -270,7 +271,7 @@ func popularPoliticianNY() {
 	}
 }
 
-func threePopularPolitician() {
+func threePopularPoliticianQuery() {
 	db, err := connect()
 	if err != nil {
 		panic(err.Error())
@@ -322,8 +323,35 @@ func threePopularPolitician() {
 	}
 }
 
+func webService(p Politicians) {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(p)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	port := "localhost:4444"
+
+	fmt.Println("server running on port", port)
+
+	http.ListenAndServe(port, nil)
+}
+
 func main() {
-	// p := decodePoliticianData("politicians.json")
+	p := decodePoliticianData("politicians.json")
 	// v := decodeVotingData("voting.json")
 
 	// insertPoliticianDataToDb(p)
@@ -331,6 +359,7 @@ func main() {
 
 	// allPoliticianQuery()
 	// voterMaleQuery()
-	// popularPoliticianNY()
-	threePopularPolitician()
+	// popularPoliticianNYQuery()
+	// threePopularPoliticianQuery()
+	webService(p)
 }
