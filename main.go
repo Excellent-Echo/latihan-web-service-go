@@ -1,396 +1,66 @@
 package main
 
 import (
-	"database/sql"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-	"os"
+	"latihan-web-service-go/helper"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type Politician struct {
-	PoliticianID int     `json:"politician_id"`
-	Name         string  `json:"name"`
-	Party        string  `json:"party"`
-	Location     string  `json:"location"`
-	GradeCurrent float32 `json:"grade_current"`
-}
+// func votingsRoute(v Votes) {
+// 	http.HandleFunc("/votings", func(w http.ResponseWriter, r *http.Request) {
+// 		w.Header().Set("Content-Type", "application/json")
 
-type Politicians []Politician
+// 		if r.Method == "GET" {
+// 			byteJson, err := json.Marshal(v)
 
-type PoliticianWithTotalVotes struct {
-	Politician
-	TotalVotes int
-}
+// 			if err != nil {
+// 				http.Error(w, "error internal server", http.StatusInternalServerError)
+// 				return
+// 			}
 
-type Voting struct {
-	VoterID      int    `json:"voter_id"`
-	PoliticianID int    `json:"policitian_id"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	Gender       string `json:"gender"`
-	Age          int    `json:"age"`
-}
+// 			w.Write(byteJson)
+// 			return
+// 		}
 
-type Votes []Voting
+// 		http.Error(w, "", http.StatusBadRequest)
+// 	})
 
-var port = "localhost:4444"
+// port := "localhost:4444"
 
-func decodePoliticianData(file string) Politicians {
-	var politicians Politicians
+// 	fmt.Println("server running on port", port)
 
-	jsonFile, err := os.Open(file)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+// 	http.ListenAndServe(port, nil)
+// }
 
-	defer jsonFile.Close()
+// func politicianRoute(p Politicians) {
+// 	http.HandleFunc("/politicians", func(w http.ResponseWriter, r *http.Request) {
+// 		w.Header().Set("Content-Type", "application/json")
 
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	err = json.Unmarshal(byteValue, &politicians)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+// 		if r.Method == "GET" {
+// 			byteJson, err := json.Marshal(p)
 
-	return politicians
-}
+// 			if err != nil {
+// 				http.Error(w, "error internal server", http.StatusInternalServerError)
+// 				return
+// 			}
 
-func insertPoliticianDataToDb(p Politicians) {
-	db, err := connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
+// 			w.Write(byteJson)
+// 			return
+// 		}
 
-	for _, val := range p {
-		_, err = db.Exec("INSERT INTO politicians (name, party, location, grade_current) VALUES (?, ?, ?, ?)", val.Name, val.Party, val.Location, val.GradeCurrent)
+// 		http.Error(w, "", http.StatusBadRequest)
+// 	})
 
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-	}
-	fmt.Println("insert data succeed")
-}
+// port := "localhost:4444"
 
-func decodeVotingData(file string) Votes {
-	var votes Votes
+// 	fmt.Println("server running on port", port)
 
-	jsonFile, err := os.Open(file)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-
-	defer jsonFile.Close()
-
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	err = json.Unmarshal(byteValue, &votes)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-
-	return votes
-}
-
-func insertVotingDataToDb(v Votes) {
-	db, err := connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
-
-	for _, val := range v {
-		_, err = db.Exec("INSERT INTO votings (politician_id, first_name, last_name, gender, age) VALUES (?, ?, ?, ?, ?)", val.PoliticianID, val.FirstName, val.LastName, val.Gender, val.Age)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-	}
-
-	fmt.Println("insert data succeed")
-}
-
-func connect() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "root:marwanajunolii@tcp(localhost)/election")
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	return db, nil
-}
-
-func allPoliticianQuery() {
-	db, err := connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
-
-	rows, err := db.Query(
-		`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
-		COUNT(v.politician_id) as total_votes
-		FROM politicians AS p
-		JOIN votings AS v ON p.politician_id = v.politician_id
-		GROUP BY p.politician_id`,
-	)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer rows.Close()
-
-	var p []PoliticianWithTotalVotes
-
-	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
-		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		p = append(p, each)
-	}
-
-	if err = rows.Err(); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-
-	for _, each := range p {
-		fmt.Println("Politician ID:", each.PoliticianID)
-		fmt.Println("Name:", each.Name)
-		fmt.Println("Party:", each.Party)
-		fmt.Println("Location:", each.Location)
-		fmt.Println("Grade Current:", each.GradeCurrent)
-		fmt.Println("Total Votes:", each.TotalVotes)
-	}
-}
-
-func voterMaleQuery() {
-	db, err := connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
-
-	rows, err := db.Query(
-		`SELECT * FROM votings
-		WHERE gender = 'male' AND first_name LIKE 'B%'`,
-	)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer rows.Close()
-
-	var p []Voting
-
-	for rows.Next() {
-		var each = Voting{}
-		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		p = append(p, each)
-	}
-
-	if err = rows.Err(); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-
-	for _, each := range p {
-		fmt.Println("Voter ID:", each.VoterID)
-		fmt.Println("First Name:", each.FirstName)
-		fmt.Println("Last Name:", each.LastName)
-		fmt.Println("Gender:", each.Gender)
-		fmt.Println("Age:", each.Age)
-		fmt.Println("Vote For Politician ID:", each.PoliticianID)
-	}
-}
-
-func popularPoliticianNYQuery() {
-	db, err := connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
-
-	rows, err := db.Query(
-		`SELECT politician_id, name, party, location, grade_current, MAX(total) total
-		FROM (SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
-					 COUNT(v.politician_id) as total
-		FROM politicians AS p
-		JOIN votings AS v ON p.politician_id = v.politician_id
-		WHERE p.location = 'NY'
-		GROUP BY p.politician_id) cp`,
-	)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer rows.Close()
-
-	var p []PoliticianWithTotalVotes
-
-	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
-		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		p = append(p, each)
-	}
-
-	if err = rows.Err(); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-
-	for _, each := range p {
-		fmt.Println("Politician ID:", each.PoliticianID)
-		fmt.Println("Name:", each.Name)
-		fmt.Println("Party:", each.Party)
-		fmt.Println("Location:", each.Location)
-		fmt.Println("Grade Current:", each.GradeCurrent)
-		fmt.Println("Total Votes:", each.TotalVotes)
-	}
-}
-
-func threePopularPoliticianQuery() {
-	db, err := connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
-
-	rows, err := db.Query(
-		`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
-		COUNT(v.politician_id) as total
-		FROM politicians AS p
-		JOIN votings AS v ON p.politician_id = v.politician_id
-		GROUP BY p.politician_id
-		ORDER BY total DESC
-		LIMIT 3`,
-	)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer rows.Close()
-
-	var p []PoliticianWithTotalVotes
-
-	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
-		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		p = append(p, each)
-	}
-
-	if err = rows.Err(); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-
-	for _, each := range p {
-		fmt.Println("Politician ID:", each.PoliticianID)
-		fmt.Println("Name:", each.Name)
-		fmt.Println("Party:", each.Party)
-		fmt.Println("Location:", each.Location)
-		fmt.Println("Grade Current:", each.GradeCurrent)
-		fmt.Println("Total Votes:", each.TotalVotes)
-	}
-}
-
-func votingsRoute(v Votes) {
-	http.HandleFunc("/votings", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-
-		if r.Method == "GET" {
-			byteJson, err := json.Marshal(v)
-
-			if err != nil {
-				http.Error(w, "error internal server", http.StatusInternalServerError)
-				return
-			}
-
-			w.Write(byteJson)
-			return
-		}
-
-		http.Error(w, "", http.StatusBadRequest)
-	})
-
-	fmt.Println("server running on port", port)
-
-	http.ListenAndServe(port, nil)
-}
-
-func votingsMaleRoute(v Votes) {
-	http.HandleFunc("/votings_male", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-
-		if r.Method == "GET" {
-			var result []byte
-			var err error
-
-			for _, each := range v {
-				if each.Gender == "male" {
-					result, err = json.Marshal(each)
-
-					if err != nil {
-						http.Error(w, err.Error(), http.StatusInternalServerError)
-						return
-					}
-
-					w.Write(result)
-				}
-			}
-			return
-		}
-
-		http.Error(w, "", http.StatusBadRequest)
-	})
-
-	fmt.Println("server running on port", port)
-
-	http.ListenAndServe(port, nil)
-}
+// 	http.ListenAndServe(port, nil)
+// }
 
 func main() {
-	// p := decodePoliticianData("politicians.json")
-	v := decodeVotingData("voting.json")
-
-	// insertPoliticianDataToDb(p)
-	// insertVotingDataToDb(v)
-
-	// allPoliticianQuery()
-	// voterMaleQuery()
-	// popularPoliticianNYQuery()
-	// threePopularPoliticianQuery()
+	helper.Candidate()
+	helper.Voter()
 	// votingsRoute(v)
-	votingsMaleRoute(v)
+	// politicianRoute(p)
 }
