@@ -76,7 +76,7 @@ func GetDataPoliticians() (dataPoliticiansDB []PoliticiansDB) {
 	return
 }
 
-//Get All data Politicians
+//Get All Politician with highest SCORE IN NY
 func GetDataPoliticianWithHighestScoreOnNY() (dataPoliticiansDB []PoliticiansDB) {
 	db, err := Connect()
 	if err != nil {
@@ -85,6 +85,38 @@ func GetDataPoliticianWithHighestScoreOnNY() (dataPoliticiansDB []PoliticiansDB)
 	defer db.Close()
 
 	data, err := db.Query("SELECT * FROM politicians WHERE location='NY' ORDER BY grade_current DESC LIMIT 1")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat PoliticiansDB
+
+		if data.Scan(
+			&dat.Politician_id,
+			&dat.Name,
+			&dat.Party,
+			&dat.Location,
+			&dat.Grade_current); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPoliticiansDB = append(dataPoliticiansDB, dat)
+	}
+	return
+}
+
+//Get All Politician with highest SCORE IN NY
+func GetDataPoliticiansHeadWithHighestScore() (dataPoliticiansDB []PoliticiansDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM politicians ORDER BY grade_current DESC LIMIT 3")
 	if err != nil {
 		fmt.Println(err.Error())
 	}

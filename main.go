@@ -27,7 +27,10 @@ func main() {
 	// 	fmt.Println(data.Age)
 	// }
 
-	datas := Data.GetDataPoliticianWithHighestScoreOnNY()
+	// Get Politican with highest score on NY
+	//datas := Data.GetDataPoliticianWithHighestScoreOnNY()
+
+	datas := Data.GetDataPoliticiansHeadWithHighestScore()
 	for _, data := range datas {
 		fmt.Println(data.Politician_id)
 		fmt.Println(data.Name)
