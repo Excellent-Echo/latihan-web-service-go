@@ -15,12 +15,22 @@ type Politicians struct {
 	GradeCurrent float32
 }
 
+type Votings struct {
+	VoterId      int
+	PoliticianId int
+	FirstName    string
+	LastName     string
+	Gender       string
+	Age          int
+}
+
 func Connect() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "root:@tcp(localhost)/politicians_voting")
+	db, err := sql.Open("mysql", "root:password@tcp(localhost)/politicians_voting")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	fmt.Println("sukses konek database")
+	// fmt.Println(db)
 	return db, nil
 }
 
@@ -43,5 +53,27 @@ func getPoliticians() {
 			return
 		}
 		dataPoliticians = append(dataPoliticians, dat)
+	}
+}
+
+func getVotings() {
+	db, err := Connect()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer db.Close()
+
+	var dataVotings []Votings
+
+	data, err := db.Query("SELECT * FROM voting")
+
+	for data.Next() {
+		var dat Votings
+		if data.Scan(&dat.VoterId, &dat.PoliticianId, &dat.FirstName, &dat.LastName, &dat.Gender, &dat.Age); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		dataVotings = append(dataVotings, dat)
 	}
 }

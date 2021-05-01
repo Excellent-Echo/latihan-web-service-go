@@ -16,7 +16,7 @@ type Voting []struct {
 	Age          int    `json:"age"`
 }
 
-func VotingFunc() {
+func ModelVoting() {
 	jsonVoting, err := os.Open("voting.json")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -31,4 +31,18 @@ func VotingFunc() {
 	// fmt.Println("Data Voting JSON")
 	// for _, val := range voting {
 	// 	fmt.Println(val)
+
+	db, err := Connect()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer db.Close()
+
+	//insert data Voting to database
+	for _, val := range voting {
+		_, err = db.Exec("insert into voting values(?,?,?,?,?,?)", val.VoterId, val.PoliticianId, val.FirstName, val.LastName, val.Gender, val.Age)
+		fmt.Println("sukses post data voting ke database")
+	}
+
 }

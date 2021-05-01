@@ -1,14 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"latihan-web-service-go/function"
 )
 
 func main() {
-	// function.connect()
-	function.ModelPoliticians()
-	fmt.Println("\n")
-	// function.VotingFunc()
+	// function.ModelPoliticians() 	// POST data Politicians ke Database
+	function.ModelVoting() //POST data Voting ke database
 
 }

@@ -36,10 +36,10 @@ func ModelPoliticians() {
 	// for _, val := range politician {
 	// 	fmt.Println(val)
 	// }
+	//connect database
 	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
-		return
 	}
 	defer db.Close()
 
@@ -48,5 +48,4 @@ func ModelPoliticians() {
 		_, err = db.Exec("INSERT INTO politicians VALUES(?, ?, ?, ?, ?)", val.PoliticianId, val.Name, val.Party, val.Location, val.GradeCurrent)
 		fmt.Println("sukses post ke database")
 	}
-
 }
