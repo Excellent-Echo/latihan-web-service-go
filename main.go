@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	// function.ModelPoliticians() 	// POST data Politicians ke Database
-	function.ModelVoting() //POST data Voting ke database
-
+	// function.ModelPoliticians() // POST data Politicians ke Database
+	// function.ModelVoting()      //POST data Voting ke database
+	function.QueryPoliticians3rdVoting()
 }
