@@ -11,6 +11,7 @@ func Endpoint() {
 	data := helper.DecodeVoter()
 	male := helper.EndpointQueryShowMale()
 	female := helper.EndpointQueryShowFemale()
+	dataPolitic := helper.DecodePolitic()
 
 	// Endpoint untuk menampilkan semua data voting
 	http.HandleFunc("/votings", func(w http.ResponseWriter, r *http.Request) {
@@ -47,6 +48,21 @@ func Endpoint() {
 		w.Header().Set("Content-Type", "application/json")
 		if r.Method == "GET" {
 			result, err := json.Marshal(female)
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+			w.Write(result)
+			return
+		}
+		http.Error(w, "error not method GET", http.StatusBadRequest)
+	})
+
+	// Endpoint untuk menampilkan semua data politic
+	http.HandleFunc("/politicians", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		if r.Method == "GET" {
+			result, err := json.Marshal(dataPolitic)
 			if err != nil {
 				http.Error(w, "error internal server", http.StatusInternalServerError)
 				return
