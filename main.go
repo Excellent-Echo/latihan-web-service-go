@@ -2,8 +2,9 @@ package main
 
 import (
 	"database/sql"
-	"encoding/json"
 	"fmt"
+
+	// "encoding/json"
 	"io/ioutil"
 	"os"
 
@@ -20,11 +21,11 @@ type Politician struct {
 
 type Voting struct {
 	Voter_id      int    `json:"voter_id"`
-	Politician_id int    `json:"politician_id"`
+	Politician_id int    `json:"policitian_id"`
 	First_name    string `json:"first_name"`
 	Last_name     string `json:"last_name"`
 	Gender        string `json:"gender"`
-	Age           string `json:"age"`
+	Age           int    `json:"age"`
 }
 
 func connect() (*sql.DB, error) {
@@ -33,23 +34,127 @@ func connect() (*sql.DB, error) {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println("sukses connect database")
 	return db, nil
 }
 
-func main() {
-	politicians, err := os.Open("politicians.json")
+func importJson(file string) []byte {
+	fileJson := file + ".json"
+	res, err := os.Open(fileJson)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Println("success baca file ", fileJson)
+
+	defer res.Close()
+
+	byteValue, _ := ioutil.ReadAll(res)
+	return byteValue
+}
+
+func getDataPolitician(query string) (rowPoliticians []Politician) {
+	db, err := connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(query)
 
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
-	fmt.Println("success baca file json")
+	defer rows.Close()
 
-	defer politicians.Close()
+	for rows.Next() {
+		var politician Politician
+		err := rows.Scan(&politician.Politician_id, &politician.Name, &politician.Party, &politician.Location, &politician.Grade_current)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		rowPoliticians = append(rowPoliticians, politician)
+	}
+	return
+}
 
-	byteValue, _ := ioutil.ReadAll(politicians)
-	var politicianData []Politician
-	json.Unmarshal(byteValue, &politicianData)
-	connect()
+func getDataVoting(query string) (rowVotings []Voting) {
+	db, err := connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(query)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var voting Voting
+		err := rows.Scan(&voting.Voter_id, &voting.Politician_id, &voting.First_name, &voting.Last_name, &voting.Gender, &voting.Age)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		rowVotings = append(rowVotings, voting)
+	}
+	return
+}
+
+func main() {
+	//REALESE 1 : IMPORT JSON & INSERT TO DATABASE
+
+	//import data politicians
+	// byteValuePolitician := importJson("politicians")
+	// var politicianData []Politician
+	// json.Unmarshal(byteValuePolitician, &politicianData)
+
+	// //import data voting
+	// byteValueVoting := importJson("voting")
+	// var votingData []Voting
+	// json.Unmarshal(byteValueVoting, &votingData)
+
+	//connect database
+	// db, err := connect()
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
+	// defer db.Close()
+
+	//insert data politicians
+	// for _, data := range politicianData {
+	// 	_, err := db.Exec("INSERT INTO politicians (politician_id,name,party,location,grade_current) VALUES (?,?,?,?,?)", data.Politician_id, data.Name, data.Party, data.Location, data.Grade_current)
+	// 	if err != nil {
+	// 		fmt.Println(err.Error())
+	// 		return
+	// 	}
+	// }
+	// fmt.Println("success insert data politician")
+
+	//insert data voting
+	// for _, data := range votingData {
+	// 	_, err := db.Exec("INSERT INTO votings (voter_id, politician_id, first_name, last_name, gender, age) VALUES (?,?,?,?,?,?)", data.Voter_id, data.Politician_id, data.First_name, data.Last_name, data.Gender, data.Age)
+	// 	if err != nil {
+	// 		fmt.Println(err.Error())
+	// 		return
+	// 	}
+	// }
+	// fmt.Println("success insert data voting")
+
+	//REALESE 2
+	allPoliticians := getDataPolitician("select * from politicians")
+	allVotings := getDataVoting("select * from votings")
+	fmt.Println(allPoliticians)
+	fmt.Println(allVotings)
+
+	votingsWithFilter := getDataVoting("select * from votings where gender='male' AND first_name LIKE 'B%'")
+	fmt.Println(votingsWithFilter)
+
+	politiciansWithFilter2 := getDataPolitician("select * from politicians where location='NY' order by grade_current DESC limit 1")
+	fmt.Println(politiciansWithFilter2)
 }
