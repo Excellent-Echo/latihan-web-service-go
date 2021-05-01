@@ -108,6 +108,10 @@ func QueryShowAllVoting() {
 		votingData = append(votingData, satuanData)
 	}
 	//fmt.Println(votingData)
+
+	for _, value := range votingData {
+		fmt.Println(value)
+	}
 }
 
 // QueryShowMaleWithB query data voting bergender male nama diawali huruf b
@@ -159,7 +163,7 @@ func Voter() {
 	//InsertVoter(tempVoter)
 
 	// Function show all voting data
-	QueryShowAllVoting()
+	//QueryShowAllVoting()
 
 	// Function show all voting data with gender male start with b
 	QueryShowMaleWithB()

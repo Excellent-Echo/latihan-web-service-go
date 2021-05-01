@@ -107,6 +107,10 @@ func QueryShowAllPolitic() {
 		politicData = append(politicData, satuanData)
 	}
 	//fmt.Println(politicData)
+
+	for _, value := range politicData {
+		fmt.Println(value)
+	}
 }
 
 // QueryPopularVotingNY Query populer 1 politicians in NY
@@ -145,7 +149,7 @@ func QueryPopularVotingNY() {
 			}
 		}
 	}
-	//fmt.Println(max)
+	fmt.Println(max)
 }
 
 // QueryPopularThreePopular Query populer 3 politicians
@@ -178,9 +182,9 @@ func QueryPopularThreePopular() {
 	//fmt.Println(politicData)
 
 	sort.Slice(politicData, func(i, j int) bool { return politicData[i].GradeCurrent < politicData[j].GradeCurrent })
-	fmt.Println("Sort:", politicData[len(politicData)-1])
-	fmt.Println("Sort:", politicData[len(politicData)-2])
-	fmt.Println("Sort:", politicData[len(politicData)-3])
+	fmt.Println("first:", politicData[len(politicData)-1])
+	fmt.Println("second:", politicData[len(politicData)-2])
+	fmt.Println("three:", politicData[len(politicData)-3])
 }
 
 func Politicians() {
@@ -192,11 +196,11 @@ func Politicians() {
 	//InsertPolitic(tempPolitic)
 
 	// Function query all politicians data
-	QueryShowAllPolitic()
+	//QueryShowAllPolitic()
 
 	// Function query popular voting in NY
-	QueryPopularVotingNY()
+	//QueryPopularVotingNY()
 
 	// Function query 3 popular voting
-	QueryPopularThreePopular()
+	//QueryPopularThreePopular()
 }
