@@ -6,5 +6,5 @@ import (
 
 func main() {
 	helper.Politicians()
-	helper.Voter()
+	//helper.Voter()
 }

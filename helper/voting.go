@@ -79,6 +79,16 @@ func InsertVoter(data Voters) {
 	}
 }
 
+// Query show all voting
+//func QueryShowAllVoting(){
+//
+//}
+
+// Query data voting bergender male nama diawali huruf b
+//func QueryShowMaleWithB(){
+//
+//}
+
 func Voter() {
 	// Decode Json
 	tempVoter := DecodeVoter()

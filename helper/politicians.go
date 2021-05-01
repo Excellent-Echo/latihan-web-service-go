@@ -4,10 +4,10 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"io/ioutil"
 	"os"
-
-	_ "github.com/go-sql-driver/mysql"
+	"sort"
 )
 
 // Politic struct
@@ -62,14 +62,12 @@ func InsertPolitic(data Politician) {
 	if err != nil {
 		panic(err.Error())
 	}
-
 	defer func(db *sql.DB) {
 		err := db.Close()
 		if err != nil {
 
 		}
 	}(db)
-
 	for _, value := range data {
 		_, err = db.Exec("INSERT INTO politicians VALUES (?, ?, ?, ?, ?)", value.PoliticianId, value.Name, value.Party, value.Location, value.GradeCurrent)
 		if err != nil {
@@ -80,45 +78,125 @@ func InsertPolitic(data Politician) {
 	}
 }
 
-//func QueryShowAllPolitic(){
-//	db, err := connectPolitic()
-//	if err != nil {
-//		panic(err.Error())
-//	}
-//
-//	defer func(db *sql.DB) {
-//		err := db.Close()
-//		if err != nil {
-//
-//		}
-//	}(db)
-//
-//	var name = "Aaron Schock"
-//	data, err := db.Query("SELECT * FROM politicians WHERE name = ?",name)
-//	if err != nil {
-//		fmt.Println(err.Error())
-//		return
-//	}
-//	for data.Next() {
-//		var satuanData Politic
-//		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent);
-//			err != nil {
-//			fmt.Println(err.Error())
-//			return
-//		}
-//		politicData = append(politicData, satuanData)
-//	}
-//	fmt.Println("test", politicData)
-//}
+// QueryShowAllPolitic Query show all politic data
+func QueryShowAllPolitic() {
+	db, err := connectPolitic()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var politicData []Politic
+	data, err := db.Query("SELECT * FROM politicians")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	for data.Next() {
+		var satuanData Politic
+		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		politicData = append(politicData, satuanData)
+	}
+	//fmt.Println(politicData)
+}
+
+// QueryPopularVotingNY Query populer 1 politicians in NY
+func QueryPopularVotingNY() {
+	db, err := connectPolitic()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var politicData []Politic
+	data, err := db.Query("SELECT * FROM politicians")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	for data.Next() {
+		var satuanData Politic
+		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		politicData = append(politicData, satuanData)
+	}
+	//fmt.Println(politicData)
+	max := politicData[0]
+	for _, value := range politicData {
+		if value.Location == "NY" {
+			if value.GradeCurrent > max.GradeCurrent {
+				max = value
+			}
+		}
+	}
+	//fmt.Println(max)
+}
+
+// QueryPopularThreePopular Query populer 3 politicians
+func QueryPopularThreePopular() {
+	db, err := connectPolitic()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var politicData []Politic
+	data, err := db.Query("SELECT * FROM politicians")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	for data.Next() {
+		var satuanData Politic
+		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		politicData = append(politicData, satuanData)
+	}
+	//fmt.Println(politicData)
+
+	sort.Slice(politicData, func(i, j int) bool { return politicData[i].GradeCurrent < politicData[j].GradeCurrent })
+	fmt.Println("Sort:", politicData[len(politicData)-1])
+	fmt.Println("Sort:", politicData[len(politicData)-2])
+	fmt.Println("Sort:", politicData[len(politicData)-3])
+}
 
 func Politicians() {
-	// Decode Json
-	tempPolitic := DecodePolitic()
-	fmt.Println(tempPolitic)
+	// Function Decode Json
+	//tempPolitic := DecodePolitic()
+	//fmt.Println(tempPolitic)
 
-	// insert json to database
+	// Function insert json to database
 	//InsertPolitic(tempPolitic)
 
-	// Query all politicians data
-	//QueryShowAllPolitic()
+	// Function query all politicians data
+	QueryShowAllPolitic()
+
+	// Function query popular voting in NY
+	QueryPopularVotingNY()
+
+	// Function query 3 popular voting
+	QueryPopularThreePopular()
 }
