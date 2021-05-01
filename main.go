@@ -1,10 +1,8 @@
 package main
 
-import (
-	"latihan-web-service-go/helper"
-)
+import "latihan-web-service-go/helper"
 
 func main() {
-	helper.Politicians()
-	//helper.Voter()
+	//helper.Politicians()
+	helper.Voter()
 }
