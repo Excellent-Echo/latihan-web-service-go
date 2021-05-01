@@ -77,7 +77,7 @@ func GetDataVoters() (dataVotersDB []VotersDB) {
 	return
 }
 
-//Get All data Voters
+//Get All data Voters with Bname
 func GetDataMaleVotersWithBname() (dataVotersDB []VotersDB) {
 	db, err := Connect()
 	if err != nil {
@@ -86,6 +86,72 @@ func GetDataMaleVotersWithBname() (dataVotersDB []VotersDB) {
 	defer db.Close()
 
 	data, err := db.Query("SELECT * FROM voters where gender='male' AND first_name LIKE 'B%'")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat VotersDB
+
+		if data.Scan(
+			&dat.Voter_id,
+			&dat.Politician_id,
+			&dat.First_name,
+			&dat.Last_name,
+			&dat.Gender,
+			&dat.Age); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataVotersDB = append(dataVotersDB, dat)
+	}
+	return
+}
+
+//Get All Male Voters
+func GetDataMaleVoters() (dataVotersDB []VotersDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM voters where gender='male'")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat VotersDB
+
+		if data.Scan(
+			&dat.Voter_id,
+			&dat.Politician_id,
+			&dat.First_name,
+			&dat.Last_name,
+			&dat.Gender,
+			&dat.Age); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataVotersDB = append(dataVotersDB, dat)
+	}
+	return
+}
+
+//Get All Female Voters
+func GetDataFemaleVoters() (dataVotersDB []VotersDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM voters where gender='female'")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
