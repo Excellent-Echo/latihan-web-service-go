@@ -12,23 +12,27 @@ func main() {
 
 	// Get Data ALL politician from database
 	// datas := Data.GetDataPoliticians()
-	// for _, data := range datas {
-	// 	fmt.Println(data.Politician_id)
-	// 	fmt.Println(data.Name)
-	// 	fmt.Println(data.Party)
-	// 	fmt.Println(data.Location)
-	// 	fmt.Println(data.Grade_current)
-	// }
 
 	//Get Data politician by id
 	//datas := Data.GetDataPoliticianById(1)
-	datas := Data.GetDataMaleVotersWithBname()
+
+	//Get Data Male Voter with Bname
+	// datas := Data.GetDataMaleVotersWithBname()
+	// for _, data := range datas {
+	// 	fmt.Println(data.Voter_id)
+	// 	fmt.Println(data.Politician_id)
+	// 	fmt.Println(data.First_name)
+	// 	fmt.Println(data.Last_name)
+	// 	fmt.Println(data.Gender)
+	// 	fmt.Println(data.Age)
+	// }
+
+	datas := Data.GetDataPoliticianWithHighestScoreOnNY()
 	for _, data := range datas {
-		fmt.Println(data.Voter_id)
 		fmt.Println(data.Politician_id)
-		fmt.Println(data.First_name)
-		fmt.Println(data.Last_name)
-		fmt.Println(data.Gender)
-		fmt.Println(data.Age)
+		fmt.Println(data.Name)
+		fmt.Println(data.Party)
+		fmt.Println(data.Location)
+		fmt.Println(data.Grade_current)
 	}
 }
