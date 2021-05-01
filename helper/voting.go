@@ -130,7 +130,9 @@ func QueryShowMaleWithB() {
 	}(db)
 
 	var votingData []VoterData
-	data, err := db.Query("SELECT * FROM votings")
+
+	var gender = "male"
+	data, err := db.Query("SELECT * FROM votings WHERE gender = ?", gender)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -143,15 +145,83 @@ func QueryShowMaleWithB() {
 		}
 		votingData = append(votingData, satuanData)
 	}
-	//fmt.Println(votingData)
+	fmt.Println(votingData)
 
 	for _, value := range votingData {
 		//fmt.Println(value)
-		if value.Gender == "male" && string(value.FirstName[0]) == "B" {
+		if string(value.FirstName[0]) == "B" {
 			fmt.Println(value)
 		}
 	}
 
+}
+
+// EndpointQueryShowMale This is query for endpoint
+func EndpointQueryShowMale() Voters {
+
+	db, err := connectVoting()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var votingData Voters
+
+	var gender = "male"
+	data, err := db.Query("SELECT * FROM votings WHERE gender = ?", gender)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for data.Next() {
+		var satuanData VoterData
+		if data.Scan(&satuanData.VoterId, &satuanData.PolicitianId, &satuanData.FirstName, &satuanData.LastName, &satuanData.Gender, &satuanData.Age); err != nil {
+			fmt.Println(err.Error())
+		}
+		votingData = append(votingData, satuanData)
+	}
+	//fmt.Println(votingData)
+
+	return votingData
+}
+
+// EndpointQueryShowFemale This is query for endpoint
+func EndpointQueryShowFemale() Voters {
+
+	db, err := connectVoting()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var votingData Voters
+
+	var gender = "female"
+	data, err := db.Query("SELECT * FROM votings WHERE gender = ?", gender)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for data.Next() {
+		var satuanData VoterData
+		if data.Scan(&satuanData.VoterId, &satuanData.PolicitianId, &satuanData.FirstName, &satuanData.LastName, &satuanData.Gender, &satuanData.Age); err != nil {
+			fmt.Println(err.Error())
+		}
+		votingData = append(votingData, satuanData)
+	}
+	//fmt.Println(votingData)
+
+	return votingData
 }
 
 func Voter() {
@@ -166,5 +236,7 @@ func Voter() {
 	//QueryShowAllVoting()
 
 	// Function show all voting data with gender male start with b
-	QueryShowMaleWithB()
+	//QueryShowMaleWithB()
+
+	EndpointQueryShowMale()
 }

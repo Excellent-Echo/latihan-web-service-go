@@ -199,7 +199,7 @@ func Politicians() {
 	//QueryShowAllPolitic()
 
 	// Function query popular voting in NY
-	//QueryPopularVotingNY()
+	QueryPopularVotingNY()
 
 	// Function query 3 popular voting
 	//QueryPopularThreePopular()
