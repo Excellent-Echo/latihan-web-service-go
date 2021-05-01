@@ -7,7 +7,7 @@ import (
 )
 
 func Connect() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "Radika:paswword@tcp(localhost)/elections")
+	db, err := sql.Open("mysql", "Radika:!Satu234limA!@tcp(localhost)/elections")
 
 	if err != nil {
 		panic(err.Error())

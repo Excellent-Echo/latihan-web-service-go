@@ -11,7 +11,7 @@ type VotersDB struct {
 	Age           int
 }
 
-//get data Politicians by ID
+//get data Voters by ID
 func GetDataVoterById(id int) (dataVoterDB VotersDB) {
 	db, err := Connect()
 	if err != nil {
@@ -44,7 +44,7 @@ func GetDataVoterById(id int) (dataVoterDB VotersDB) {
 	return
 }
 
-//Get All data Politicians
+//Get All data Voters
 func GetDataVoters() (dataVotersDB []VotersDB) {
 	db, err := Connect()
 	if err != nil {
@@ -53,6 +53,39 @@ func GetDataVoters() (dataVotersDB []VotersDB) {
 	defer db.Close()
 
 	data, err := db.Query("SELECT * FROM voters")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat VotersDB
+
+		if data.Scan(
+			&dat.Voter_id,
+			&dat.Politician_id,
+			&dat.First_name,
+			&dat.Last_name,
+			&dat.Gender,
+			&dat.Age); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataVotersDB = append(dataVotersDB, dat)
+	}
+	return
+}
+
+//Get All data Voters
+func GetDataMaleVotersWithBname() (dataVotersDB []VotersDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM voters where gender='male' AND first_name LIKE 'B%'")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
