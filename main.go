@@ -157,4 +157,7 @@ func main() {
 
 	politiciansWithFilter2 := getDataPolitician("select * from politicians where location='NY' order by grade_current DESC limit 1")
 	fmt.Println(politiciansWithFilter2)
+
+	politiciansWithFilter3 := getDataPolitician("select * from politicians order by grade_current DESC limit 3")
+	fmt.Println(politiciansWithFilter3)
 }
