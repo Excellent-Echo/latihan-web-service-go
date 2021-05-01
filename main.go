@@ -54,6 +54,7 @@ func main() {
 		t.Execute(rw, datas)
 	})
 
+	//Route Politicians
 	http.HandleFunc("/politicians", func(rw http.ResponseWriter, r *http.Request) {
 		t, err := template.ParseFiles("viewVoting.html")
 
@@ -65,6 +66,126 @@ func main() {
 		}
 
 		t.Execute(rw, datas)
+	})
+
+	//Route Politicians Voting
+	http.HandleFunc("/politicians_voting", func(rw http.ResponseWriter, r *http.Request) {
+		t, err := template.ParseFiles("viewVoting.html")
+
+		politiciansData := Data.GetDataPoliticians()
+		//votingData := Data.GetDataVoters()
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		t.Execute(rw, politiciansData)
+	})
+
+	//Route Politicians IL
+	http.HandleFunc("/politicians_il", func(rw http.ResponseWriter, r *http.Request) {
+		t, err := template.ParseFiles("viewVoting.html")
+
+		politiciansData := Data.GetDataPoliticiansFromIL()
+		//votingData := Data.GetDataVoters()
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		t.Execute(rw, politiciansData)
+	})
+
+	//Route Politicians NY
+	http.HandleFunc("/politicians_ny", func(rw http.ResponseWriter, r *http.Request) {
+		t, err := template.ParseFiles("viewVoting.html")
+
+		politiciansData := Data.GetDataPoliticiansFromNY()
+		//votingData := Data.GetDataVoters()
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		t.Execute(rw, politiciansData)
+	})
+
+	//Route Politicians TX
+	http.HandleFunc("/politicians_tx", func(rw http.ResponseWriter, r *http.Request) {
+		t, err := template.ParseFiles("viewVoting.html")
+
+		politiciansData := Data.GetDataPoliticiansFromTX()
+		//votingData := Data.GetDataVoters()
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		t.Execute(rw, politiciansData)
+	})
+
+	//Route Politicians LA
+	http.HandleFunc("/politicians_la", func(rw http.ResponseWriter, r *http.Request) {
+		t, err := template.ParseFiles("viewVoting.html")
+
+		politiciansData := Data.GetDataPoliticiansFromLA()
+		//votingData := Data.GetDataVoters()
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		t.Execute(rw, politiciansData)
+	})
+
+	//Route Politicians WA
+	http.HandleFunc("/politicians_wa", func(rw http.ResponseWriter, r *http.Request) {
+		t, err := template.ParseFiles("viewVoting.html")
+
+		politiciansData := Data.GetDataPoliticiansFromWA()
+		//votingData := Data.GetDataVoters()
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		t.Execute(rw, politiciansData)
+	})
+
+	//Route Politicians FL
+	http.HandleFunc("/politicians_fl", func(rw http.ResponseWriter, r *http.Request) {
+		t, err := template.ParseFiles("viewVoting.html")
+
+		politiciansData := Data.GetDataPoliticiansFromFL()
+		//votingData := Data.GetDataVoters()
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		t.Execute(rw, politiciansData)
+	})
+
+	//Route Politicians HI
+	http.HandleFunc("/politicians_hi", func(rw http.ResponseWriter, r *http.Request) {
+		t, err := template.ParseFiles("viewVoting.html")
+
+		politiciansData := Data.GetDataPoliticiansFromHI()
+		//votingData := Data.GetDataVoters()
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		t.Execute(rw, politiciansData)
 	})
 
 	port := "localhost:8080"

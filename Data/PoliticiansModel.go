@@ -12,38 +12,6 @@ type PoliticiansDB struct {
 	Grade_current float32
 }
 
-//get data Politicians by ID
-func GetDataPoliticianById(id int) (dataPoliticianDB PoliticiansDB) {
-	db, err := Connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
-
-	data, err := db.Query("SELECT * FROM politicians WHERE politician_id = ?", id)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-
-	for data.Next() {
-
-		var dat PoliticiansDB
-
-		if data.Scan(
-			&dat.Politician_id,
-			&dat.Name,
-			&dat.Party,
-			&dat.Location,
-			&dat.Grade_current); err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		dataPoliticianDB = dat
-	}
-	return
-}
-
 //Get All data Politicians
 func GetDataPoliticians() (dataPoliticiansDB []PoliticiansDB) {
 	db, err := Connect()
@@ -108,7 +76,7 @@ func GetDataPoliticianWithHighestScoreOnNY() (dataPoliticiansDB []PoliticiansDB)
 	return
 }
 
-//Get All Politician with highest SCORE IN NY
+//Get All Politician with highest SCORE
 func GetDataPoliticiansHeadWithHighestScore() (dataPoliticiansDB []PoliticiansDB) {
 	db, err := Connect()
 	if err != nil {
@@ -117,6 +85,230 @@ func GetDataPoliticiansHeadWithHighestScore() (dataPoliticiansDB []PoliticiansDB
 	defer db.Close()
 
 	data, err := db.Query("SELECT * FROM politicians ORDER BY grade_current DESC LIMIT 3")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat PoliticiansDB
+
+		if data.Scan(
+			&dat.Politician_id,
+			&dat.Name,
+			&dat.Party,
+			&dat.Location,
+			&dat.Grade_current); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPoliticiansDB = append(dataPoliticiansDB, dat)
+	}
+	return
+}
+
+//Get All data Politicians From IL
+func GetDataPoliticiansFromIL() (dataPoliticiansDB []PoliticiansDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM politicians WHERE location='IL'")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat PoliticiansDB
+
+		if data.Scan(
+			&dat.Politician_id,
+			&dat.Name,
+			&dat.Party,
+			&dat.Location,
+			&dat.Grade_current); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPoliticiansDB = append(dataPoliticiansDB, dat)
+	}
+	return
+}
+
+//Get All data Politicians From NY
+func GetDataPoliticiansFromNY() (dataPoliticiansDB []PoliticiansDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM politicians WHERE location='NY'")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat PoliticiansDB
+
+		if data.Scan(
+			&dat.Politician_id,
+			&dat.Name,
+			&dat.Party,
+			&dat.Location,
+			&dat.Grade_current); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPoliticiansDB = append(dataPoliticiansDB, dat)
+	}
+	return
+}
+
+//Get All data Politicians From TX
+func GetDataPoliticiansFromTX() (dataPoliticiansDB []PoliticiansDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM politicians WHERE location='TX'")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat PoliticiansDB
+
+		if data.Scan(
+			&dat.Politician_id,
+			&dat.Name,
+			&dat.Party,
+			&dat.Location,
+			&dat.Grade_current); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPoliticiansDB = append(dataPoliticiansDB, dat)
+	}
+	return
+}
+
+//Get All data Politicians From LA
+func GetDataPoliticiansFromLA() (dataPoliticiansDB []PoliticiansDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM politicians WHERE location='LA'")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat PoliticiansDB
+
+		if data.Scan(
+			&dat.Politician_id,
+			&dat.Name,
+			&dat.Party,
+			&dat.Location,
+			&dat.Grade_current); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPoliticiansDB = append(dataPoliticiansDB, dat)
+	}
+	return
+}
+
+//Get All data Politicians From WA
+func GetDataPoliticiansFromWA() (dataPoliticiansDB []PoliticiansDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM politicians WHERE location='WA'")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat PoliticiansDB
+
+		if data.Scan(
+			&dat.Politician_id,
+			&dat.Name,
+			&dat.Party,
+			&dat.Location,
+			&dat.Grade_current); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPoliticiansDB = append(dataPoliticiansDB, dat)
+	}
+	return
+}
+
+//Get All data Politicians From FL
+func GetDataPoliticiansFromFL() (dataPoliticiansDB []PoliticiansDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM politicians WHERE location='FL'")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat PoliticiansDB
+
+		if data.Scan(
+			&dat.Politician_id,
+			&dat.Name,
+			&dat.Party,
+			&dat.Location,
+			&dat.Grade_current); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPoliticiansDB = append(dataPoliticiansDB, dat)
+	}
+	return
+}
+
+//Get All data Politicians From HI
+func GetDataPoliticiansFromHI() (dataPoliticiansDB []PoliticiansDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT * FROM politicians WHERE location='HI'")
 	if err != nil {
 		fmt.Println(err.Error())
 	}

@@ -11,39 +11,6 @@ type VotersDB struct {
 	Age           int
 }
 
-//get data Voters by ID
-func GetDataVoterById(id int) (dataVoterDB VotersDB) {
-	db, err := Connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
-
-	data, err := db.Query("SELECT * FROM voters WHERE voter_id = ?", id)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-
-	for data.Next() {
-
-		var dat VotersDB
-
-		if data.Scan(
-			&dat.Voter_id,
-			&dat.Politician_id,
-			&dat.First_name,
-			&dat.Last_name,
-			&dat.Gender,
-			&dat.Age); err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		dataVoterDB = dat
-	}
-	return
-}
-
 //Get All data Voters
 func GetDataVoters() (dataVotersDB []VotersDB) {
 	db, err := Connect()
