@@ -10,6 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// VoterData Struct
 type VoterData struct {
 	VoterId      int    `json:"voter_id"`
 	PolicitianId int    `json:"policitian_id"`
@@ -18,7 +19,9 @@ type VoterData struct {
 	Gender       string `json:"gender"`
 	Age          int    `json:"age"`
 }
+type Voters []VoterData
 
+// Connect to database
 func connectVoting() (*sql.DB, error) {
 	db, err := sql.Open("mysql", "root:root@tcp(localhost)/elections")
 
@@ -28,53 +31,59 @@ func connectVoting() (*sql.DB, error) {
 	return db, nil
 }
 
-func Voter() {
-
+// DecodeVoter file json
+func DecodeVoter() Voters {
 	jsonFile, err := os.Open("json/voting.json")
-
 	if err != nil {
 		fmt.Println(err.Error())
-		return
 	}
-
 	fmt.Println("Success open json file")
-	defer jsonFile.Close()
+	defer func(jsonFile *os.File) {
+		err := jsonFile.Close()
+		if err != nil {
+
+		}
+	}(jsonFile)
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-
-	var voterData []VoterData
+	var voterData Voters
 	err = json.Unmarshal(byteValue, &voterData)
-
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-
 	//fmt.Println(voterData)
+	return voterData
+}
 
-	// Connect database
+//InsertVoter json to database
+func InsertVoter(data Voters) {
 	db, err := connectVoting()
 	if err != nil {
 		panic(err.Error())
 	}
 	fmt.Println("Success to database election")
-	defer db.Close()
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
 
-	for _, value := range voterData {
-		fmt.Println("Id Voter :", value.VoterId)
-		fmt.Println("Id Politic :", value.PolicitianId)
-		fmt.Println("Firstname :", value.FirstName)
-		fmt.Println("Lastname :", value.LastName)
-		fmt.Println("Gender :", value.Gender)
-		fmt.Println("Age :", value.Age)
+		}
+	}(db)
 
+	for _, value := range data {
 		_, err = db.Exec("INSERT INTO votings VALUES (?, ?, ?, ?, ?, ?)", value.VoterId, value.PolicitianId, value.FirstName, value.LastName, value.Gender, value.Age)
-
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
-
-		fmt.Println("success insert to database")
+		fmt.Println("success insert voters to database")
 	}
+}
 
+func Voter() {
+	// Decode Json
+	tempVoter := DecodeVoter()
+	fmt.Println(tempVoter)
+
+	// insert json to database
+	//InsertVoter(tempVoter)
 }

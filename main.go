@@ -5,7 +5,6 @@ import (
 )
 
 func main() {
-	//helper.WebService()
-	//helper.Politicians()
+	helper.Politicians()
 	helper.Voter()
 }
