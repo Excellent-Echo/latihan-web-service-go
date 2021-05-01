@@ -1,10 +1,5 @@
 package main
 
-import (
-	"fmt"
-	"latihan-web-service-go/Data"
-)
-
 func main() {
 	//initial get data from json to database, just activate the function in beginning
 	//Data.PoliticianData()
@@ -18,24 +13,11 @@ func main() {
 
 	//Get Data Male Voter with Bname
 	// datas := Data.GetDataMaleVotersWithBname()
-	// for _, data := range datas {
-	// 	fmt.Println(data.Voter_id)
-	// 	fmt.Println(data.Politician_id)
-	// 	fmt.Println(data.First_name)
-	// 	fmt.Println(data.Last_name)
-	// 	fmt.Println(data.Gender)
-	// 	fmt.Println(data.Age)
-	// }
 
 	// Get Politican with highest score on NY
 	//datas := Data.GetDataPoliticianWithHighestScoreOnNY()
 
-	datas := Data.GetDataPoliticiansHeadWithHighestScore()
-	for _, data := range datas {
-		fmt.Println(data.Politician_id)
-		fmt.Println(data.Name)
-		fmt.Println(data.Party)
-		fmt.Println(data.Location)
-		fmt.Println(data.Grade_current)
-	}
+	// Get 3 Politicians highest Score
+	//datas := Data.GetDataPoliticiansHeadWithHighestScore()
+
 }
