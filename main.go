@@ -70,16 +70,18 @@ func main() {
 
 	//Route Politicians Voting
 	http.HandleFunc("/politicians_voting", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
-		politiciansData := Data.GetDataPoliticians()
+		politiciansData := Data.GetDataPoliticiansVoting()
 		//votingData := Data.GetDataVoters()
-
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
 
+		for _, data := range politiciansData {
+			fmt.Println(data.Vote)
+		}
 		t.Execute(rw, politiciansData)
 	})
 

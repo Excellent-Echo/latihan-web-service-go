@@ -12,6 +12,15 @@ type PoliticiansDB struct {
 	Grade_current float32
 }
 
+type PoliticiansVoteDB struct {
+	Politician_id int
+	Name          string
+	Party         string
+	Location      string
+	Grade_current float32
+	Vote          int
+}
+
 //Get All data Politicians
 func GetDataPoliticians() (dataPoliticiansDB []PoliticiansDB) {
 	db, err := Connect()
@@ -35,6 +44,39 @@ func GetDataPoliticians() (dataPoliticiansDB []PoliticiansDB) {
 			&dat.Party,
 			&dat.Location,
 			&dat.Grade_current); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPoliticiansDB = append(dataPoliticiansDB, dat)
+	}
+	return
+}
+
+//Get All data Politicians
+func GetDataPoliticiansVoting() (dataPoliticiansDB []PoliticiansVoteDB) {
+	db, err := Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	data, err := db.Query("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN voters AS v ON p.politician_id = v.politician_id GROUP BY p.politician_id;")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	for data.Next() {
+
+		var dat PoliticiansVoteDB
+
+		if data.Scan(
+			&dat.Politician_id,
+			&dat.Name,
+			&dat.Party,
+			&dat.Location,
+			&dat.Grade_current,
+			&dat.Vote); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
