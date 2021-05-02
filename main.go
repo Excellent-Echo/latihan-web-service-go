@@ -2,15 +2,29 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
-
-	// "encoding/json"
+	"html/template"
 	"io/ioutil"
+	"net/http"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type PoliticianVoting struct {
+	Voter_id         int
+	Politician_id_fk int
+	First_name       string
+	Last_name        string
+	Gender           string
+	Age              int
+	Politician_id    int
+	Name             string
+	Party            string
+	Location         string
+	Grade_current    float32
+}
 type Politician struct {
 	Politician_id int     `json:"politician_id"`
 	Name          string  `json:"name"`
@@ -26,6 +40,15 @@ type Voting struct {
 	Last_name     string `json:"last_name"`
 	Gender        string `json:"gender"`
 	Age           int    `json:"age"`
+}
+
+type PoliticianWithSumVoting struct {
+	Politician_id int
+	Name          string
+	Party         string
+	Location      string
+	Grade_current float32
+	Voting        int
 }
 
 func connect() (*sql.DB, error) {
@@ -106,18 +129,70 @@ func getDataVoting(query string) (rowVotings []Voting) {
 	return
 }
 
+func getPoliticianVoting(query string) (rowsPoliticianVoting []PoliticianVoting) {
+	db, err := connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(query)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for rows.Next() {
+		var politicianVoting PoliticianVoting
+		err := rows.Scan(&politicianVoting.Voter_id, &politicianVoting.Politician_id_fk, &politicianVoting.First_name, &politicianVoting.Last_name, &politicianVoting.Gender, &politicianVoting.Age, &politicianVoting.Politician_id, &politicianVoting.Name, &politicianVoting.Party, &politicianVoting.Location, &politicianVoting.Grade_current)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		rowsPoliticianVoting = append(rowsPoliticianVoting, politicianVoting)
+	}
+	return
+}
+
+func getPoliticianWithSumVoting(query string) (rowsPoliticianWithSumVoting []PoliticianWithSumVoting) {
+	db, err := connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(query)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for rows.Next() {
+		var politicianWithSumVoting PoliticianWithSumVoting
+		err := rows.Scan(&politicianWithSumVoting.Politician_id, &politicianWithSumVoting.Name, &politicianWithSumVoting.Party, &politicianWithSumVoting.Location, &politicianWithSumVoting.Grade_current, &politicianWithSumVoting.Voting)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		rowsPoliticianWithSumVoting = append(rowsPoliticianWithSumVoting, politicianWithSumVoting)
+	}
+	return
+}
+
 func main() {
 	//REALESE 1 : IMPORT JSON & INSERT TO DATABASE
 
-	//import data politicians
-	// byteValuePolitician := importJson("politicians")
-	// var politicianData []Politician
-	// json.Unmarshal(byteValuePolitician, &politicianData)
+	// import data politicians
+	byteValuePolitician := importJson("politicians")
+	var politicianData []Politician
+	json.Unmarshal(byteValuePolitician, &politicianData)
 
-	// //import data voting
-	// byteValueVoting := importJson("voting")
-	// var votingData []Voting
-	// json.Unmarshal(byteValueVoting, &votingData)
+	//import data voting
+	byteValueVoting := importJson("voting")
+	var votingData []Voting
+	json.Unmarshal(byteValueVoting, &votingData)
 
 	//connect database
 	// db, err := connect()
@@ -147,17 +222,42 @@ func main() {
 	// fmt.Println("success insert data voting")
 
 	//REALESE 2
-	allPoliticians := getDataPolitician("select * from politicians")
-	allVotings := getDataVoting("select * from votings")
-	fmt.Println(allPoliticians)
-	fmt.Println(allVotings)
 
-	votingsWithFilter := getDataVoting("select * from votings where gender='male' AND first_name LIKE 'B%'")
-	fmt.Println(votingsWithFilter)
+	//show politician and voting
+	politicianVoting := getPoliticianVoting("select * from votings join politicians on votings.politician_id = politicians.politician_id")
+	fmt.Println(politicianVoting)
+	fmt.Println("=====================================")
 
-	politiciansWithFilter2 := getDataPolitician("select * from politicians where location='NY' order by grade_current DESC limit 1")
-	fmt.Println(politiciansWithFilter2)
+	//show voting where gender male and first letter name B
+	votingsMaleFirstLetterB := getDataVoting("select * from votings where gender='male' AND first_name LIKE 'B%'")
+	fmt.Println(votingsMaleFirstLetterB)
+	fmt.Println("=====================================")
 
-	politiciansWithFilter3 := getDataPolitician("select * from politicians order by grade_current DESC limit 3")
-	fmt.Println(politiciansWithFilter3)
+	//show top 1 politician voting with location NY
+	top1PoliticianInNY := getPoliticianWithSumVoting("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN votings AS v ON p.politician_id = v.politician_id WHERE location = 'NY' GROUP BY p.politician_id ORDER BY voting DESC LIMIT 1;")
+	fmt.Println(top1PoliticianInNY)
+	fmt.Println("=====================================")
+
+	//show top 3 politician voting
+	top3Politician := getPoliticianWithSumVoting("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN votings AS v ON p.politician_id = v.politician_id GROUP BY p.politician_id ORDER BY voting DESC LIMIT 3;")
+	fmt.Println(top3Politician)
+	fmt.Println("=====================================")
+
+	//RELEASE 3
+	http.HandleFunc("/politician", func(w http.ResponseWriter, r *http.Request) {
+		t, err := template.ParseFiles("politician.html")
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		data := getDataPolitician("select * from politicians")
+		t.Execute(w, data)
+	})
+
+	port := "localhost:8000"
+
+	fmt.Println("service running on port", port)
+
+	http.ListenAndServe(port, nil)
 }
