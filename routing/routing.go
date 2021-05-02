@@ -259,12 +259,73 @@ func politicians(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "", http.StatusBadRequest)
 }
 
+func politiciansVoting(w http.ResponseWriter, r *http.Request) {
+	// start query
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(
+		`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
+		COUNT(v.politician_id) as total_votes
+		FROM politicians AS p
+		JOIN votings AS v ON p.politician_id = v.politician_id
+		GROUP BY p.politician_id`,
+	)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer rows.Close()
+
+	var data []PoliticianWithTotalVotes
+
+	for rows.Next() {
+		var each = PoliticianWithTotalVotes{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	// end query
+
+	// web service API
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method == "GET" {
+		var result, err = json.Marshal(data)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Write(result)
+		return
+	}
+
+	http.Error(w, "", http.StatusBadRequest)
+}
+
 func Routing() {
 	// votingsRoute()
 	http.HandleFunc("/votings", votings)
 	http.HandleFunc("/votings_male", votingsMale)
 	http.HandleFunc("/votings_female", votingsFemale)
 	http.HandleFunc("/politicians", politicians)
+	http.HandleFunc("/politicians_voting", politiciansVoting)
 
 	port := "localhost:4444"
 	fmt.Println("server running on port", port)
