@@ -147,7 +147,8 @@ func votingsMale(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	rows, err := db.Query(
-		`SELECT * FROM votings`,
+		`SELECT * FROM votings
+		WHERE gender = 'male'`,
 	)
 
 	if err != nil {
@@ -197,6 +198,7 @@ func votingsMale(w http.ResponseWriter, r *http.Request) {
 func Routing() {
 	// votingsRoute()
 	http.HandleFunc("/votings", votings)
+	http.HandleFunc("/votings_male", votingsMale)
 
 	port := "localhost:4444"
 
