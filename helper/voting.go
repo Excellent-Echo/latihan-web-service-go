@@ -10,7 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// VoterData Struct
+// VoterData data struct
 type VoterData struct {
 	VoterId      int    `json:"voter_id"`
 	PolicitianId int    `json:"policitian_id"`
@@ -21,7 +21,7 @@ type VoterData struct {
 }
 type Voters []VoterData
 
-// Connect to database
+// Koneksi ke database MySQL
 func connectVoting() (*sql.DB, error) {
 	db, err := sql.Open("mysql", "root:root@tcp(localhost)/elections")
 
@@ -31,7 +31,7 @@ func connectVoting() (*sql.DB, error) {
 	return db, nil
 }
 
-// DecodeVoter file json
+// DecodeVoter untuk decode file json voting
 func DecodeVoter() Voters {
 	jsonFile, err := os.Open("json/voting.json")
 	if err != nil {
@@ -55,7 +55,7 @@ func DecodeVoter() Voters {
 	return voterData
 }
 
-//InsertVoter json to database
+//InsertVoter untuk memasukkan semua data json voter ke database MySQL
 func InsertVoter(data Voters) {
 	db, err := connectVoting()
 	if err != nil {
@@ -79,13 +79,12 @@ func InsertVoter(data Voters) {
 	}
 }
 
-// QueryShowAllVoting Query show all voting
+// QueryShowAllVoting Query untuk menampilkan semua data voting
 func QueryShowAllVoting() {
 	db, err := connectVoting()
 	if err != nil {
 		panic(err.Error())
 	}
-
 	defer func(db *sql.DB) {
 		err := db.Close()
 		if err != nil {
@@ -114,14 +113,12 @@ func QueryShowAllVoting() {
 	}
 }
 
-// QueryShowMaleWithB query data voting bergender male nama diawali huruf b
+// QueryShowMaleWithB Query untuk menampilkan data voters laki-laki yang namanya diawali huruf B
 func QueryShowMaleWithB() {
-
 	db, err := connectVoting()
 	if err != nil {
 		panic(err.Error())
 	}
-
 	defer func(db *sql.DB) {
 		err := db.Close()
 		if err != nil {
@@ -153,17 +150,14 @@ func QueryShowMaleWithB() {
 			fmt.Println(value)
 		}
 	}
-
 }
 
-// EndpointQueryShowMale This is query for endpoint
-func EndpointQueryShowMale() Voters {
-
+// QueryShowMale Query untuk menampilkan semua data voting yang berjenis kelamin laki-laki
+func QueryShowMale() Voters {
 	db, err := connectVoting()
 	if err != nil {
 		panic(err.Error())
 	}
-
 	defer func(db *sql.DB) {
 		err := db.Close()
 		if err != nil {
@@ -172,7 +166,6 @@ func EndpointQueryShowMale() Voters {
 	}(db)
 
 	var votingData Voters
-
 	var gender = "male"
 	data, err := db.Query("SELECT * FROM votings WHERE gender = ?", gender)
 	if err != nil {
@@ -186,18 +179,15 @@ func EndpointQueryShowMale() Voters {
 		votingData = append(votingData, satuanData)
 	}
 	//fmt.Println(votingData)
-
 	return votingData
 }
 
-// EndpointQueryShowFemale This is query for endpoint
-func EndpointQueryShowFemale() Voters {
-
+// QueryShowFemale Query untuk menampilkan semua data voting berjenis kelamin perempuan
+func QueryShowFemale() Voters {
 	db, err := connectVoting()
 	if err != nil {
 		panic(err.Error())
 	}
-
 	defer func(db *sql.DB) {
 		err := db.Close()
 		if err != nil {
@@ -206,7 +196,6 @@ func EndpointQueryShowFemale() Voters {
 	}(db)
 
 	var votingData Voters
-
 	var gender = "female"
 	data, err := db.Query("SELECT * FROM votings WHERE gender = ?", gender)
 	if err != nil {
@@ -220,23 +209,21 @@ func EndpointQueryShowFemale() Voters {
 		votingData = append(votingData, satuanData)
 	}
 	//fmt.Println(votingData)
-
 	return votingData
 }
 
+// Function utama untuk eksekusi semua function bantuan
 func Voter() {
-	// Function Decode Json
+	// Function untuk decode file json voting
 	//tempVoter := DecodeVoter()
 	//fmt.Println(tempVoter)
 
-	// Function insert json to database
+	// Function untuk memasukkan file json ke database MySQL
 	//InsertVoter(tempVoter)
 
-	// Function show all voting data
+	// Function query untuk menampilkan semua data json voting
 	//QueryShowAllVoting()
 
-	// Function show all voting data with gender male start with b
+	// Function query untuk menampilkan semua data voter laki-laki yang namanya diawali huruf B
 	//QueryShowMaleWithB()
-
-	EndpointQueryShowMale()
 }

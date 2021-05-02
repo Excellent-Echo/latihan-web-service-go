@@ -10,17 +10,17 @@ import (
 	"sort"
 )
 
-// Politic struct
+// Politic data struct
 type Politic struct {
 	PoliticianId int     `json:"politician_id"`
 	Name         string  `json:"name"`
 	Party        string  `json:"party"`
 	Location     string  `json:"location"`
-	GradeCurrent float64 `json:"grade_current"`
+	GradeCurrent float32 `json:"grade_current"`
 }
 type Politician []Politic
 
-// Connect to database
+// Koneksi ke database MySQL
 func connectPolitic() (*sql.DB, error) {
 	db, err := sql.Open("mysql", "root:root@tcp(localhost)/elections")
 
@@ -30,7 +30,7 @@ func connectPolitic() (*sql.DB, error) {
 	return db, nil
 }
 
-// DecodePolitic file json
+// DecodePolitic untuk decode file json politicians
 func DecodePolitic() Politician {
 	jsonFile, err := os.Open("json/politicians.json")
 	if err != nil {
@@ -56,7 +56,7 @@ func DecodePolitic() Politician {
 	return politicData
 }
 
-//InsertPolitic json to database
+//InsertPolitic untuk memasukkan semua data json politicians ke database MySQL
 func InsertPolitic(data Politician) {
 	db, err := connectPolitic()
 	if err != nil {
@@ -78,7 +78,7 @@ func InsertPolitic(data Politician) {
 	}
 }
 
-// QueryShowAllPolitic Query show all politic data
+// QueryShowAllPolitic Query untuk menampilkan semua data politic
 func QueryShowAllPolitic() {
 	db, err := connectPolitic()
 	if err != nil {
@@ -113,7 +113,7 @@ func QueryShowAllPolitic() {
 	}
 }
 
-// QueryPopularVotingNY Query populer 1 politicians in NY
+// QueryPopularVotingNY Query untuk menampilkan politicians yang populer di kawasasan NY
 func QueryPopularVotingNY() {
 	db, err := connectPolitic()
 	if err != nil {
@@ -152,7 +152,7 @@ func QueryPopularVotingNY() {
 	fmt.Println(max)
 }
 
-// QueryPopularThreePopular Query populer 3 politicians
+// QueryPopularThreePopular Query untuk menampilkan 3 politicians terpopuler berdasarkan votingnya
 func QueryPopularThreePopular() {
 	db, err := connectPolitic()
 	if err != nil {
@@ -187,20 +187,238 @@ func QueryPopularThreePopular() {
 	fmt.Println("three:", politicData[len(politicData)-3])
 }
 
+// QueryILLocation Query untuk menampilkan semua politician di location IL beserta votingnya
+func QueryILLocation() Politician {
+	db, err := connectPolitic()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var politicData Politician
+
+	var location = "IL"
+	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for data.Next() {
+		var satuanData Politic
+		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+		}
+		politicData = append(politicData, satuanData)
+	}
+	//fmt.Println(politicData)
+	return politicData
+}
+
+// QueryNYLocation Query untuk menampilkan semua politician di location NY beserta votingnya
+func QueryNYLocation() Politician {
+	db, err := connectPolitic()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var politicData Politician
+
+	var location = "NY"
+	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for data.Next() {
+		var satuanData Politic
+		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+		}
+		politicData = append(politicData, satuanData)
+	}
+	//fmt.Println(politicData)
+	return politicData
+}
+
+// QueryTXLocation Query untuk menampilkan semua politician di location TX beserta votingnya
+func QueryTXLocation() Politician {
+	db, err := connectPolitic()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var politicData Politician
+
+	var location = "TX"
+	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for data.Next() {
+		var satuanData Politic
+		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+		}
+		politicData = append(politicData, satuanData)
+	}
+	//fmt.Println(politicData)
+	return politicData
+}
+
+// QueryLALocation Query untuk menampilkan semua politician di location LA beserta votingnya
+func QueryLALocation() Politician {
+	db, err := connectPolitic()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var politicData Politician
+
+	var location = "IL"
+	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for data.Next() {
+		var satuanData Politic
+		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+		}
+		politicData = append(politicData, satuanData)
+	}
+	//fmt.Println(politicData)
+	return politicData
+}
+
+// QueryWALocation Query untuk menampilkan semua politician di location WA beserta votingnya
+func QueryWALocation() Politician {
+	db, err := connectPolitic()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var politicData Politician
+
+	var location = "WA"
+	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for data.Next() {
+		var satuanData Politic
+		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+		}
+		politicData = append(politicData, satuanData)
+	}
+	//fmt.Println(politicData)
+	return politicData
+}
+
+// QueryFLLocation Query untuk menampilkan semua politician di location FL beserta votingnya
+func QueryFLLocation() Politician {
+	db, err := connectPolitic()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var politicData Politician
+
+	var location = "FL"
+	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for data.Next() {
+		var satuanData Politic
+		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+		}
+		politicData = append(politicData, satuanData)
+	}
+	//fmt.Println(politicData)
+	return politicData
+}
+
+// QueryHILocation Query untuk menampilkan semua politician di location HI beserta votingnya
+func QueryHILocation() Politician {
+	db, err := connectPolitic()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var politicData Politician
+
+	var location = "HI"
+	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for data.Next() {
+		var satuanData Politic
+		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+		}
+		politicData = append(politicData, satuanData)
+	}
+	//fmt.Println(politicData)
+	return politicData
+}
+
+// Function utama untuk eksekusi semua function bantuan
 func Politicians() {
-	// Function Decode Json
+	// Function untuk decode file json politicians
 	//tempPolitic := DecodePolitic()
 	//fmt.Println(tempPolitic)
 
-	// Function insert json to database
+	// Function untuk memasukkan file json ke database MySQL
 	//InsertPolitic(tempPolitic)
 
-	// Function query all politicians data
+	// Function query untuk menampilkan semua data json politicians
 	//QueryShowAllPolitic()
 
-	// Function query popular voting in NY
-	QueryPopularVotingNY()
+	// Function query untuk menampilkan politicians terpopuler di NY
+	//QueryPopularVotingNY()
 
-	// Function query 3 popular voting
+	// Function query untuk menampilkan 3 politicians terpopuler
 	//QueryPopularThreePopular()
 }
