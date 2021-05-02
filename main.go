@@ -14,7 +14,7 @@ func main() {
 
 	//Route Votings
 	http.HandleFunc("/votings", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		datas := Data.GetDataVoters()
 
@@ -28,7 +28,7 @@ func main() {
 
 	//Route Voting Male
 	http.HandleFunc("/votings_male", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		datas := Data.GetDataMaleVoters()
 
@@ -42,7 +42,7 @@ func main() {
 
 	//Route Voting Female
 	http.HandleFunc("/votings_female", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		datas := Data.GetDataFemaleVoters()
 
@@ -56,7 +56,7 @@ func main() {
 
 	//Route Politicians
 	http.HandleFunc("/politicians", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		datas := Data.GetDataPoliticians()
 
@@ -87,7 +87,7 @@ func main() {
 
 	//Route Politicians IL
 	http.HandleFunc("/politicians_il", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		politiciansData := Data.GetDataPoliticiansFromIL()
 		//votingData := Data.GetDataVoters()
@@ -102,7 +102,7 @@ func main() {
 
 	//Route Politicians NY
 	http.HandleFunc("/politicians_ny", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		politiciansData := Data.GetDataPoliticiansFromNY()
 		//votingData := Data.GetDataVoters()
@@ -117,7 +117,7 @@ func main() {
 
 	//Route Politicians TX
 	http.HandleFunc("/politicians_tx", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		politiciansData := Data.GetDataPoliticiansFromTX()
 		//votingData := Data.GetDataVoters()
@@ -132,7 +132,7 @@ func main() {
 
 	//Route Politicians LA
 	http.HandleFunc("/politicians_la", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		politiciansData := Data.GetDataPoliticiansFromLA()
 		//votingData := Data.GetDataVoters()
@@ -147,7 +147,7 @@ func main() {
 
 	//Route Politicians WA
 	http.HandleFunc("/politicians_wa", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		politiciansData := Data.GetDataPoliticiansFromWA()
 		//votingData := Data.GetDataVoters()
@@ -162,7 +162,7 @@ func main() {
 
 	//Route Politicians FL
 	http.HandleFunc("/politicians_fl", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		politiciansData := Data.GetDataPoliticiansFromFL()
 		//votingData := Data.GetDataVoters()
@@ -177,7 +177,7 @@ func main() {
 
 	//Route Politicians HI
 	http.HandleFunc("/politicians_hi", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("viewVoting.html")
+		t, err := template.ParseFiles("View/ViewVoting.html")
 
 		politiciansData := Data.GetDataPoliticiansFromHI()
 		//votingData := Data.GetDataVoters()
