@@ -56,7 +56,7 @@ func getPoliticians() {
 	}
 }
 
-func getVotings() {
+func GetVotings() (datavoting []Votings) {
 	db, err := Connect()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -76,4 +76,5 @@ func getVotings() {
 		}
 		dataVotings = append(dataVotings, dat)
 	}
+	return dataVotings
 }
