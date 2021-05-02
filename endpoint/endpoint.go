@@ -9,10 +9,11 @@ import (
 
 func Endpoint() {
 	// Fungsi helper yang berisikan data json yang telah diquery
-	dataVoters := helper.DecodeVoter()
+	dataVoters := helper.QueryShowAllVoting()
 	maleVoters := helper.QueryShowMale()
 	femaleVoters := helper.QueryShowFemale()
-	dataPolitic := helper.DecodePolitic()
+	dataPolitic := helper.QueryShowAllPolitic()
+	dataPoliticAndVoting := helper.QueryShowAllPoliticVotingJoin()
 	ilLocation := helper.QueryILLocation()
 	nyLocation := helper.QueryNYLocation()
 	txLocation := helper.QueryTXLocation()
@@ -71,6 +72,21 @@ func Endpoint() {
 		w.Header().Set("Content-Type", "application/json")
 		if r.Method == "GET" {
 			result, err := json.Marshal(dataPolitic)
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+			w.Write(result)
+			return
+		}
+		http.Error(w, "error not method GET", http.StatusBadRequest)
+	})
+
+	// Endpoint untuk menampilkan semua data politician beserta voting
+	http.HandleFunc("/politicians_voting", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		if r.Method == "GET" {
+			result, err := json.Marshal(dataPoliticAndVoting)
 			if err != nil {
 				http.Error(w, "error internal server", http.StatusInternalServerError)
 				return

@@ -10,6 +10,20 @@ import (
 	"sort"
 )
 
+// PoliticVoterDataJoin data struct
+type PoliticVoterDataJoin struct {
+	Name         string  `json:"name"`
+	Party        string  `json:"party"`
+	Location     string  `json:"location"`
+	GradeCurrent float32 `json:"grade_current"`
+	VoterId      int     `json:"voter_id"`
+	FirstName    string  `json:"first_name"`
+	LastName     string  `json:"last_name"`
+	Gender       string  `json:"gender"`
+	Age          int     `json:"age"`
+}
+type PoliticVotersJoin []PoliticVoterDataJoin
+
 // Politic data struct
 type Politic struct {
 	PoliticianId int     `json:"politician_id"`
@@ -78,8 +92,37 @@ func InsertPolitic(data Politician) {
 	}
 }
 
+// QueryShowAllPoliticVotingJoin Query untuk menampilkan semua data Polticians dan Voting yang sudah di join table
+func QueryShowAllPoliticVotingJoin() PoliticVotersJoin {
+	db, err := connectVoting()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
+
+	var PoliticVotingDataJoin PoliticVotersJoin
+	data, err := db.Query("SELECT * FROM joindata")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for data.Next() {
+		var satuanDataJoin PoliticVoterDataJoin
+		if data.Scan(&satuanDataJoin.VoterId, &satuanDataJoin.Name, &satuanDataJoin.Party, &satuanDataJoin.Location, &satuanDataJoin.GradeCurrent, &satuanDataJoin.FirstName, &satuanDataJoin.LastName, &satuanDataJoin.Gender, &satuanDataJoin.Age); err != nil {
+			fmt.Println(err.Error())
+		}
+		PoliticVotingDataJoin = append(PoliticVotingDataJoin, satuanDataJoin)
+	}
+	//fmt.Println(PoliticVotingDataJoin)
+	return PoliticVotingDataJoin
+}
+
 // QueryShowAllPolitic Query untuk menampilkan semua data politic
-func QueryShowAllPolitic() {
+func QueryShowAllPolitic() Politician {
 	db, err := connectPolitic()
 	if err != nil {
 		panic(err.Error())
@@ -92,25 +135,20 @@ func QueryShowAllPolitic() {
 		}
 	}(db)
 
-	var politicData []Politic
+	var politicData Politician
 	data, err := db.Query("SELECT * FROM politicians")
 	if err != nil {
 		fmt.Println(err.Error())
-		return
 	}
 	for data.Next() {
 		var satuanData Politic
 		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
 			fmt.Println(err.Error())
-			return
 		}
 		politicData = append(politicData, satuanData)
 	}
-	//fmt.Println(politicData)
-
-	for _, value := range politicData {
-		fmt.Println(value)
-	}
+	fmt.Println(politicData)
+	return politicData
 }
 
 // QueryPopularVotingNY Query untuk menampilkan politicians yang populer di kawasasan NY
@@ -188,7 +226,7 @@ func QueryPopularThreePopular() {
 }
 
 // QueryILLocation Query untuk menampilkan semua politician di location IL beserta votingnya
-func QueryILLocation() Politician {
+func QueryILLocation() PoliticVotersJoin {
 	db, err := connectPolitic()
 	if err != nil {
 		panic(err.Error())
@@ -200,26 +238,26 @@ func QueryILLocation() Politician {
 		}
 	}(db)
 
-	var politicData Politician
+	var PoliticVotingDataJoin PoliticVotersJoin
 
 	var location = "IL"
-	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	data, err := db.Query("SELECT * FROM joindata WHERE location = ?", location)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for data.Next() {
-		var satuanData Politic
-		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+		var satuanDataJoin PoliticVoterDataJoin
+		if data.Scan(&satuanDataJoin.VoterId, &satuanDataJoin.Name, &satuanDataJoin.Party, &satuanDataJoin.Location, &satuanDataJoin.GradeCurrent, &satuanDataJoin.FirstName, &satuanDataJoin.LastName, &satuanDataJoin.Gender, &satuanDataJoin.Age); err != nil {
 			fmt.Println(err.Error())
 		}
-		politicData = append(politicData, satuanData)
+		PoliticVotingDataJoin = append(PoliticVotingDataJoin, satuanDataJoin)
 	}
-	//fmt.Println(politicData)
-	return politicData
+	//fmt.Println(PoliticVotingDataJoin)
+	return PoliticVotingDataJoin
 }
 
 // QueryNYLocation Query untuk menampilkan semua politician di location NY beserta votingnya
-func QueryNYLocation() Politician {
+func QueryNYLocation() PoliticVotersJoin {
 	db, err := connectPolitic()
 	if err != nil {
 		panic(err.Error())
@@ -231,26 +269,26 @@ func QueryNYLocation() Politician {
 		}
 	}(db)
 
-	var politicData Politician
+	var PoliticVotingDataJoin PoliticVotersJoin
 
 	var location = "NY"
-	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	data, err := db.Query("SELECT * FROM joindata WHERE location = ?", location)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for data.Next() {
-		var satuanData Politic
-		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+		var satuanDataJoin PoliticVoterDataJoin
+		if data.Scan(&satuanDataJoin.VoterId, &satuanDataJoin.Name, &satuanDataJoin.Party, &satuanDataJoin.Location, &satuanDataJoin.GradeCurrent, &satuanDataJoin.FirstName, &satuanDataJoin.LastName, &satuanDataJoin.Gender, &satuanDataJoin.Age); err != nil {
 			fmt.Println(err.Error())
 		}
-		politicData = append(politicData, satuanData)
+		PoliticVotingDataJoin = append(PoliticVotingDataJoin, satuanDataJoin)
 	}
-	//fmt.Println(politicData)
-	return politicData
+	//fmt.Println(PoliticVotingDataJoin)
+	return PoliticVotingDataJoin
 }
 
 // QueryTXLocation Query untuk menampilkan semua politician di location TX beserta votingnya
-func QueryTXLocation() Politician {
+func QueryTXLocation() PoliticVotersJoin {
 	db, err := connectPolitic()
 	if err != nil {
 		panic(err.Error())
@@ -262,26 +300,26 @@ func QueryTXLocation() Politician {
 		}
 	}(db)
 
-	var politicData Politician
+	var PoliticVotingDataJoin PoliticVotersJoin
 
 	var location = "TX"
-	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	data, err := db.Query("SELECT * FROM joindata WHERE location = ?", location)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for data.Next() {
-		var satuanData Politic
-		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+		var satuanDataJoin PoliticVoterDataJoin
+		if data.Scan(&satuanDataJoin.VoterId, &satuanDataJoin.Name, &satuanDataJoin.Party, &satuanDataJoin.Location, &satuanDataJoin.GradeCurrent, &satuanDataJoin.FirstName, &satuanDataJoin.LastName, &satuanDataJoin.Gender, &satuanDataJoin.Age); err != nil {
 			fmt.Println(err.Error())
 		}
-		politicData = append(politicData, satuanData)
+		PoliticVotingDataJoin = append(PoliticVotingDataJoin, satuanDataJoin)
 	}
-	//fmt.Println(politicData)
-	return politicData
+	//fmt.Println(PoliticVotingDataJoin)
+	return PoliticVotingDataJoin
 }
 
 // QueryLALocation Query untuk menampilkan semua politician di location LA beserta votingnya
-func QueryLALocation() Politician {
+func QueryLALocation() PoliticVotersJoin {
 	db, err := connectPolitic()
 	if err != nil {
 		panic(err.Error())
@@ -293,26 +331,26 @@ func QueryLALocation() Politician {
 		}
 	}(db)
 
-	var politicData Politician
+	var PoliticVotingDataJoin PoliticVotersJoin
 
-	var location = "IL"
-	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	var location = "LA"
+	data, err := db.Query("SELECT * FROM joindata WHERE location = ?", location)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for data.Next() {
-		var satuanData Politic
-		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+		var satuanDataJoin PoliticVoterDataJoin
+		if data.Scan(&satuanDataJoin.VoterId, &satuanDataJoin.Name, &satuanDataJoin.Party, &satuanDataJoin.Location, &satuanDataJoin.GradeCurrent, &satuanDataJoin.FirstName, &satuanDataJoin.LastName, &satuanDataJoin.Gender, &satuanDataJoin.Age); err != nil {
 			fmt.Println(err.Error())
 		}
-		politicData = append(politicData, satuanData)
+		PoliticVotingDataJoin = append(PoliticVotingDataJoin, satuanDataJoin)
 	}
-	//fmt.Println(politicData)
-	return politicData
+	//fmt.Println(PoliticVotingDataJoin)
+	return PoliticVotingDataJoin
 }
 
 // QueryWALocation Query untuk menampilkan semua politician di location WA beserta votingnya
-func QueryWALocation() Politician {
+func QueryWALocation() PoliticVotersJoin {
 	db, err := connectPolitic()
 	if err != nil {
 		panic(err.Error())
@@ -324,26 +362,26 @@ func QueryWALocation() Politician {
 		}
 	}(db)
 
-	var politicData Politician
+	var PoliticVotingDataJoin PoliticVotersJoin
 
 	var location = "WA"
-	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	data, err := db.Query("SELECT * FROM joindata WHERE location = ?", location)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for data.Next() {
-		var satuanData Politic
-		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+		var satuanDataJoin PoliticVoterDataJoin
+		if data.Scan(&satuanDataJoin.VoterId, &satuanDataJoin.Name, &satuanDataJoin.Party, &satuanDataJoin.Location, &satuanDataJoin.GradeCurrent, &satuanDataJoin.FirstName, &satuanDataJoin.LastName, &satuanDataJoin.Gender, &satuanDataJoin.Age); err != nil {
 			fmt.Println(err.Error())
 		}
-		politicData = append(politicData, satuanData)
+		PoliticVotingDataJoin = append(PoliticVotingDataJoin, satuanDataJoin)
 	}
-	//fmt.Println(politicData)
-	return politicData
+	//fmt.Println(PoliticVotingDataJoin)
+	return PoliticVotingDataJoin
 }
 
 // QueryFLLocation Query untuk menampilkan semua politician di location FL beserta votingnya
-func QueryFLLocation() Politician {
+func QueryFLLocation() PoliticVotersJoin {
 	db, err := connectPolitic()
 	if err != nil {
 		panic(err.Error())
@@ -355,26 +393,26 @@ func QueryFLLocation() Politician {
 		}
 	}(db)
 
-	var politicData Politician
+	var PoliticVotingDataJoin PoliticVotersJoin
 
 	var location = "FL"
-	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	data, err := db.Query("SELECT * FROM joindata WHERE location = ?", location)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for data.Next() {
-		var satuanData Politic
-		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+		var satuanDataJoin PoliticVoterDataJoin
+		if data.Scan(&satuanDataJoin.VoterId, &satuanDataJoin.Name, &satuanDataJoin.Party, &satuanDataJoin.Location, &satuanDataJoin.GradeCurrent, &satuanDataJoin.FirstName, &satuanDataJoin.LastName, &satuanDataJoin.Gender, &satuanDataJoin.Age); err != nil {
 			fmt.Println(err.Error())
 		}
-		politicData = append(politicData, satuanData)
+		PoliticVotingDataJoin = append(PoliticVotingDataJoin, satuanDataJoin)
 	}
-	//fmt.Println(politicData)
-	return politicData
+	//fmt.Println(PoliticVotingDataJoin)
+	return PoliticVotingDataJoin
 }
 
 // QueryHILocation Query untuk menampilkan semua politician di location HI beserta votingnya
-func QueryHILocation() Politician {
+func QueryHILocation() PoliticVotersJoin {
 	db, err := connectPolitic()
 	if err != nil {
 		panic(err.Error())
@@ -386,25 +424,25 @@ func QueryHILocation() Politician {
 		}
 	}(db)
 
-	var politicData Politician
+	var PoliticVotingDataJoin PoliticVotersJoin
 
 	var location = "HI"
-	data, err := db.Query("SELECT * FROM politicians WHERE location = ?", location)
+	data, err := db.Query("SELECT * FROM joindata WHERE location = ?", location)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for data.Next() {
-		var satuanData Politic
-		if data.Scan(&satuanData.PoliticianId, &satuanData.Name, &satuanData.Party, &satuanData.Location, &satuanData.GradeCurrent); err != nil {
+		var satuanDataJoin PoliticVoterDataJoin
+		if data.Scan(&satuanDataJoin.VoterId, &satuanDataJoin.Name, &satuanDataJoin.Party, &satuanDataJoin.Location, &satuanDataJoin.GradeCurrent, &satuanDataJoin.FirstName, &satuanDataJoin.LastName, &satuanDataJoin.Gender, &satuanDataJoin.Age); err != nil {
 			fmt.Println(err.Error())
 		}
-		politicData = append(politicData, satuanData)
+		PoliticVotingDataJoin = append(PoliticVotingDataJoin, satuanDataJoin)
 	}
-	//fmt.Println(politicData)
-	return politicData
+	//fmt.Println(PoliticVotingDataJoin)
+	return PoliticVotingDataJoin
 }
 
-// Function utama untuk eksekusi semua function bantuan
+// Politicians Function utama untuk eksekusi semua function bantuan
 func Politicians() {
 	// Function untuk decode file json politicians
 	//tempPolitic := DecodePolitic()
@@ -412,6 +450,9 @@ func Politicians() {
 
 	// Function untuk memasukkan file json ke database MySQL
 	//InsertPolitic(tempPolitic)
+
+	// Function query untuk menampilkan semua data json politicians dan voting join table
+	QueryShowAllPoliticVotingJoin()
 
 	// Function query untuk menampilkan semua data json politicians
 	//QueryShowAllPolitic()

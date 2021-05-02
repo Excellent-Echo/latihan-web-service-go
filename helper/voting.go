@@ -10,7 +10,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// VoterData data struct
 type VoterData struct {
 	VoterId      int    `json:"voter_id"`
 	PolicitianId int    `json:"policitian_id"`
@@ -80,7 +79,7 @@ func InsertVoter(data Voters) {
 }
 
 // QueryShowAllVoting Query untuk menampilkan semua data voting
-func QueryShowAllVoting() {
+func QueryShowAllVoting() Voters {
 	db, err := connectVoting()
 	if err != nil {
 		panic(err.Error())
@@ -92,25 +91,20 @@ func QueryShowAllVoting() {
 		}
 	}(db)
 
-	var votingData []VoterData
+	var votingData Voters
 	data, err := db.Query("SELECT * FROM votings")
 	if err != nil {
 		fmt.Println(err.Error())
-		return
 	}
 	for data.Next() {
 		var satuanData VoterData
 		if data.Scan(&satuanData.VoterId, &satuanData.PolicitianId, &satuanData.FirstName, &satuanData.LastName, &satuanData.Gender, &satuanData.Age); err != nil {
 			fmt.Println(err.Error())
-			return
 		}
 		votingData = append(votingData, satuanData)
 	}
 	//fmt.Println(votingData)
-
-	for _, value := range votingData {
-		fmt.Println(value)
-	}
+	return votingData
 }
 
 // QueryShowMaleWithB Query untuk menampilkan data voters laki-laki yang namanya diawali huruf B
@@ -212,7 +206,7 @@ func QueryShowFemale() Voters {
 	return votingData
 }
 
-// Function utama untuk eksekusi semua function bantuan
+// Voter Function utama untuk eksekusi semua function bantuan
 func Voter() {
 	// Function untuk decode file json voting
 	//tempVoter := DecodeVoter()
