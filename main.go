@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
-	
+	"latihan-web-service-go/jsonData/Politicians"
 )
 
 func main() {
-	var Politicians_id 
-	fmt.Println(data.name)
+	// var Politicians_id
+	// fmt.Println(data.name) main
+	Politicians.PoliticiansData()
 }
