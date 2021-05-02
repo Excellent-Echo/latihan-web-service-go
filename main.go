@@ -244,19 +244,64 @@ func main() {
 	fmt.Println("=====================================")
 
 	//RELEASE 3
+	allPolitician := getDataPolitician("SELECT * FROM politicians")
+	allVoting := getDataVoting("SELECT * FROM votings")
+
 	http.HandleFunc("/politician", func(w http.ResponseWriter, r *http.Request) {
 		t, err := template.ParseFiles("politician.html")
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
+		t.Execute(w, nil)
+	})
 
-		data := getDataPolitician("select * from politicians")
-		t.Execute(w, data)
+	http.HandleFunc("/voting", func(w http.ResponseWriter, r *http.Request) {
+		t, err := template.ParseFiles("voting.html")
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		t.Execute(w, nil)
+	})
+
+	http.HandleFunc("/API/politician", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(allPolitician)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/API/voting", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(allVoting)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
 	})
 
 	port := "localhost:8000"
-
 	fmt.Println("service running on port", port)
 
 	http.ListenAndServe(port, nil)
