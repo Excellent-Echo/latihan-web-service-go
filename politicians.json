@@ -1,4 +1,5 @@
-[{
+{ "politik" :
+    [{
         "politician_id" : 1,
         "name" : "Aaron Schock",
         "party" : "REPUBLIC",
@@ -88,4 +89,4 @@
         "party" : "DEMOCRATIC",
         "location" : "HI",
         "grade_current" : 7.703
-    }]
+    }]}
