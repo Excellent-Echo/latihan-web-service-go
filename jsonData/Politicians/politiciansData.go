@@ -17,7 +17,7 @@ type Politicians []struct {
 
 func PoliticiansData() {
 	var politiciansData Politicians
-	jsonFile, err := os.Open("politicians.json")
+	jsonFile, err := os.Open("jsonData/Politicians/politicians.json")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
