@@ -104,6 +104,128 @@ func voterMaleQuery() {
 	}
 }
 
+// query for end point /votings
+func AllVoters() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(
+		`SELECT * FROM votings`,
+	)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	var data []Voting
+
+	for rows.Next() {
+		var each = Voting{}
+		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+
+	return data
+}
+
+// query for end point /votings_male
+func MaleVoters() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(
+		`SELECT * FROM votings
+		WHERE gender = 'male'`,
+	)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	var data []Voting
+
+	for rows.Next() {
+		var each = Voting{}
+		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+
+	return data
+}
+
+// query for end point /votings_female
+func FemaleVoters() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(
+		`SELECT * FROM votings
+		WHERE gender = 'female'`,
+	)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	var data []Voting
+
+	for rows.Next() {
+		var each = Voting{}
+		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+
+	return data
+}
+
 func Voter() {
 	// v := decodeVotingData("json/voting.json")
 

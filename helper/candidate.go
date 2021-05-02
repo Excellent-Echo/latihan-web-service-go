@@ -20,7 +20,7 @@ type Politicians []Politician
 
 type PoliticianWithTotalVotes struct {
 	Politician
-	TotalVotes int
+	TotalVotes int `json:"total_votes"`
 }
 
 func decodePoliticianData(file string) Politicians {
@@ -60,7 +60,8 @@ func insertPoliticianDataToDb(p Politicians) {
 	fmt.Println("insert data succeed")
 }
 
-func allPoliticianQuery() {
+// query for end point /politicians_voting
+func AllPoliticianWithVoteQuery() interface{} {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -77,7 +78,7 @@ func allPoliticianQuery() {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return err.Error()
 	}
 	defer rows.Close()
 
@@ -89,7 +90,7 @@ func allPoliticianQuery() {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return
+			return err.Error()
 		}
 
 		p = append(p, each)
@@ -97,7 +98,7 @@ func allPoliticianQuery() {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return
+		return err.Error()
 	}
 
 	for _, each := range p {
@@ -108,6 +109,370 @@ func allPoliticianQuery() {
 		fmt.Println("Grade Current:", each.GradeCurrent)
 		fmt.Println("Total Votes:", each.TotalVotes)
 	}
+
+	return p
+}
+
+// query for end point /politicians
+func AllPoliticianDataQuery() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(
+		`SELECT * FROM politicians`,
+	)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	var data []Politician
+
+	for rows.Next() {
+		var each = Politician{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+
+	return data
+}
+
+// query for end point /politicians_il
+func ILPoliticians() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	var data []PoliticianWithTotalVotes
+
+	loc := `'IL'`
+
+	q := fmt.Sprintf(`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
+		COUNT(v.politician_id) as total_votes
+		FROM politicians AS p
+		JOIN votings AS v ON p.politician_id = v.politician_id
+		WHERE p.location = %s
+		GROUP BY p.politician_id`, loc)
+
+	rows, err := db.Query(q)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var each = PoliticianWithTotalVotes{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	return data
+}
+
+// query for end point /politicians_ny
+func NYPoliticians() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	var data []PoliticianWithTotalVotes
+
+	loc := `'NY'`
+
+	q := fmt.Sprintf(`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
+		COUNT(v.politician_id) as total_votes
+		FROM politicians AS p
+		JOIN votings AS v ON p.politician_id = v.politician_id
+		WHERE p.location = %s
+		GROUP BY p.politician_id`, loc)
+
+	rows, err := db.Query(q)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var each = PoliticianWithTotalVotes{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	return data
+}
+
+// query for end point /politicians_tx
+func TXPoliticians() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	var data []PoliticianWithTotalVotes
+
+	loc := `'TX'`
+
+	q := fmt.Sprintf(`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
+		COUNT(v.politician_id) as total_votes
+		FROM politicians AS p
+		JOIN votings AS v ON p.politician_id = v.politician_id
+		WHERE p.location = %s
+		GROUP BY p.politician_id`, loc)
+
+	rows, err := db.Query(q)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var each = PoliticianWithTotalVotes{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	return data
+}
+
+// query for end point /politicians_la
+func LAPoliticians() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	var data []PoliticianWithTotalVotes
+
+	loc := `'LA'`
+
+	q := fmt.Sprintf(`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
+		COUNT(v.politician_id) as total_votes
+		FROM politicians AS p
+		JOIN votings AS v ON p.politician_id = v.politician_id
+		WHERE p.location = %s
+		GROUP BY p.politician_id`, loc)
+
+	rows, err := db.Query(q)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var each = PoliticianWithTotalVotes{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	return data
+}
+
+// query for end point /politicians_wa
+func WAPoliticians() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	var data []PoliticianWithTotalVotes
+
+	loc := `'WA'`
+
+	q := fmt.Sprintf(`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
+		COUNT(v.politician_id) as total_votes
+		FROM politicians AS p
+		JOIN votings AS v ON p.politician_id = v.politician_id
+		WHERE p.location = %s
+		GROUP BY p.politician_id`, loc)
+
+	rows, err := db.Query(q)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var each = PoliticianWithTotalVotes{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	return data
+}
+
+// query for end point /politicians_fl
+func FLPoliticians() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	var data []PoliticianWithTotalVotes
+
+	loc := `'FL'`
+
+	q := fmt.Sprintf(`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
+		COUNT(v.politician_id) as total_votes
+		FROM politicians AS p
+		JOIN votings AS v ON p.politician_id = v.politician_id
+		WHERE p.location = %s
+		GROUP BY p.politician_id`, loc)
+
+	rows, err := db.Query(q)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var each = PoliticianWithTotalVotes{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	return data
+}
+
+// query for end point /politicians_hi
+func HIPoliticians() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	var data []PoliticianWithTotalVotes
+
+	loc := `'HI'`
+
+	q := fmt.Sprintf(`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
+		COUNT(v.politician_id) as total_votes
+		FROM politicians AS p
+		JOIN votings AS v ON p.politician_id = v.politician_id
+		WHERE p.location = %s
+		GROUP BY p.politician_id`, loc)
+
+	rows, err := db.Query(q)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var each = PoliticianWithTotalVotes{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	return data
 }
 
 func popularPoliticianNYQuery() {
@@ -218,7 +583,7 @@ func Candidate() {
 	// p := decodePoliticianData("json/politicians.json")
 
 	// insertPoliticianDataToDb(p)
-	allPoliticianQuery()
+	AllPoliticianWithVoteQuery()
 	// popularPoliticianNYQuery()
 	// threePopularPoliticianQuery()
 }

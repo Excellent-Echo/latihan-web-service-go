@@ -3,75 +3,13 @@ package routing
 import (
 	"encoding/json"
 	"fmt"
-	"latihan-web-service-go/connect"
+	"latihan-web-service-go/helper"
 	"net/http"
 )
 
-type Voting struct {
-	VoterID      int    `json:"voter_id"`
-	PoliticianID int    `json:"policitian_id"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	Gender       string `json:"gender"`
-	Age          int    `json:"age"`
-}
-
-type Votes []Voting
-
-type Politician struct {
-	PoliticianID int     `json:"politician_id"`
-	Name         string  `json:"name"`
-	Party        string  `json:"party"`
-	Location     string  `json:"location"`
-	GradeCurrent float32 `json:"grade_current"`
-}
-
-type Politicians []Politician
-
-type PoliticianWithTotalVotes struct {
-	Politician
-	TotalVotes int
-}
-
 func votings(w http.ResponseWriter, r *http.Request) {
-	// start query
-	db, err := connect.Connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
+	data := helper.AllVoters()
 
-	rows, err := db.Query(
-		`SELECT * FROM votings`,
-	)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer rows.Close()
-
-	var data []Voting
-
-	for rows.Next() {
-		var each = Voting{}
-		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		data = append(data, each)
-	}
-
-	if err = rows.Err(); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	// end query
-
-	// web service API
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
@@ -90,45 +28,8 @@ func votings(w http.ResponseWriter, r *http.Request) {
 }
 
 func votingsMale(w http.ResponseWriter, r *http.Request) {
-	// start query
-	db, err := connect.Connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
+	data := helper.MaleVoters()
 
-	rows, err := db.Query(
-		`SELECT * FROM votings
-		WHERE gender = 'male'`,
-	)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer rows.Close()
-
-	var data []Voting
-
-	for rows.Next() {
-		var each = Voting{}
-		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		data = append(data, each)
-	}
-
-	if err = rows.Err(); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	// end query
-
-	// web service API
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
@@ -147,45 +48,8 @@ func votingsMale(w http.ResponseWriter, r *http.Request) {
 }
 
 func votingsFemale(w http.ResponseWriter, r *http.Request) {
-	// start query
-	db, err := connect.Connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
+	data := helper.FemaleVoters()
 
-	rows, err := db.Query(
-		`SELECT * FROM votings
-		WHERE gender = 'female'`,
-	)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer rows.Close()
-
-	var data []Voting
-
-	for rows.Next() {
-		var each = Voting{}
-		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		data = append(data, each)
-	}
-
-	if err = rows.Err(); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	// end query
-
-	// web service API
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
@@ -204,44 +68,8 @@ func votingsFemale(w http.ResponseWriter, r *http.Request) {
 }
 
 func politicians(w http.ResponseWriter, r *http.Request) {
-	// start query
-	db, err := connect.Connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
+	data := helper.AllPoliticianDataQuery()
 
-	rows, err := db.Query(
-		`SELECT * FROM politicians`,
-	)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer rows.Close()
-
-	var data []Politician
-
-	for rows.Next() {
-		var each = Politician{}
-		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		data = append(data, each)
-	}
-
-	if err = rows.Err(); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	// end query
-
-	// web service API
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
@@ -260,48 +88,8 @@ func politicians(w http.ResponseWriter, r *http.Request) {
 }
 
 func politiciansVoting(w http.ResponseWriter, r *http.Request) {
-	// start query
-	db, err := connect.Connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
+	data := helper.AllPoliticianWithVoteQuery()
 
-	rows, err := db.Query(
-		`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
-		COUNT(v.politician_id) as total_votes
-		FROM politicians AS p
-		JOIN votings AS v ON p.politician_id = v.politician_id
-		GROUP BY p.politician_id`,
-	)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer rows.Close()
-
-	var data []PoliticianWithTotalVotes
-
-	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
-		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		data = append(data, each)
-	}
-
-	if err = rows.Err(); err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	// end query
-
-	// web service API
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
@@ -319,57 +107,129 @@ func politiciansVoting(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "", http.StatusBadRequest)
 }
 
-func politicianLocQuery() interface{} {
-	db, err := connect.Connect()
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
+func ILpoliticians(w http.ResponseWriter, r *http.Request) {
+	data := helper.ILPoliticians()
 
-	var data []PoliticianWithTotalVotes
+	w.Header().Set("Content-Type", "application/json")
 
-	state := "IL"
-	loc := fmt.Sprintf(`'%s'`, state)
-
-	q := fmt.Sprintf(`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
-		COUNT(v.politician_id) as total_votes
-		FROM politicians AS p
-		JOIN votings AS v ON p.politician_id = v.politician_id
-		WHERE p.location = %s
-		GROUP BY p.politician_id`, loc)
-
-	rows, err := db.Query(q)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		return err.Error()
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
-		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
+	if r.Method == "GET" {
+		var result, err = json.Marshal(data)
 
 		if err != nil {
-			fmt.Println(err.Error())
-			return err.Error()
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 
-		data = append(data, each)
+		w.Write(result)
+		return
 	}
 
-	if err = rows.Err(); err != nil {
-		fmt.Println(err.Error())
-		return err.Error()
-	}
-	return data
+	http.Error(w, "", http.StatusBadRequest)
 }
 
-func politiciansLoc(w http.ResponseWriter, r *http.Request) {
-	// query
-	data := politicianLocQuery()
+func NYpoliticians(w http.ResponseWriter, r *http.Request) {
+	data := helper.NYPoliticians()
 
-	// web service API
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method == "GET" {
+		var result, err = json.Marshal(data)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Write(result)
+		return
+	}
+
+	http.Error(w, "", http.StatusBadRequest)
+}
+
+func TXpoliticians(w http.ResponseWriter, r *http.Request) {
+	data := helper.TXPoliticians()
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method == "GET" {
+		var result, err = json.Marshal(data)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Write(result)
+		return
+	}
+
+	http.Error(w, "", http.StatusBadRequest)
+}
+
+func LApoliticians(w http.ResponseWriter, r *http.Request) {
+	data := helper.LAPoliticians()
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method == "GET" {
+		var result, err = json.Marshal(data)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Write(result)
+		return
+	}
+
+	http.Error(w, "", http.StatusBadRequest)
+}
+
+func WApoliticians(w http.ResponseWriter, r *http.Request) {
+	data := helper.WAPoliticians()
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method == "GET" {
+		var result, err = json.Marshal(data)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Write(result)
+		return
+	}
+
+	http.Error(w, "", http.StatusBadRequest)
+}
+
+func FLpoliticians(w http.ResponseWriter, r *http.Request) {
+	data := helper.FLPoliticians()
+
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method == "GET" {
+		var result, err = json.Marshal(data)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Write(result)
+		return
+	}
+
+	http.Error(w, "", http.StatusBadRequest)
+}
+
+func HIpoliticians(w http.ResponseWriter, r *http.Request) {
+	data := helper.HIPoliticians()
+
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
@@ -393,7 +253,13 @@ func Routing() {
 	http.HandleFunc("/votings_female", votingsFemale)
 	http.HandleFunc("/politicians", politicians)
 	http.HandleFunc("/politicians_voting", politiciansVoting)
-	// http.HandleFunc("/politicians_il", politiciansLoc)
+	http.HandleFunc("/politicians_il", ILpoliticians)
+	http.HandleFunc("/politicians_ny", NYpoliticians)
+	http.HandleFunc("/politicians_tx", TXpoliticians)
+	http.HandleFunc("/politicians_la", LApoliticians)
+	http.HandleFunc("/politicians_wa", WApoliticians)
+	http.HandleFunc("/politicians_fl", FLpoliticians)
+	http.HandleFunc("/politicians_hi", HIpoliticians)
 
 	port := "localhost:4444"
 	fmt.Println("server running on port", port)
