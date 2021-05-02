@@ -195,10 +195,68 @@ func votingsMale(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "", http.StatusBadRequest)
 }
 
+func votingsFemale(w http.ResponseWriter, r *http.Request) {
+	// start query
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	rows, err := db.Query(
+		`SELECT * FROM votings
+		WHERE gender = 'female'`,
+	)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer rows.Close()
+
+	var data []Voting
+
+	for rows.Next() {
+		var each = Voting{}
+		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	// end query
+
+	// web service API
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method == "GET" {
+		var result, err = json.Marshal(data)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Write(result)
+		return
+	}
+
+	http.Error(w, "", http.StatusBadRequest)
+}
+
 func Routing() {
 	// votingsRoute()
 	http.HandleFunc("/votings", votings)
 	http.HandleFunc("/votings_male", votingsMale)
+	http.HandleFunc("/votings_female", votingsFemale)
 
 	port := "localhost:4444"
 
