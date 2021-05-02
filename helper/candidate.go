@@ -1,10 +1,10 @@
 package helper
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"latihan-web-service-go/connect"
 	"os"
 )
 
@@ -21,16 +21,6 @@ type Politicians []Politician
 type PoliticianWithTotalVotes struct {
 	Politician
 	TotalVotes int
-}
-
-func connectPolitician() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "root:marwanajunolii@tcp(localhost)/election")
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	return db, nil
 }
 
 func decodePoliticianData(file string) Politicians {
@@ -53,7 +43,7 @@ func decodePoliticianData(file string) Politicians {
 }
 
 func insertPoliticianDataToDb(p Politicians) {
-	db, err := connectPolitician()
+	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -71,7 +61,7 @@ func insertPoliticianDataToDb(p Politicians) {
 }
 
 func allPoliticianQuery() {
-	db, err := connectPolitician()
+	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -121,7 +111,7 @@ func allPoliticianQuery() {
 }
 
 func popularPoliticianNYQuery() {
-	db, err := connectPolitician()
+	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -173,7 +163,7 @@ func popularPoliticianNYQuery() {
 }
 
 func threePopularPoliticianQuery() {
-	db, err := connectPolitician()
+	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}

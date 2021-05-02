@@ -1,10 +1,10 @@
 package helper
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"latihan-web-service-go/connect"
 	"os"
 )
 
@@ -18,16 +18,6 @@ type Voting struct {
 }
 
 type Votes []Voting
-
-func connectVoting() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "root:marwanajunolii@tcp(localhost)/election")
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	return db, nil
-}
 
 func decodeVotingData(file string) Votes {
 	var votes Votes
@@ -49,7 +39,7 @@ func decodeVotingData(file string) Votes {
 }
 
 func insertVotingDataToDb(v Votes) {
-	db, err := connectVoting()
+	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -68,7 +58,7 @@ func insertVotingDataToDb(v Votes) {
 }
 
 func voterMaleQuery() {
-	db, err := connectVoting()
+	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}

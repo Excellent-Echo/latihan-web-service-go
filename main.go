@@ -59,7 +59,7 @@ import (
 // }
 
 func main() {
-	helper.Candidate()
+	// helper.Candidate()
 	helper.Voter()
 	// votingsRoute(v)
 	// politicianRoute(p)
