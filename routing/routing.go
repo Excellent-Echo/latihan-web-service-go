@@ -319,13 +319,81 @@ func politiciansVoting(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "", http.StatusBadRequest)
 }
 
+func politicianLocQuery() interface{} {
+	db, err := connect.Connect()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	var data []PoliticianWithTotalVotes
+
+	state := "IL"
+	loc := fmt.Sprintf(`'%s'`, state)
+
+	q := fmt.Sprintf(`SELECT p.politician_id, p.name, p.party, p.location, p.grade_current,
+		COUNT(v.politician_id) as total_votes
+		FROM politicians AS p
+		JOIN votings AS v ON p.politician_id = v.politician_id
+		WHERE p.location = %s
+		GROUP BY p.politician_id`, loc)
+
+	rows, err := db.Query(q)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var each = PoliticianWithTotalVotes{}
+		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		data = append(data, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+	return data
+}
+
+func politiciansLoc(w http.ResponseWriter, r *http.Request) {
+	// query
+	data := politicianLocQuery()
+
+	// web service API
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method == "GET" {
+		var result, err = json.Marshal(data)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Write(result)
+		return
+	}
+
+	http.Error(w, "", http.StatusBadRequest)
+}
+
 func Routing() {
-	// votingsRoute()
 	http.HandleFunc("/votings", votings)
 	http.HandleFunc("/votings_male", votingsMale)
 	http.HandleFunc("/votings_female", votingsFemale)
 	http.HandleFunc("/politicians", politicians)
 	http.HandleFunc("/politicians_voting", politiciansVoting)
+	// http.HandleFunc("/politicians_il", politiciansLoc)
 
 	port := "localhost:4444"
 	fmt.Println("server running on port", port)
