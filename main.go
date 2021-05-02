@@ -22,7 +22,7 @@ type Politicians []Politician
 
 type Voting struct {
 	VotingID     int    `json:"voter_id"`
-	PoliticianID int    `json:"politician_id"`
+	PoliticianID int    `json:"policitian_id"`
 	FirstName    string `json:"first_name"`
 	LastName     string `json:"last_name"`
 	Gender       string `json:"gender"`
@@ -138,5 +138,5 @@ func connect() (*sql.DB, error) {
 
 func main() {
 	getPoliticians("politicians.json")
-	// getVoting("voting.json")
+	getVoting("voting.json")
 }
