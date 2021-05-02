@@ -53,7 +53,7 @@ func GetDataPoliticians() (dataPoliticiansDB []PoliticiansDB) {
 	return
 }
 
-//Get All data Politicians
+//Get All data Politicians Vote
 func GetDataPoliticiansVoting() (dataPoliticiansDB []PoliticiansVoteDB) {
 	db, err := Connect()
 	if err != nil {
@@ -151,28 +151,29 @@ func GetDataPoliticiansHeadWithHighestScore() (dataPoliticiansDB []PoliticiansDB
 }
 
 //Get All data Politicians From IL
-func GetDataPoliticiansFromIL() (dataPoliticiansDB []PoliticiansDB) {
+func GetDataPoliticiansFromIL() (dataPoliticiansDB []PoliticiansVoteDB) {
 	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	data, err := db.Query("SELECT * FROM politicians WHERE location='IL'")
+	data, err := db.Query("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN voters AS v ON p.politician_id = v.politician_id WHERE p.location='IL' GROUP BY p.politician_id;")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	for data.Next() {
 
-		var dat PoliticiansDB
+		var dat PoliticiansVoteDB
 
 		if data.Scan(
 			&dat.Politician_id,
 			&dat.Name,
 			&dat.Party,
 			&dat.Location,
-			&dat.Grade_current); err != nil {
+			&dat.Grade_current,
+			&dat.Vote); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
@@ -183,28 +184,29 @@ func GetDataPoliticiansFromIL() (dataPoliticiansDB []PoliticiansDB) {
 }
 
 //Get All data Politicians From NY
-func GetDataPoliticiansFromNY() (dataPoliticiansDB []PoliticiansDB) {
+func GetDataPoliticiansFromNY() (dataPoliticiansDB []PoliticiansVoteDB) {
 	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	data, err := db.Query("SELECT * FROM politicians WHERE location='NY'")
+	data, err := db.Query("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN voters AS v ON p.politician_id = v.politician_id WHERE p.location='NY' GROUP BY p.politician_id;")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	for data.Next() {
 
-		var dat PoliticiansDB
+		var dat PoliticiansVoteDB
 
 		if data.Scan(
 			&dat.Politician_id,
 			&dat.Name,
 			&dat.Party,
 			&dat.Location,
-			&dat.Grade_current); err != nil {
+			&dat.Grade_current,
+			&dat.Vote); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
@@ -215,28 +217,29 @@ func GetDataPoliticiansFromNY() (dataPoliticiansDB []PoliticiansDB) {
 }
 
 //Get All data Politicians From TX
-func GetDataPoliticiansFromTX() (dataPoliticiansDB []PoliticiansDB) {
+func GetDataPoliticiansFromTX() (dataPoliticiansDB []PoliticiansVoteDB) {
 	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	data, err := db.Query("SELECT * FROM politicians WHERE location='TX'")
+	data, err := db.Query("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN voters AS v ON p.politician_id = v.politician_id WHERE p.location='TX' GROUP BY p.politician_id;")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	for data.Next() {
 
-		var dat PoliticiansDB
+		var dat PoliticiansVoteDB
 
 		if data.Scan(
 			&dat.Politician_id,
 			&dat.Name,
 			&dat.Party,
 			&dat.Location,
-			&dat.Grade_current); err != nil {
+			&dat.Grade_current,
+			&dat.Vote); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
@@ -247,28 +250,29 @@ func GetDataPoliticiansFromTX() (dataPoliticiansDB []PoliticiansDB) {
 }
 
 //Get All data Politicians From LA
-func GetDataPoliticiansFromLA() (dataPoliticiansDB []PoliticiansDB) {
+func GetDataPoliticiansFromLA() (dataPoliticiansDB []PoliticiansVoteDB) {
 	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	data, err := db.Query("SELECT * FROM politicians WHERE location='LA'")
+	data, err := db.Query("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN voters AS v ON p.politician_id = v.politician_id WHERE p.location='LA' GROUP BY p.politician_id;")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	for data.Next() {
 
-		var dat PoliticiansDB
+		var dat PoliticiansVoteDB
 
 		if data.Scan(
 			&dat.Politician_id,
 			&dat.Name,
 			&dat.Party,
 			&dat.Location,
-			&dat.Grade_current); err != nil {
+			&dat.Grade_current,
+			&dat.Vote); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
@@ -279,28 +283,29 @@ func GetDataPoliticiansFromLA() (dataPoliticiansDB []PoliticiansDB) {
 }
 
 //Get All data Politicians From WA
-func GetDataPoliticiansFromWA() (dataPoliticiansDB []PoliticiansDB) {
+func GetDataPoliticiansFromWA() (dataPoliticiansDB []PoliticiansVoteDB) {
 	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	data, err := db.Query("SELECT * FROM politicians WHERE location='WA'")
+	data, err := db.Query("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN voters AS v ON p.politician_id = v.politician_id WHERE p.location='WA' GROUP BY p.politician_id;")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	for data.Next() {
 
-		var dat PoliticiansDB
+		var dat PoliticiansVoteDB
 
 		if data.Scan(
 			&dat.Politician_id,
 			&dat.Name,
 			&dat.Party,
 			&dat.Location,
-			&dat.Grade_current); err != nil {
+			&dat.Grade_current,
+			&dat.Vote); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
@@ -311,28 +316,29 @@ func GetDataPoliticiansFromWA() (dataPoliticiansDB []PoliticiansDB) {
 }
 
 //Get All data Politicians From FL
-func GetDataPoliticiansFromFL() (dataPoliticiansDB []PoliticiansDB) {
+func GetDataPoliticiansFromFL() (dataPoliticiansDB []PoliticiansVoteDB) {
 	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	data, err := db.Query("SELECT * FROM politicians WHERE location='FL'")
+	data, err := db.Query("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN voters AS v ON p.politician_id = v.politician_id WHERE p.location='FL' GROUP BY p.politician_id;")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	for data.Next() {
 
-		var dat PoliticiansDB
+		var dat PoliticiansVoteDB
 
 		if data.Scan(
 			&dat.Politician_id,
 			&dat.Name,
 			&dat.Party,
 			&dat.Location,
-			&dat.Grade_current); err != nil {
+			&dat.Grade_current,
+			&dat.Vote); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
@@ -343,28 +349,29 @@ func GetDataPoliticiansFromFL() (dataPoliticiansDB []PoliticiansDB) {
 }
 
 //Get All data Politicians From HI
-func GetDataPoliticiansFromHI() (dataPoliticiansDB []PoliticiansDB) {
+func GetDataPoliticiansFromHI() (dataPoliticiansDB []PoliticiansVoteDB) {
 	db, err := Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	data, err := db.Query("SELECT * FROM politicians WHERE location='HI'")
+	data, err := db.Query("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN voters AS v ON p.politician_id = v.politician_id WHERE p.location='HI' GROUP BY p.politician_id;")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	for data.Next() {
 
-		var dat PoliticiansDB
+		var dat PoliticiansVoteDB
 
 		if data.Scan(
 			&dat.Politician_id,
 			&dat.Name,
 			&dat.Party,
 			&dat.Location,
-			&dat.Grade_current); err != nil {
+			&dat.Grade_current,
+			&dat.Vote); err != nil {
 			fmt.Println(err.Error())
 			return
 		}
