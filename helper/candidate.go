@@ -23,6 +23,8 @@ type PoliticianWithTotalVotes struct {
 	TotalVotes int `json:"total_votes"`
 }
 
+type PoliticiansWithVote []PoliticianWithTotalVotes
+
 func decodePoliticianData(file string) Politicians {
 	var politicians Politicians
 
@@ -61,7 +63,7 @@ func insertPoliticianDataToDb(p Politicians) {
 }
 
 // query for end point /politicians_voting
-func AllPoliticianWithVoteQuery() interface{} {
+func AllPoliticianWithVoteQuery() PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -78,7 +80,6 @@ func AllPoliticianWithVoteQuery() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -90,7 +91,7 @@ func AllPoliticianWithVoteQuery() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
+
 		}
 
 		p = append(p, each)
@@ -98,7 +99,6 @@ func AllPoliticianWithVoteQuery() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 
 	for _, each := range p {
@@ -114,7 +114,7 @@ func AllPoliticianWithVoteQuery() interface{} {
 }
 
 // query for end point /politicians
-func AllPoliticianDataQuery() interface{} {
+func AllPoliticianDataQuery() Politicians {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -127,7 +127,6 @@ func AllPoliticianDataQuery() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -139,7 +138,7 @@ func AllPoliticianDataQuery() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
+
 		}
 
 		data = append(data, each)
@@ -147,14 +146,13 @@ func AllPoliticianDataQuery() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 
 	return data
 }
 
 // query for end point /politicians_il
-func ILPoliticians() interface{} {
+func ILPoliticians() PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -176,7 +174,6 @@ func ILPoliticians() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -186,7 +183,7 @@ func ILPoliticians() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
+
 		}
 
 		data = append(data, each)
@@ -194,13 +191,12 @@ func ILPoliticians() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	return data
 }
 
 // query for end point /politicians_ny
-func NYPoliticians() interface{} {
+func NYPoliticians() PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -222,7 +218,6 @@ func NYPoliticians() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -232,7 +227,7 @@ func NYPoliticians() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
+
 		}
 
 		data = append(data, each)
@@ -240,13 +235,12 @@ func NYPoliticians() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	return data
 }
 
 // query for end point /politicians_tx
-func TXPoliticians() interface{} {
+func TXPoliticians() PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -268,7 +262,6 @@ func TXPoliticians() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -278,7 +271,7 @@ func TXPoliticians() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
+
 		}
 
 		data = append(data, each)
@@ -286,13 +279,12 @@ func TXPoliticians() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	return data
 }
 
 // query for end point /politicians_la
-func LAPoliticians() interface{} {
+func LAPoliticians() PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -314,7 +306,6 @@ func LAPoliticians() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -324,7 +315,7 @@ func LAPoliticians() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
+
 		}
 
 		data = append(data, each)
@@ -332,13 +323,12 @@ func LAPoliticians() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	return data
 }
 
 // query for end point /politicians_wa
-func WAPoliticians() interface{} {
+func WAPoliticians() PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -360,7 +350,6 @@ func WAPoliticians() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -370,7 +359,7 @@ func WAPoliticians() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
+
 		}
 
 		data = append(data, each)
@@ -378,13 +367,12 @@ func WAPoliticians() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	return data
 }
 
 // query for end point /politicians_fl
-func FLPoliticians() interface{} {
+func FLPoliticians() PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -406,7 +394,6 @@ func FLPoliticians() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -416,7 +403,7 @@ func FLPoliticians() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
+
 		}
 
 		data = append(data, each)
@@ -424,13 +411,12 @@ func FLPoliticians() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	return data
 }
 
 // query for end point /politicians_hi
-func HIPoliticians() interface{} {
+func HIPoliticians() PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -452,7 +438,6 @@ func HIPoliticians() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -462,7 +447,7 @@ func HIPoliticians() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
+
 		}
 
 		data = append(data, each)
@@ -470,7 +455,6 @@ func HIPoliticians() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	return data
 }

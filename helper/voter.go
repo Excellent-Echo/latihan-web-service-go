@@ -105,7 +105,7 @@ func voterMaleQuery() {
 }
 
 // query for end point /votings
-func AllVoters() interface{} {
+func AllVoters() Votes {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -118,7 +118,6 @@ func AllVoters() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -130,7 +129,6 @@ func AllVoters() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
 		}
 
 		data = append(data, each)
@@ -138,14 +136,13 @@ func AllVoters() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 
 	return data
 }
 
 // query for end point /votings_male
-func MaleVoters() interface{} {
+func MaleVoters() Votes {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -159,7 +156,6 @@ func MaleVoters() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -171,7 +167,6 @@ func MaleVoters() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
 		}
 
 		data = append(data, each)
@@ -179,14 +174,13 @@ func MaleVoters() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 
 	return data
 }
 
 // query for end point /votings_female
-func FemaleVoters() interface{} {
+func FemaleVoters() Votes {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -200,7 +194,6 @@ func FemaleVoters() interface{} {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 	defer rows.Close()
 
@@ -212,7 +205,6 @@ func FemaleVoters() interface{} {
 
 		if err != nil {
 			fmt.Println(err.Error())
-			return err.Error()
 		}
 
 		data = append(data, each)
@@ -220,7 +212,6 @@ func FemaleVoters() interface{} {
 
 	if err = rows.Err(); err != nil {
 		fmt.Println(err.Error())
-		return err.Error()
 	}
 
 	return data
