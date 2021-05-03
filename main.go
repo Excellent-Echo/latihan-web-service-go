@@ -181,6 +181,15 @@ func getPoliticianWithSumVoting(query string) (rowsPoliticianWithSumVoting []Pol
 	return
 }
 
+func handlerIndex(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("index.html")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	t.Execute(w, nil)
+}
+
 func handlerVoting(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("voting.html")
 	if err != nil {
@@ -192,6 +201,24 @@ func handlerVoting(w http.ResponseWriter, r *http.Request) {
 
 func handlerPolitician(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("politician.html")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	t.Execute(w, nil)
+}
+
+func handlerPoliticianVoting(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("politician-voting.html")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	t.Execute(w, nil)
+}
+
+func handlerPoliticianWithSumVoting(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("politician-with-sum_voting.html")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -266,14 +293,172 @@ func main() {
 	allVoting := getDataVoting("SELECT * FROM votings")
 	votingMale := getDataVoting("SELECT * FROM votings WHERE gender='male'")
 	votingFemale := getDataVoting("SELECT * FROM votings WHERE gender='female'")
+	allPoliticianVoting := getPoliticianVoting("select * from votings join politicians on votings.politician_id = politicians.politician_id")
+	politicianILWithSum := getPoliticianWithSumVoting("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN votings AS v ON p.politician_id = v.politician_id WHERE location = 'IL' GROUP BY p.politician_id;")
+	politicianNYWithSum := getPoliticianWithSumVoting("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN votings AS v ON p.politician_id = v.politician_id WHERE location = 'NY' GROUP BY p.politician_id;")
+	politicianTXWithSum := getPoliticianWithSumVoting("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN votings AS v ON p.politician_id = v.politician_id WHERE location = 'TX' GROUP BY p.politician_id;")
+	politicianLAWithSum := getPoliticianWithSumVoting("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN votings AS v ON p.politician_id = v.politician_id WHERE location = 'LA' GROUP BY p.politician_id;")
+	politicianWAWithSum := getPoliticianWithSumVoting("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN votings AS v ON p.politician_id = v.politician_id WHERE location = 'WA' GROUP BY p.politician_id;")
+	politicianFLWithSum := getPoliticianWithSumVoting("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN votings AS v ON p.politician_id = v.politician_id WHERE location = 'FL' GROUP BY p.politician_id;")
+	politicianHIWithSum := getPoliticianWithSumVoting("SELECT p.politician_id, p.name, p.party, p.location, p.grade_current, COUNT(v.politician_id) AS voting FROM politicians AS p JOIN votings AS v ON p.politician_id = v.politician_id WHERE location = 'HI' GROUP BY p.politician_id;")
 
+	http.HandleFunc("/", handlerIndex)
 	http.HandleFunc("/politicians", handlerPolitician)
-
 	http.HandleFunc("/votings", handlerVoting)
-
 	http.HandleFunc("/votings_male", handlerVoting)
-
 	http.HandleFunc("/votings_female", handlerVoting)
+	http.HandleFunc("/politicians_voting", handlerPoliticianVoting)
+	http.HandleFunc("/politician_il", handlerPoliticianWithSumVoting)
+	http.HandleFunc("/politician_ny", handlerPoliticianWithSumVoting)
+	http.HandleFunc("/politician_tx", handlerPoliticianWithSumVoting)
+	http.HandleFunc("/politician_la", handlerPoliticianWithSumVoting)
+	http.HandleFunc("/politician_wa", handlerPoliticianWithSumVoting)
+	http.HandleFunc("/politician_fl", handlerPoliticianWithSumVoting)
+	http.HandleFunc("/politician_hi", handlerPoliticianWithSumVoting)
+
+	http.HandleFunc("/API/politician_il", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(politicianILWithSum)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/API/politician_ny", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(politicianNYWithSum)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/API/politician_tx", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(politicianTXWithSum)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/API/politician_la", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(politicianLAWithSum)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/API/politician_wa", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(politicianWAWithSum)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/API/politician_fl", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(politicianFLWithSum)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/API/politician_hi", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(politicianHIWithSum)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/API/politician_voting", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(allPoliticianVoting)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
 
 	http.HandleFunc("/API/politician", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-type", "application/json")

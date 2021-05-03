@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voting</title>
+    <title>Voting Politician</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
@@ -28,15 +28,10 @@
     <div class="container">
         <div class="row mt-3">
             <div class="col text-center">
-                <h1>Voting</h1>
+                <h1>Politician Voting</h1>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col">
-                <a class="btn btn-primary" href="/votings_male">Male</a>
-                <a class="btn btn-primary" href="/votings_female">Female</a>
-            </div>
-        </div>
+
         <div class="row mt-3">
             <div class="col card p-3">
                 <table class="table table-striped">
@@ -44,10 +39,14 @@
                         <tr>
                             <th>No</th>
                             <th>Voter ID</th>
-                            <th>Politician ID</th>
                             <th>Name</th>
                             <th>Gender</th>
                             <th>Age</th>
+                            <th>Politician ID</th>
+                            <th>Politician Name</th>
+                            <th>Party</th>
+                            <th>Location</th>
+                            <th>Grade Current</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,29 +58,26 @@
     </div>
 
     <script>
-        const url = window.location.href;
-        let param ='';
-        if(url.toString().includes('female')){
-            param = '_female';
-        }else{
-            param = '_male'
-        }
-        const votingAPI = 'http://' + window.location.host.toString() + '/API/voting' + param;
+        const politicianVotingAPI = 'http://' + window.location.host.toString() + '/API/politician_voting';
         let row = '';
         let no = 1;
-        fetch(votingAPI)
+        fetch(politicianVotingAPI)
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                data.forEach(v =>{
+                data.forEach(pv =>{
                     row += `
                         <tr>
                             <td>${no++}</td>
-                            <td>${v.voter_id}</td>
-                            <td>${v.policitian_id}</td>
-                            <td>${v.first_name} ${v.last_name}</td>
-                            <td>${v.gender}</td>
-                            <td>${v.age}</td>
+                            <td>${pv.Voter_id}</td>
+                            <td>${pv.First_name} ${pv.Last_name}</td>
+                            <td>${pv.Gender}</td>
+                            <td>${pv.Age}</td>
+                            <td>${pv.Politician_id}</td>
+                            <td>${pv.Name}</td>
+                            <td>${pv.Party}</td>
+                            <td>${pv.Location}</td>
+                            <td>${pv.Grade_current}</td>
                         </tr>
                     `;
                 })

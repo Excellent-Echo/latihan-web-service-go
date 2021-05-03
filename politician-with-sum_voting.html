@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voting</title>
+    <title>Politician</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
@@ -28,26 +28,34 @@
     <div class="container">
         <div class="row mt-3">
             <div class="col text-center">
-                <h1>Voting</h1>
+                <h1>Politicians</h1>
             </div>
         </div>
+
         <div class="row mt-3">
             <div class="col">
-                <a class="btn btn-primary" href="/votings_male">Male</a>
-                <a class="btn btn-primary" href="/votings_female">Female</a>
+                <a class="btn btn-primary px-3" href="/politician_ny">NY</a>
+                <a class="btn btn-primary px-3" href="/politician_il">IL</a>
+                <a class="btn btn-primary px-3" href="/politician_tx">TX</a>
+                <a class="btn btn-primary px-3" href="/politician_la">LA</a>
+                <a class="btn btn-primary px-3" href="/politician_wa">WA</a>
+                <a class="btn btn-primary px-3" href="/politician_fl">FL</a>
+                <a class="btn btn-primary px-3" href="/politician_hi">HI</a>
             </div>
         </div>
+
         <div class="row mt-3">
             <div class="col card p-3">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Voter ID</th>
                             <th>Politician ID</th>
                             <th>Name</th>
-                            <th>Gender</th>
-                            <th>Age</th>
+                            <th>Party</th>
+                            <th>Location</th>
+                            <th>Grade Current</th>
+                            <th>Vote</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,29 +67,27 @@
     </div>
 
     <script>
-        const url = window.location.href;
-        let param ='';
-        if(url.toString().includes('female')){
-            param = '_female';
-        }else{
-            param = '_male'
-        }
-        const votingAPI = 'http://' + window.location.host.toString() + '/API/voting' + param;
+        let url = window.location.pathname.toString();
+        let loc = url[url.length -2] + url[url.length -1];
+
+        const politicianAPI = 'http://' + window.location.host.toString() + '/API/politician_' + loc;
+
         let row = '';
         let no = 1;
-        fetch(votingAPI)
+        fetch(politicianAPI)
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                data.forEach(v =>{
+                data.forEach(p =>{
                     row += `
                         <tr>
                             <td>${no++}</td>
-                            <td>${v.voter_id}</td>
-                            <td>${v.policitian_id}</td>
-                            <td>${v.first_name} ${v.last_name}</td>
-                            <td>${v.gender}</td>
-                            <td>${v.age}</td>
+                            <td>${p.Politician_id}</td>
+                            <td>${p.Name}</td>
+                            <td>${p.Party}</td>
+                            <td>${p.Location}</td>
+                            <td>${p.Grade_current}</td>
+                            <td>${p.Voting}</td>
                         </tr>
                     `;
                 })
