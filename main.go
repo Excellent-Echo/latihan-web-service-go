@@ -1,8 +1,9 @@
 package main
 
 import (
-	"latihan-web-service-go/routing"
+	"fmt"
 	"latihan-web-service-go/webserver"
+	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -10,6 +11,13 @@ import (
 func main() {
 	// helper.Candidate()
 	// helper.Voter()
-	routing.Routing()
-	webserver.WebServer()
+	// routing.Routing()
+	// webserver.WebServer()
+	http.HandleFunc("/", webserver.RootHandler)
+	http.HandleFunc("/votings", webserver.AllVotingHandler)
+
+	port := "localhost:8080"
+	fmt.Println("running on port", port)
+
+	http.ListenAndServe(port, nil)
 }

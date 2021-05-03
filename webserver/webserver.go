@@ -1,46 +1,56 @@
 package webserver
 
 import (
-	"fmt"
 	"html/template"
 	"latihan-web-service-go/helper"
 	"net/http"
+	"path"
 )
 
 type Voting struct {
-	VoterID      int    `json:"voter_id"`
-	PoliticianID int    `json:"policitian_id"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	Gender       string `json:"gender"`
-	Age          int    `json:"age"`
+	VoterID      int
+	PoliticianID int
+	FirstName    string
+	LastName     string
+	Gender       string
+	Age          int
 }
 
-type Votes []Voting
+func RootHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		// kembalikan error
+		http.Error(w, "404 error page not found", http.StatusNotFound)
+		return
+	}
 
-func votingsView() {
-	http.HandleFunc("/votings", func(w http.ResponseWriter, r *http.Request) {
-		data := helper.AllVoters()
+	tmpl, err := template.ParseFiles(path.Join("views", "root.html"), path.Join("views", "layout.html"))
+	// w.Write([]byte("ini adalah root route"))
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
 
-		for _, val := range data {
-			fmt.Println(val)
-		}
+	tmpl.Execute(w, nil)
 
-		var t, err = template.ParseFiles("webserver/template.html")
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		t.Execute(w, data)
-	})
-	port := "localhost:8080"
-
-	fmt.Println("starting web server at http://localhost:8080/")
-	http.ListenAndServe(port, nil)
 }
 
-func WebServer() {
-	votingsView()
+func AllVotingHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.AllVoters()
 
+	// var list []Voting
+
+	// for _, val := range data {
+	// 	list = []Voting{
+	// 		{val.VoterID, val.PoliticianID, val.FirstName, val.LastName, val.Gender, val.Age},
+	// 	}
+	// }
+
+	tmpl, err := template.ParseFiles(path.Join("views", "votings.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
 }
