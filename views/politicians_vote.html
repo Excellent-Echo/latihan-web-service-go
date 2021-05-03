@@ -1,0 +1,29 @@
+{{ template "layout" . }}
+
+{{ define "main" }}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Politician ID</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Age</th>
+      <th scope="col">Total Votes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range . }}
+    <tr>
+      <th scope="row">{{ .PoliticianID }}</th>
+      <td>{{ .Name }}</td>
+      <td>{{ .Party }}</td>
+      <td>{{ .Location }}</td>
+      <td>{{ .GradeCurrent }}</td>
+      <td>{{ .TotalVotes }}</td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>
+
+{{ end }}

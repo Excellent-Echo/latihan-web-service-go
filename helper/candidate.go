@@ -101,14 +101,14 @@ func AllPoliticianWithVoteQuery() PoliticiansWithVote {
 		fmt.Println(err.Error())
 	}
 
-	for _, each := range p {
-		fmt.Println("Politician ID:", each.PoliticianID)
-		fmt.Println("Name:", each.Name)
-		fmt.Println("Party:", each.Party)
-		fmt.Println("Location:", each.Location)
-		fmt.Println("Grade Current:", each.GradeCurrent)
-		fmt.Println("Total Votes:", each.TotalVotes)
-	}
+	// for _, each := range p {
+	// 	fmt.Println("Politician ID:", each.PoliticianID)
+	// 	fmt.Println("Name:", each.Name)
+	// 	fmt.Println("Party:", each.Party)
+	// 	fmt.Println("Location:", each.Location)
+	// 	fmt.Println("Grade Current:", each.GradeCurrent)
+	// 	fmt.Println("Total Votes:", each.TotalVotes)
+	// }
 
 	return p
 }
