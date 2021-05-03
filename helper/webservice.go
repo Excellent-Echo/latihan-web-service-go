@@ -7,14 +7,14 @@ import (
 )
 
 func WebService() {
-
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var data = map[string]string{
 			"nama":  "Muhamad Aziz",
 			"pesan": "Selamat datang di web service go",
 		}
 
-		t, err := template.ParseFiles("helper/template.html")
+		fmt.Println(data)
+		t, err := template.ParseFiles("html/template.html")
 
 		if err != nil {
 			fmt.Println(err.Error())

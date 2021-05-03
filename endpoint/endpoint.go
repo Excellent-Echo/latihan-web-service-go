@@ -3,6 +3,7 @@ package endpoint
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"latihan-web-service-go/helper"
 	"net/http"
 )
@@ -25,6 +26,12 @@ func Endpoint() {
 	// Endpoint untuk menampilkan semua data voting
 	http.HandleFunc("/votings", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
+		t, err := template.ParseFiles("html/template.html")
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		t.Execute(w, dataVoters)
 		if r.Method == "GET" {
 			result, err := json.Marshal(dataVoters)
 			if err != nil {

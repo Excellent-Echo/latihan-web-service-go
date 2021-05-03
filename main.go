@@ -6,4 +6,5 @@ func main() {
 	//helper.Politicians()
 	//helper.Voter()
 	endpoint.Endpoint()
+	//helper.WebService()
 }
