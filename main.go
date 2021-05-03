@@ -12,7 +12,6 @@ func main() {
 	// helper.Candidate()
 	// helper.Voter()
 	// routing.Routing()
-	// webserver.WebServer()
 	http.HandleFunc("/", webserver.RootHandler)
 	http.HandleFunc("/votings", webserver.AllVotingHandler)
 	http.HandleFunc("/votings_male", webserver.MaleVotingHandler)

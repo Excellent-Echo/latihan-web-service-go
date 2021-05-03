@@ -17,16 +17,16 @@ type Voting struct {
 }
 
 type Politician struct {
-	PoliticianID int     `json:"politician_id"`
-	Name         string  `json:"name"`
-	Party        string  `json:"party"`
-	Location     string  `json:"location"`
-	GradeCurrent float32 `json:"grade_current"`
+	PoliticianID int
+	Name         string
+	Party        string
+	Location     string
+	GradeCurrent float32
 }
 
 type PoliticianWithTotalVotes struct {
 	Politician
-	TotalVotes int `json:"total_votes"`
+	TotalVotes int
 }
 
 func RootHandler(w http.ResponseWriter, r *http.Request) {
