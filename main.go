@@ -26,7 +26,7 @@ type Data struct {
 }
 
 func main() {
-	jsonFile, err := os.Open("politicians.json")
+	jsonFile, err := os.Open("dataJson/politicians.json")
 
 	if err != nil {
 		fmt.Println(err.Error())
