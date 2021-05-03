@@ -66,7 +66,7 @@ func showVotingbyGender() (dataVote []Voting) {
 
 }
 
-func showPoliticianTop() (dataPolitician []Politician) {
+func showPoliticianTopbyLocation() (dataPolitician []Politician) {
 	db, err := connect()
 
 	if err != nil {
@@ -78,6 +78,43 @@ func showPoliticianTop() (dataPolitician []Politician) {
 	defer db.Close()
 
 	data, err := db.Query("select * from politicians where location='NY' ORDER BY grade_current LIMIT 1")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for data.Next() {
+
+		var dat Politician
+
+		if data.Scan(
+			&dat.PoliticianID,
+			&dat.NamePolitician,
+			&dat.Party,
+			&dat.Location,
+			&dat.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPolitician = append(dataPolitician, dat)
+	}
+	return
+
+}
+
+func showPoliticianTop() (dataPolitician []Politician) {
+	db, err := connect()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println("success get db")
+
+	defer db.Close()
+
+	data, err := db.Query("select * from politicians ORDER BY grade_current LIMIT 3")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -127,9 +164,19 @@ func main() {
 		fmt.Println(data.Age)
 	}
 
-	datasPol := showPoliticianTop()
+	datasPolLocation := showPoliticianTopbyLocation()
 
-	for _, data := range datasPol {
+	for _, data := range datasPolLocation {
+		fmt.Println(data.PoliticianID)
+		fmt.Println(data.NamePolitician)
+		fmt.Println(data.Party)
+		fmt.Println(data.Location)
+		fmt.Println(data.GradeCurrent)
+	}
+
+	datasPolTop := showPoliticianTop()
+
+	for _, data := range datasPolTop {
 		fmt.Println(data.PoliticianID)
 		fmt.Println(data.NamePolitician)
 		fmt.Println(data.Party)
