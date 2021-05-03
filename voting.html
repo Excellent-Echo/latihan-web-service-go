@@ -20,7 +20,13 @@
                 <h1>Voting</h1>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
+            <div class="col">
+                <a class="btn btn-primary" href="/votings_male">Male</a>
+                <a class="btn btn-primary" href="/votings_female">Female</a>
+            </div>
+        </div>
+        <div class="row mt-3">
             <div class="col card p-3">
                 <table class="table table-striped">
                     <thead>
@@ -42,7 +48,14 @@
     </div>
 
     <script>
-        const politicianAPI = 'http://' + window.location.host.toString() + '/API/voting';
+        const url = window.location.href;
+        let param ='';
+        if(url.toString().includes('female')){
+            param = '_female';
+        }else{
+            param = '_male'
+        }
+        const politicianAPI = 'http://' + window.location.host.toString() + '/API/voting' + param;
         let row = '';
         let no = 1;
         fetch(politicianAPI)

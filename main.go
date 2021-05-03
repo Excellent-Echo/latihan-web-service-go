@@ -181,6 +181,24 @@ func getPoliticianWithSumVoting(query string) (rowsPoliticianWithSumVoting []Pol
 	return
 }
 
+func handlerVoting(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("voting.html")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	t.Execute(w, nil)
+}
+
+func handlerPolitician(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("politician.html")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	t.Execute(w, nil)
+}
+
 func main() {
 	//REALESE 1 : IMPORT JSON & INSERT TO DATABASE
 
@@ -246,24 +264,16 @@ func main() {
 	//RELEASE 3
 	allPolitician := getDataPolitician("SELECT * FROM politicians")
 	allVoting := getDataVoting("SELECT * FROM votings")
+	votingMale := getDataVoting("SELECT * FROM votings WHERE gender='male'")
+	votingFemale := getDataVoting("SELECT * FROM votings WHERE gender='female'")
 
-	http.HandleFunc("/politician", func(w http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("politician.html")
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-		t.Execute(w, nil)
-	})
+	http.HandleFunc("/politicians", handlerPolitician)
 
-	http.HandleFunc("/voting", func(w http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("voting.html")
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-		t.Execute(w, nil)
-	})
+	http.HandleFunc("/votings", handlerVoting)
+
+	http.HandleFunc("/votings_male", handlerVoting)
+
+	http.HandleFunc("/votings_female", handlerVoting)
 
 	http.HandleFunc("/API/politician", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-type", "application/json")
@@ -288,6 +298,42 @@ func main() {
 
 		if r.Method == "GET" {
 			byteJson, err := json.Marshal(allVoting)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/API/voting_male", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(votingMale)
+
+			if err != nil {
+				http.Error(w, "error internal server", http.StatusInternalServerError)
+				return
+			}
+
+			w.Write(byteJson)
+			return
+		}
+
+		http.Error(w, "error not method GET", http.StatusInternalServerError)
+	})
+
+	http.HandleFunc("/API/voting_female", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-type", "application/json")
+
+		if r.Method == "GET" {
+			byteJson, err := json.Marshal(votingFemale)
 
 			if err != nil {
 				http.Error(w, "error internal server", http.StatusInternalServerError)
