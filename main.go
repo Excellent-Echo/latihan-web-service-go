@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"latihan-web-service-go/Data"
 	"net/http"
+	"path"
 )
 
 func main() {
@@ -14,12 +15,12 @@ func main() {
 
 	//Route Votings
 	http.HandleFunc("/votings", func(rw http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles("View/ViewVoting.html")
+		t, err := template.ParseFiles(path.Join("View", "ViewVoting.html"), path.Join("View", "Layout.html"))
 
 		datas := Data.GetDataVoters()
 
 		if err != nil {
-			fmt.Println(err.Error())
+			http.Error(rw, "error rendering html", http.StatusInternalServerError)
 			return
 		}
 
