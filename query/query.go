@@ -125,6 +125,118 @@ func insertVoting(file string) {
 
 }
 
+func showVotingbyGender() (dataVote []Voting) {
+	db, err := connect()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println("success get db")
+
+	defer db.Close()
+
+	data, err := db.Query("select * from voting where gender='male' and first_name like 'B%'")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for data.Next() {
+
+		var dat Voting
+
+		if data.Scan(
+			&dat.VotingID,
+			&dat.PoliticianID,
+			&dat.FirstName,
+			&dat.LastName,
+			&dat.Gender,
+			&dat.Age); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataVote = append(dataVote, dat)
+	}
+	return
+
+}
+
+func showPoliticianTopbyLocation() (dataPolitician []Politician) {
+	db, err := connect()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println("success get db")
+
+	defer db.Close()
+
+	data, err := db.Query("select * from politicians where location='NY' ORDER BY grade_current LIMIT 1")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for data.Next() {
+
+		var dat Politician
+
+		if data.Scan(
+			&dat.PoliticianID,
+			&dat.NamePolitician,
+			&dat.Party,
+			&dat.Location,
+			&dat.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPolitician = append(dataPolitician, dat)
+	}
+	return
+
+}
+
+func showPoliticianTop() (dataPolitician []Politician) {
+	db, err := connect()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println("success get db")
+
+	defer db.Close()
+
+	data, err := db.Query("select * from politicians ORDER BY grade_current LIMIT 3")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for data.Next() {
+
+		var dat Politician
+
+		if data.Scan(
+			&dat.PoliticianID,
+			&dat.NamePolitician,
+			&dat.Party,
+			&dat.Location,
+			&dat.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPolitician = append(dataPolitician, dat)
+	}
+	return
+
+}
+
 func connect() (*sql.DB, error) {
 
 	// "username-mysql:password-mysql@tcp()/nama-database"
