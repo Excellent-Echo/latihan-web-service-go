@@ -28,7 +28,7 @@ type Voting struct {
 
 type VotingData []Voting
 
-func showVoting() (dataVote []Voting) {
+func showVotingbyGender() (dataVote []Voting) {
 	db, err := connect()
 
 	if err != nil {
@@ -66,6 +66,43 @@ func showVoting() (dataVote []Voting) {
 
 }
 
+func showPoliticianTop() (dataPolitician []Politician) {
+	db, err := connect()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println("success get db")
+
+	defer db.Close()
+
+	data, err := db.Query("select * from politicians where location='NY' ORDER BY grade_current LIMIT 1")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for data.Next() {
+
+		var dat Politician
+
+		if data.Scan(
+			&dat.PoliticianID,
+			&dat.NamePolitician,
+			&dat.Party,
+			&dat.Location,
+			&dat.GradeCurrent); err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		dataPolitician = append(dataPolitician, dat)
+	}
+	return
+
+}
+
 func connect() (*sql.DB, error) {
 
 	// "username-mysql:password-mysql@tcp()/nama-database"
@@ -79,7 +116,7 @@ func connect() (*sql.DB, error) {
 
 func main() {
 	// getPoliticians()
-	datas := showVoting()
+	datas := showVotingbyGender()
 
 	for _, data := range datas {
 		fmt.Println(data.VotingID)
@@ -88,6 +125,16 @@ func main() {
 		fmt.Println(data.LastName)
 		fmt.Println(data.Gender)
 		fmt.Println(data.Age)
+	}
+
+	datasPol := showPoliticianTop()
+
+	for _, data := range datasPol {
+		fmt.Println(data.PoliticianID)
+		fmt.Println(data.NamePolitician)
+		fmt.Println(data.Party)
+		fmt.Println(data.Location)
+		fmt.Println(data.GradeCurrent)
 	}
 
 }
