@@ -1,0 +1,29 @@
+{{ template "layout" .}}
+
+{{ define "utama" }}
+<div class="container">
+    <table class="table">
+        <thead class="table-primary">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Party</th>
+            <th scope="col">Location</th>
+            <th scope="col">Grade Current</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ range . }}
+        <tr>
+            <th scope="row">{{ .PoliticianId }}</th>
+            <td>{{ .Name }}</td>
+            <td>{{ .Party }}</td>
+            <td>{{ .Location }}</td>
+            <td>{{ .GradeCurrent }}</td>
+        </tr>
+        {{ end }}
+        </tbody>
+    </table>
+</div>
+
+{{ end }}
