@@ -38,18 +38,9 @@ func PoliticianData() (Politicians, error) {
 		return Politicians{}, err
 	}
 	return politiciansData, nil
-
-	//for _, data := range politiciansData {
-	//	fmt.Println(data.PoliticianId)
-	//	fmt.Println(data.Name)
-	//	fmt.Println(data.Party)
-	//	fmt.Println(data.Location)
-	//	fmt.Println(data.GradeCurrent)
-	//}
 }
 
-//goland:noinspection ALL
-func SqlQuery(politiciansData Politicians)  {
+func SqlQueryPoliticians(politiciansData Politicians)  {
 	db, err := config.ConnectDB()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -62,8 +53,13 @@ func SqlQuery(politiciansData Politicians)  {
 	}(db)
 
 	for _, data := range politiciansData {
-		_, err = db.Exec("INSERT INTO politicians VALUES (?, ?, ?, ?, ?)",
-			data.PoliticianId, data.Name, data.Party, data.Location, data.GradeCurrent)
+		_, err = db.Exec("INSERT INTO politicians " +
+			"VALUES (?, ?, ?, ?, ?)",
+			data.PoliticianId,
+			data.Name,
+			data.Party,
+			data.Location,
+			data.GradeCurrent)
 		if err != nil {
 			fmt.Println(err.Error())
 			return

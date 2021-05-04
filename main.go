@@ -6,14 +6,17 @@ import (
 )
 
 func main() {
-
-
-	//entity.VoterData()
-
 	// insert politicians.json into DB
 	politicians, err := entity.PoliticianData()
 	if err != nil {
 		fmt.Println("Error inserting into DB")
 	}
-	entity.SqlQuery(politicians)
+	entity.SqlQueryPoliticians(politicians)
+
+	// insert voting.json into DB
+	votings, err := entity.VoterData()
+	if err != nil {
+		fmt.Println("Error inserting into DB")
+	}
+	entity.SqlQueryVoters(votings)
 }
