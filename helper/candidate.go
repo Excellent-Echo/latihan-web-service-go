@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"latihan-web-service-go/connect"
+	"latihan-web-service-go/entity"
 	"os"
 )
 
@@ -25,8 +26,8 @@ type PoliticianWithTotalVotes struct {
 
 type PoliticiansWithVote []PoliticianWithTotalVotes
 
-func decodePoliticianData(file string) Politicians {
-	var politicians Politicians
+func decodePoliticianData(file string) entity.Politicians {
+	var politicians entity.Politicians
 
 	jsonFile, err := os.Open(file)
 	if err != nil {
@@ -44,7 +45,7 @@ func decodePoliticianData(file string) Politicians {
 	return politicians
 }
 
-func insertPoliticianDataToDb(p Politicians) {
+func insertPoliticianDataToDb(p entity.Politicians) {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -63,7 +64,7 @@ func insertPoliticianDataToDb(p Politicians) {
 }
 
 // query for end point /politicians_voting
-func AllPoliticianWithVoteQuery() PoliticiansWithVote {
+func AllPoliticianWithVoteQuery() entity.PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -83,10 +84,10 @@ func AllPoliticianWithVoteQuery() PoliticiansWithVote {
 	}
 	defer rows.Close()
 
-	var p []PoliticianWithTotalVotes
+	var p []entity.PoliticianWithTotalVotes
 
 	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
+		var each = entity.PoliticianWithTotalVotes{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {
@@ -114,7 +115,7 @@ func AllPoliticianWithVoteQuery() PoliticiansWithVote {
 }
 
 // query for end point /politicians
-func AllPoliticianDataQuery() Politicians {
+func AllPoliticianDataQuery() entity.Politicians {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -130,10 +131,10 @@ func AllPoliticianDataQuery() Politicians {
 	}
 	defer rows.Close()
 
-	var data []Politician
+	var data []entity.Politician
 
 	for rows.Next() {
-		var each = Politician{}
+		var each = entity.Politician{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent)
 
 		if err != nil {
@@ -152,14 +153,14 @@ func AllPoliticianDataQuery() Politicians {
 }
 
 // query for end point /politicians_il
-func ILPoliticians() PoliticiansWithVote {
+func ILPoliticians() entity.PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	var data []PoliticianWithTotalVotes
+	var data []entity.PoliticianWithTotalVotes
 
 	loc := `'IL'`
 
@@ -178,7 +179,7 @@ func ILPoliticians() PoliticiansWithVote {
 	defer rows.Close()
 
 	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
+		var each = entity.PoliticianWithTotalVotes{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {
@@ -196,14 +197,14 @@ func ILPoliticians() PoliticiansWithVote {
 }
 
 // query for end point /politicians_ny
-func NYPoliticians() PoliticiansWithVote {
+func NYPoliticians() entity.PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	var data []PoliticianWithTotalVotes
+	var data []entity.PoliticianWithTotalVotes
 
 	loc := `'NY'`
 
@@ -222,7 +223,7 @@ func NYPoliticians() PoliticiansWithVote {
 	defer rows.Close()
 
 	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
+		var each = entity.PoliticianWithTotalVotes{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {
@@ -240,14 +241,14 @@ func NYPoliticians() PoliticiansWithVote {
 }
 
 // query for end point /politicians_tx
-func TXPoliticians() PoliticiansWithVote {
+func TXPoliticians() entity.PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	var data []PoliticianWithTotalVotes
+	var data []entity.PoliticianWithTotalVotes
 
 	loc := `'TX'`
 
@@ -266,7 +267,7 @@ func TXPoliticians() PoliticiansWithVote {
 	defer rows.Close()
 
 	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
+		var each = entity.PoliticianWithTotalVotes{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {
@@ -284,14 +285,14 @@ func TXPoliticians() PoliticiansWithVote {
 }
 
 // query for end point /politicians_la
-func LAPoliticians() PoliticiansWithVote {
+func LAPoliticians() entity.PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	var data []PoliticianWithTotalVotes
+	var data []entity.PoliticianWithTotalVotes
 
 	loc := `'LA'`
 
@@ -310,7 +311,7 @@ func LAPoliticians() PoliticiansWithVote {
 	defer rows.Close()
 
 	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
+		var each = entity.PoliticianWithTotalVotes{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {
@@ -328,14 +329,14 @@ func LAPoliticians() PoliticiansWithVote {
 }
 
 // query for end point /politicians_wa
-func WAPoliticians() PoliticiansWithVote {
+func WAPoliticians() entity.PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	var data []PoliticianWithTotalVotes
+	var data []entity.PoliticianWithTotalVotes
 
 	loc := `'WA'`
 
@@ -354,7 +355,7 @@ func WAPoliticians() PoliticiansWithVote {
 	defer rows.Close()
 
 	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
+		var each = entity.PoliticianWithTotalVotes{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {
@@ -372,14 +373,14 @@ func WAPoliticians() PoliticiansWithVote {
 }
 
 // query for end point /politicians_fl
-func FLPoliticians() PoliticiansWithVote {
+func FLPoliticians() entity.PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	var data []PoliticianWithTotalVotes
+	var data []entity.PoliticianWithTotalVotes
 
 	loc := `'FL'`
 
@@ -398,7 +399,7 @@ func FLPoliticians() PoliticiansWithVote {
 	defer rows.Close()
 
 	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
+		var each = entity.PoliticianWithTotalVotes{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {
@@ -416,14 +417,14 @@ func FLPoliticians() PoliticiansWithVote {
 }
 
 // query for end point /politicians_hi
-func HIPoliticians() PoliticiansWithVote {
+func HIPoliticians() entity.PoliticiansWithVote {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 
-	var data []PoliticianWithTotalVotes
+	var data []entity.PoliticianWithTotalVotes
 
 	loc := `'HI'`
 
@@ -442,7 +443,7 @@ func HIPoliticians() PoliticiansWithVote {
 	defer rows.Close()
 
 	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
+		var each = entity.PoliticianWithTotalVotes{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {
@@ -482,10 +483,10 @@ func popularPoliticianNYQuery() {
 	}
 	defer rows.Close()
 
-	var p []PoliticianWithTotalVotes
+	var p []entity.PoliticianWithTotalVotes
 
 	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
+		var each = entity.PoliticianWithTotalVotes{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {
@@ -534,10 +535,10 @@ func threePopularPoliticianQuery() {
 	}
 	defer rows.Close()
 
-	var p []PoliticianWithTotalVotes
+	var p []entity.PoliticianWithTotalVotes
 
 	for rows.Next() {
-		var each = PoliticianWithTotalVotes{}
+		var each = entity.PoliticianWithTotalVotes{}
 		var err = rows.Scan(&each.PoliticianID, &each.Name, &each.Party, &each.Location, &each.GradeCurrent, &each.TotalVotes)
 
 		if err != nil {

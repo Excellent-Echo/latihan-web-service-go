@@ -7,28 +7,6 @@ import (
 	"path"
 )
 
-type Voting struct {
-	VoterID      int
-	PoliticianID int
-	FirstName    string
-	LastName     string
-	Gender       string
-	Age          int
-}
-
-type Politician struct {
-	PoliticianID int
-	Name         string
-	Party        string
-	Location     string
-	GradeCurrent float32
-}
-
-type PoliticianWithTotalVotes struct {
-	Politician
-	TotalVotes int
-}
-
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		// kembalikan error
