@@ -11,6 +11,7 @@ func main() {
 	http.HandleFunc("/votingbymale", routing.ShowVotingbyMale)
 	http.HandleFunc("/votingbyfemale", routing.ShowVotingbyFemale)
 	http.HandleFunc("/politician", routing.ShowPolitician)
+	http.HandleFunc("/showpoliticianjoinvoting", routing.ShowPoliticianjoinVoting)
 
 	port := "localhost:3000"
 

@@ -6,6 +6,7 @@ type Politician struct {
 	Party          string  `json:"party"`
 	Location       string  `json:"location"`
 	GradeCurrent   float32 `json:"grade_current"`
+	ResVote        float32
 }
 
 type Politicians []Politician
