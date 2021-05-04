@@ -9,6 +9,7 @@ import (
 func main() {
 	http.HandleFunc("/voting", routing.ShowVoting)
 	http.HandleFunc("/votingbymale", routing.ShowVotingbyMale)
+	http.HandleFunc("/votingbyfemale", routing.ShowVotingbyFemale)
 
 	port := "localhost:3000"
 
