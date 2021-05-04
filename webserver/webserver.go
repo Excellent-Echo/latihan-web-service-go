@@ -1,0 +1,205 @@
+package webserver
+
+import (
+	"fmt"
+	"html/template"
+	"latihan-web-service-go/helper"
+	"net/http"
+	"path"
+)
+
+func RootHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		// kembalikan error
+		http.Error(w, "404 error page not found", http.StatusNotFound)
+		return
+	}
+
+	tmpl, err := template.ParseFiles(path.Join("views", "root.html"), path.Join("views", "layout.html"))
+	// w.Write([]byte("ini adalah root route"))
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, nil)
+
+}
+
+func AllVotingHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.AllVoters()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "votings.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func MaleVotingHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.MaleVoters()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "votings.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func FemaleVotingHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.FemaleVoters()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "votings.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func AllPoliticianHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.AllPoliticianDataQuery()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "politicians.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func AllPoliticianWithVoteHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.AllPoliticianWithVoteQuery()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "politicians_vote.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func ILPoliticiansHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.ILPoliticians()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "politicians_vote.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func NYPoliticiansHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.NYPoliticians()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "politicians_vote.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func TXPoliticiansHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.TXPoliticians()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "politicians_vote.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func LAPoliticiansHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.LAPoliticians()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "politicians_vote.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func WAPoliticiansHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.WAPoliticians()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "politicians_vote.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func FLPoliticiansHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.FLPoliticians()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "politicians_vote.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func HIPoliticiansHandler(w http.ResponseWriter, r *http.Request) {
+	data := helper.HIPoliticians()
+
+	tmpl, err := template.ParseFiles(path.Join("views", "politicians_vote.html"), path.Join("views", "layout.html"))
+
+	if err != nil {
+		http.Error(w, "error rendering html", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func WebService() {
+	http.HandleFunc("/", RootHandler)
+	http.HandleFunc("/votings", AllVotingHandler)
+	http.HandleFunc("/votings_male", MaleVotingHandler)
+	http.HandleFunc("/votings_female", FemaleVotingHandler)
+	http.HandleFunc("/politicians", AllPoliticianHandler)
+	http.HandleFunc("/politicians_voting", AllPoliticianWithVoteHandler)
+	http.HandleFunc("/politicians_il", ILPoliticiansHandler)
+	http.HandleFunc("/politicians_ny", NYPoliticiansHandler)
+	http.HandleFunc("/politicians_tx", TXPoliticiansHandler)
+	http.HandleFunc("/politicians_la", LAPoliticiansHandler)
+	http.HandleFunc("/politicians_wa", WAPoliticiansHandler)
+	http.HandleFunc("/politicians_fl", FLPoliticiansHandler)
+	http.HandleFunc("/politicians_hi", HIPoliticiansHandler)
+
+	port := "localhost:8080"
+	fmt.Println("running on port", port)
+
+	http.ListenAndServe(port, nil)
+
+}
