@@ -20,8 +20,8 @@
 ## release 3
 - Buatlah sebuah routing dengan output berupa API JSON , penjelasan sebagai berikut :
 1. GET "/votings" , untuk menampilkan semua data voting 
-2. GET "/votings_male" , untuk menampilkan semua data voting 
-3. GET "/votings_female" , untuk menampilkan semua data voting 
+2. GET "/votings_male" , untuk menampilkan semua data voting gender male
+3. GET "/votings_female" , untuk menampilkan semua data voting gender female
 4. GET "/politicians" , untuk menampilkan semua data politicians 
 5. GET "/politicians_voting" , untuk menampilkan semua data politician beserta voting. 
 6. GET "/politicians_il" , untuk menampilkan semua politician di location IL beserta votingnya
