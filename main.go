@@ -1,8 +1,18 @@
 package main
 
-import "latihan-web-service/Data/Politicians"
+import (
+	"fmt"
+	"latihan-web-service-go/entity"
+)
 
 func main() {
-	//Voting.VoterData()
-	Politicians.PoliticianData()
+
+
+	//entity.VoterData()
+	politicians, err := entity.PoliticianData()
+	if err != nil {
+		fmt.Println("eror")
+	}
+	//fmt.Println(politicians)
+	entity.SqlQuery(politicians)
 }

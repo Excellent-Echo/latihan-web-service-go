@@ -1,4 +1,4 @@
-package Voting
+package entity
 
 import (
 	"encoding/json"
@@ -18,7 +18,7 @@ type Voters []struct {
 
 func VoterData() {
 	var politiciansData Voters
-	jsonFile, err := os.Open("Data/Voting/voting.json")
+	jsonFile, err := os.Open("data/voting.json")
 	if err != nil{
 		fmt.Println(err.Error())
 		return
