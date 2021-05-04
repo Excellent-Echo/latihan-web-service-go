@@ -1,6 +1,7 @@
 package webserver
 
 import (
+	"fmt"
 	"html/template"
 	"latihan-web-service-go/helper"
 	"net/http"
@@ -179,4 +180,26 @@ func HIPoliticiansHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tmpl.Execute(w, data)
+}
+
+func WebService() {
+	http.HandleFunc("/", RootHandler)
+	http.HandleFunc("/votings", AllVotingHandler)
+	http.HandleFunc("/votings_male", MaleVotingHandler)
+	http.HandleFunc("/votings_female", FemaleVotingHandler)
+	http.HandleFunc("/politicians", AllPoliticianHandler)
+	http.HandleFunc("/politicians_voting", AllPoliticianWithVoteHandler)
+	http.HandleFunc("/politicians_il", ILPoliticiansHandler)
+	http.HandleFunc("/politicians_ny", NYPoliticiansHandler)
+	http.HandleFunc("/politicians_tx", TXPoliticiansHandler)
+	http.HandleFunc("/politicians_la", LAPoliticiansHandler)
+	http.HandleFunc("/politicians_wa", WAPoliticiansHandler)
+	http.HandleFunc("/politicians_fl", FLPoliticiansHandler)
+	http.HandleFunc("/politicians_hi", HIPoliticiansHandler)
+
+	port := "localhost:8080"
+	fmt.Println("running on port", port)
+
+	http.ListenAndServe(port, nil)
+
 }

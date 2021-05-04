@@ -5,22 +5,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"latihan-web-service-go/connect"
+	"latihan-web-service-go/entity"
 	"os"
 )
 
-type Voting struct {
-	VoterID      int    `json:"voter_id"`
-	PoliticianID int    `json:"policitian_id"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	Gender       string `json:"gender"`
-	Age          int    `json:"age"`
-}
-
-type Votes []Voting
-
-func decodeVotingData(file string) Votes {
-	var votes Votes
+func decodeVotingData(file string) entity.Votes {
+	var votes entity.Votes
 
 	jsonFile, err := os.Open(file)
 	if err != nil {
@@ -38,7 +28,7 @@ func decodeVotingData(file string) Votes {
 	return votes
 }
 
-func insertVotingDataToDb(v Votes) {
+func insertVotingDataToDb(v entity.Votes) {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -75,10 +65,10 @@ func voterMaleQuery() {
 	}
 	defer rows.Close()
 
-	var p []Voting
+	var p []entity.Voting
 
 	for rows.Next() {
-		var each = Voting{}
+		var each = entity.Voting{}
 		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
 
 		if err != nil {
@@ -105,7 +95,7 @@ func voterMaleQuery() {
 }
 
 // query for end point /votings
-func AllVoters() Votes {
+func AllVoters() entity.Votes {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -121,10 +111,10 @@ func AllVoters() Votes {
 	}
 	defer rows.Close()
 
-	var data []Voting
+	var data []entity.Voting
 
 	for rows.Next() {
-		var each = Voting{}
+		var each = entity.Voting{}
 		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
 
 		if err != nil {
@@ -142,7 +132,7 @@ func AllVoters() Votes {
 }
 
 // query for end point /votings_male
-func MaleVoters() Votes {
+func MaleVoters() entity.Votes {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -159,10 +149,10 @@ func MaleVoters() Votes {
 	}
 	defer rows.Close()
 
-	var data []Voting
+	var data []entity.Voting
 
 	for rows.Next() {
-		var each = Voting{}
+		var each = entity.Voting{}
 		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
 
 		if err != nil {
@@ -180,7 +170,7 @@ func MaleVoters() Votes {
 }
 
 // query for end point /votings_female
-func FemaleVoters() Votes {
+func FemaleVoters() entity.Votes {
 	db, err := connect.Connect()
 	if err != nil {
 		panic(err.Error())
@@ -197,10 +187,10 @@ func FemaleVoters() Votes {
 	}
 	defer rows.Close()
 
-	var data []Voting
+	var data []entity.Voting
 
 	for rows.Next() {
-		var each = Voting{}
+		var each = entity.Voting{}
 		var err = rows.Scan(&each.VoterID, &each.PoliticianID, &each.FirstName, &each.LastName, &each.Gender, &each.Age)
 
 		if err != nil {
