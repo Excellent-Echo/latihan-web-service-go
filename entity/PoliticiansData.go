@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -18,13 +19,18 @@ type Politicians []struct {
 
 func PoliticianData() (Politicians, error) {
 	var politiciansData Politicians
+
 	jsonFile, err := os.Open("data/politicians.json")
 	if err != nil {
 		return Politicians{}, err
 	}
-
 	fmt.Println("success get file politicians.json")
-	defer jsonFile.Close()
+	defer func(jsonFile *os.File) {
+		err := jsonFile.Close()
+		if err != nil {
+
+		}
+	}(jsonFile)
 
 	byteData, _ := ioutil.ReadAll(jsonFile)
 	err = json.Unmarshal(byteData, &politiciansData)
@@ -42,12 +48,18 @@ func PoliticianData() (Politicians, error) {
 	//}
 }
 
+//goland:noinspection ALL
 func SqlQuery(politiciansData Politicians)  {
 	db, err := config.ConnectDB()
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	defer db.Close()
+	defer func(db *sql.DB) {
+		err := db.Close()
+		if err != nil {
+
+		}
+	}(db)
 
 	for _, data := range politiciansData {
 		_, err = db.Exec("INSERT INTO politicians VALUES (?, ?, ?, ?, ?)",

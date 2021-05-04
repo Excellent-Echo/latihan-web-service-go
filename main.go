@@ -9,10 +9,11 @@ func main() {
 
 
 	//entity.VoterData()
+
+	// insert politicians.json into DB
 	politicians, err := entity.PoliticianData()
 	if err != nil {
-		fmt.Println("eror")
+		fmt.Println("Error inserting into DB")
 	}
-	//fmt.Println(politicians)
 	entity.SqlQuery(politicians)
 }
