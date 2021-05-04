@@ -1,0 +1,29 @@
+{{ template "layout" .}}
+
+{{ define "main"}}
+    <h2 style="text-align: center;">Table data Voting</h2>
+    <table class="table table-bordered table-hover container">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">voter_id</th>
+            <th scope="col">politician_id</th>
+            <th scope="col">first_name</th>
+            <th scope="col">last_name</th>
+            <th scope="col">gender</th>
+            <th scope="col">age</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{ range . }}
+          <tr>
+            <th scope="row">{{ .VoterId }}</th>
+            <td>{{ .PoliticianId }}</td>
+            <td>{{ .FirstName }}</td>
+            <td>{{ .LastName }}</td>
+            <td>{{ .Gender }}</td>
+            <td>{{ .Age }}</td>
+          </tr>
+        {{ end }}
+        </tbody>
+      </table>
+{{ end }}

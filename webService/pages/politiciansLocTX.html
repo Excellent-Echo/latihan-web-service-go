@@ -1,0 +1,30 @@
+{{ template "layout" .}}
+
+{{define "main"}}
+<h2 style="text-align: center;">Table data Politicians with votings by Locations TX</h2>
+<table class="table table-bordered table-hover container">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">politician_id</th>
+        <th scope="col">name</th>
+        <th scope="col">party</th>
+        <th scope="col">location</th>
+        <th scope="col">grade_current</th>
+        <th scope="col">voting</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{ range . }}
+      <tr>
+        <th scope="row">{{ .PoliticianId }}</th>
+        <td>{{ .Name }}</td>
+        <td>{{ .Party }}</td>
+        <td>{{ .Location }}</td>
+        <td>{{ .GradeCurrent }}</td>
+        <td>{{ .Voting }}</td>
+      </tr>
+    {{ end }}
+    </tbody>
+  </table>
+
+{{end}}
