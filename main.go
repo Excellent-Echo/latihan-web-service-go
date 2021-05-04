@@ -13,6 +13,12 @@ func main() {
 	http.HandleFunc("/politician", routing.ShowPolitician)
 	http.HandleFunc("/showpoliticianjoinvoting", routing.ShowPoliticianjoinVoting)
 	http.HandleFunc("/showpoliticianjoinvotingbyil", routing.ShowPoliticianjoinVotingbyLocationIL)
+	http.HandleFunc("/showpoliticianjoinvotingbyny", routing.ShowPoliticianjoinVotingbyLocationNY)
+	http.HandleFunc("/showpoliticianjoinvotingbytx", routing.ShowPoliticianjoinVotingbyLocationTX)
+	http.HandleFunc("/showpoliticianjoinvotingbyla", routing.ShowPoliticianjoinVotingbyLocationLA)
+	http.HandleFunc("/showpoliticianjoinvotingbywa", routing.ShowPoliticianjoinVotingbyLocationWA)
+	http.HandleFunc("/showpoliticianjoinvotingbyfl", routing.ShowPoliticianjoinVotingbyLocationFL)
+	http.HandleFunc("/showpoliticianjoinvotingbyhi", routing.ShowPoliticianjoinVotingbyLocationHI)
 
 	port := "localhost:3000"
 
