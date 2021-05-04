@@ -31,6 +31,7 @@ func ModelVoting() {
 	// fmt.Println("Data Voting JSON")
 	// for _, val := range voting {
 	// 	fmt.Println(val)
+	// }
 
 	db, err := Connect()
 	if err != nil {

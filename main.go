@@ -10,4 +10,7 @@ func main() {
 
 	WebService.Service()
 
+	// data := function.GetVotings()
+	// fmt.Println(data)
+
 }

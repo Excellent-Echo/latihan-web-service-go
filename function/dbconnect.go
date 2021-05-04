@@ -34,7 +34,7 @@ func Connect() (*sql.DB, error) {
 	return db, nil
 }
 
-func getPoliticians() {
+func GetPoliticians() (dataPoliticians []Politicians) {
 	db, err := Connect()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -42,7 +42,7 @@ func getPoliticians() {
 	}
 	defer db.Close()
 
-	var dataPoliticians []Politicians
+	// var dataPoliticians []Politicians
 
 	data, err := db.Query("SELECT * FROM politicians")
 
@@ -54,9 +54,10 @@ func getPoliticians() {
 		}
 		dataPoliticians = append(dataPoliticians, dat)
 	}
+	return
 }
 
-func GetVotings() (datavoting []Votings) {
+func GetVotings() (dataVotings []Votings) {
 	db, err := Connect()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -64,7 +65,7 @@ func GetVotings() (datavoting []Votings) {
 	}
 	defer db.Close()
 
-	var dataVotings []Votings
+	// var dataVotings []Votings
 
 	data, err := db.Query("SELECT * FROM voting")
 
@@ -76,5 +77,5 @@ func GetVotings() (datavoting []Votings) {
 		}
 		dataVotings = append(dataVotings, dat)
 	}
-	return dataVotings
+	return
 }
