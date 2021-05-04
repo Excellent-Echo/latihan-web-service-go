@@ -166,12 +166,12 @@ func PoliticILLocation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
-		result, err := json.Marshal(ilLocation)
+		//result, err := json.Marshal(ilLocation)
 		if err != nil {
 			http.Error(w, "error internal server", http.StatusInternalServerError)
 			return
 		}
-		w.Write(result)
+		//w.Write(result)
 		return
 	}
 	http.Error(w, "error not method GET", http.StatusBadRequest)
@@ -191,12 +191,12 @@ func PoliticNYLocation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
-		result, err := json.Marshal(nyLocation)
+		//result, err := json.Marshal(nyLocation)
 		if err != nil {
 			http.Error(w, "error internal server", http.StatusInternalServerError)
 			return
 		}
-		w.Write(result)
+		//w.Write(result)
 		return
 	}
 	http.Error(w, "error not method GET", http.StatusBadRequest)
@@ -216,12 +216,12 @@ func PoliticTXLocation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
-		result, err := json.Marshal(txLocation)
+		//result, err := json.Marshal(txLocation)
 		if err != nil {
 			http.Error(w, "error internal server", http.StatusInternalServerError)
 			return
 		}
-		w.Write(result)
+		//w.Write(result)
 		return
 	}
 	http.Error(w, "error not method GET", http.StatusBadRequest)
@@ -241,12 +241,12 @@ func PoliticLALocation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
-		result, err := json.Marshal(laLocation)
+		//result, err := json.Marshal(laLocation)
 		if err != nil {
 			http.Error(w, "error internal server", http.StatusInternalServerError)
 			return
 		}
-		w.Write(result)
+		//w.Write(result)
 		return
 	}
 	http.Error(w, "error not method GET", http.StatusBadRequest)
@@ -266,12 +266,12 @@ func PoliticWALocation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
-		result, err := json.Marshal(waLocation)
+		//result, err := json.Marshal(waLocation)
 		if err != nil {
 			http.Error(w, "error internal server", http.StatusInternalServerError)
 			return
 		}
-		w.Write(result)
+		//w.Write(result)
 		return
 	}
 	http.Error(w, "error not method GET", http.StatusBadRequest)
@@ -291,12 +291,12 @@ func PoliticFLLocation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
-		result, err := json.Marshal(flLocation)
+		//result, err := json.Marshal(flLocation)
 		if err != nil {
 			http.Error(w, "error internal server", http.StatusInternalServerError)
 			return
 		}
-		w.Write(result)
+		//w.Write(result)
 		return
 	}
 	http.Error(w, "error not method GET", http.StatusBadRequest)
@@ -316,12 +316,12 @@ func PoliticHILocation(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	if r.Method == "GET" {
-		result, err := json.Marshal(hiLocation)
+		//result, err := json.Marshal(hiLocation)
 		if err != nil {
 			http.Error(w, "error internal server", http.StatusInternalServerError)
 			return
 		}
-		w.Write(result)
+		//w.Write(result)
 		return
 	}
 	http.Error(w, "error not method GET", http.StatusBadRequest)
