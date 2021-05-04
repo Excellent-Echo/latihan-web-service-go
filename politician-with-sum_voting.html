@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politician</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-white">
+        <div class="container">
+            <a class="navbar-brand" href="/">Voting App</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link text-white" href="/politicians">Politician</a>
+                <a class="nav-item nav-link text-white" href="/votings">Voting</a>
+                <a class="nav-item nav-link text-white" href="/politicians_voting">Politician Voting</a>
+                <a class="nav-item nav-link text-white" href="/politician_il">Politician with sum voting</a>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col text-center">
+                <h1>Politicians</h1>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col">
+                <a class="btn btn-primary px-3" href="/politician_ny">NY</a>
+                <a class="btn btn-primary px-3" href="/politician_il">IL</a>
+                <a class="btn btn-primary px-3" href="/politician_tx">TX</a>
+                <a class="btn btn-primary px-3" href="/politician_la">LA</a>
+                <a class="btn btn-primary px-3" href="/politician_wa">WA</a>
+                <a class="btn btn-primary px-3" href="/politician_fl">FL</a>
+                <a class="btn btn-primary px-3" href="/politician_hi">HI</a>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col card p-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Politician ID</th>
+                            <th>Name</th>
+                            <th>Party</th>
+                            <th>Location</th>
+                            <th>Grade Current</th>
+                            <th>Vote</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let url = window.location.pathname.toString();
+        let loc = url[url.length -2] + url[url.length -1];
+
+        const politicianAPI = 'http://' + window.location.host.toString() + '/API/politician_' + loc;
+
+        let row = '';
+        let no = 1;
+        fetch(politicianAPI)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                data.forEach(p =>{
+                    row += `
+                        <tr>
+                            <td>${no++}</td>
+                            <td>${p.Politician_id}</td>
+                            <td>${p.Name}</td>
+                            <td>${p.Party}</td>
+                            <td>${p.Location}</td>
+                            <td>${p.Grade_current}</td>
+                            <td>${p.Voting}</td>
+                        </tr>
+                    `;
+                })
+
+                document.querySelector('tbody').innerHTML = row;
+            })
+            .catch(err=>console.error(err))
+
+        
+    </script>
+</body>
+</html>
