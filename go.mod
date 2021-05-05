@@ -1,4 +1,4 @@
-module latihan-web-service-go
+module electionGo
 
 go 1.16
 
