@@ -16,14 +16,6 @@ type Politician struct {
 	GradeCurrent float32 `json:"grade_current"`
 }
 
-// type Politician struct {
-// 	ID           int
-// 	Name         string
-// 	Party        string
-// 	Location     string
-// 	GradeCurrent float32
-// }
-
 func DecodePoliticians() {
 	db, err := helper.Connect()
 	if err != nil {

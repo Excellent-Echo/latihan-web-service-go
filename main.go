@@ -1,8 +1,9 @@
 package main
 
-import "electionGo/data"
+import "electionGo/query"
 
 func main() {
-	data.DecodePoliticians()
-	data.DecodeVoters()
+	// data.DecodePoliticians()
+	// data.DecodeVoters()
+	query.Release2_1()
 }
