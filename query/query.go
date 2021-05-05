@@ -22,6 +22,7 @@ type Voters struct {
 	age           int
 }
 
+// displays politicians data and the number of votes
 func Release2_1() {
 	db, err := helper.Connect()
 	if err != nil {
@@ -30,7 +31,7 @@ func Release2_1() {
 	}
 	defer db.Close()
 
-	rows, err := db.Query(`SELECT COUNT(voters.politician_id), politicians.name, politicians.party, politicians.location, politicians.grade_current
+	rows, err := db.Query(`SELECT COUNT(voters.politician_id) AS vote_count, politicians.name, politicians.party, politicians.location, politicians.grade_current
 	FROM voters
 	INNER JOIN politicians ON voters.politician_id = politicians.id
 	GROUP BY politician_id`)
@@ -68,6 +69,7 @@ func Release2_1() {
 
 }
 
+// Filter voter data based on male gender and their names begin with the letter B
 func Release2_2() {
 	db, err := helper.Connect()
 	if err != nil {
@@ -122,7 +124,55 @@ func Release2_3() {
 	FROM voters 
 	INNER JOIN politicians ON voters.politician_id = politicians.id 
 	WHERE location='NY'
-	GROUP BY politician_id LIMIT 1`)
+	GROUP BY politician_id
+	LIMIT 1`)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer rows.Close()
+
+	var result []Politicians
+
+	for rows.Next() {
+		var each = Politicians{}
+		var err = rows.Scan(&each.vote_count, &each.name, &each.party, &each.location, &each.grade_current)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		result = append(result, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for _, each := range result {
+		fmt.Println(each)
+	}
+
+}
+
+//3 politicians with the most votes
+func Release2_4() {
+	db, err := helper.Connect()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer db.Close()
+
+	rows, err := db.Query(`SELECT COUNT(voters.politician_id) AS vote_count, politicians.name, politicians.party, politicians.location, politicians.grade_current 
+	FROM voters 
+	INNER JOIN politicians ON voters.politician_id = politicians.id 
+	GROUP BY politician_id
+	ORDER BY vote_count DESC
+	LIMIT 3`)
 
 	if err != nil {
 		fmt.Println(err.Error())
