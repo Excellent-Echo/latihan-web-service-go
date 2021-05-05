@@ -9,4 +9,5 @@ func main() {
 
 	Politicians.PoliticiansData()
 	Voters.VotersData()
+	connect
 }

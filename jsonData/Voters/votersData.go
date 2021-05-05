@@ -8,12 +8,12 @@ import (
 )
 
 type Voters []struct {
-	Voters_id      int    `json:voters_id`
-	Politicians_id int    `json:politician_id`
-	FirstName      string `json:first_name`
-	LastName       string `json:last_name`
-	Gender         string `json:gender`
-	Age            int    `json:age`
+	Voters_id      int    `json:"voters_id"`
+	Politicians_id int    `json:"politician_id"`
+	FirstName      string `json:"first_name"`
+	LastName       string `json:"last_name"`
+	Gender         string `json:"gender"`
+	Age            int    `json:"age"`
 }
 
 func VotersData() {
