@@ -7,5 +7,6 @@ import (
 )
 
 func main() {
-	local.Eksekusi()
+	// local.Eksekusi()
+	local.ExecuteVot()
 }

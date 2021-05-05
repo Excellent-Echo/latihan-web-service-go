@@ -9,4 +9,4 @@ type Voting struct {
 	Umur         int    `json:"age"`
 }
 
-type VotingS []Voting
+type Votings []Voting
