@@ -1,4 +1,3 @@
-{ "pemilih" : 
 [{
     "voter_id": 1,
     "policitian_id" : 1,
@@ -601,4 +600,4 @@
     "last_name" : "Chunning",
     "gender" : "female",
     "age" : 23
-}]}
+}]
