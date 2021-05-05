@@ -6,5 +6,6 @@ func main() {
 	// data.DecodePoliticians()
 	// data.DecodeVoters()
 	// query.Release2_1()
-	query.Release2_2()
+	// query.Release2_2()
+	query.Release2_3()
 }

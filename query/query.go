@@ -90,7 +90,51 @@ func Release2_2() {
 		var each = Voters{}
 		var err = rows.Scan(&each.id, &each.politician_id, &each.first_name, &each.last_name, &each.gender, &each.age)
 
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		result = append(result, each)
+	}
+
+	if err = rows.Err(); err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	for _, each := range result {
 		fmt.Println(each)
+	}
+
+}
+
+// Largest number of votes in NY
+func Release2_3() {
+	db, err := helper.Connect()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer db.Close()
+
+	rows, err := db.Query(`SELECT COUNT(voters.politician_id) AS vote_count, politicians.name, politicians.party, politicians.location, politicians.grade_current 
+	FROM voters 
+	INNER JOIN politicians ON voters.politician_id = politicians.id 
+	WHERE location='NY'
+	GROUP BY politician_id LIMIT 1`)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	defer rows.Close()
+
+	var result []Politicians
+
+	for rows.Next() {
+		var each = Politicians{}
+		var err = rows.Scan(&each.vote_count, &each.name, &each.party, &each.location, &each.grade_current)
 
 		if err != nil {
 			fmt.Println(err.Error())
