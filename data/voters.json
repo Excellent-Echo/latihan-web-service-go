@@ -1,601 +1,601 @@
 [{
     "voter_id": 1,
-    "policitian_id" : 1,
+    "politician_id" : 1,
     "first_name" : "abdul",
     "last_name" : "rozak",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 2,
-    "policitian_id" : 2,
+    "politician_id" : 2,
     "first_name" : "abdul",
     "last_name" : "hakil",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 3,
-    "policitian_id" : 3,
+    "politician_id" : 3,
     "first_name" : "abdul",
     "last_name" : "pratama",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 4,
-    "policitian_id" : 4,
+    "politician_id" : 4,
     "first_name" : "abdul",
     "last_name" : "rohman",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 5,
-    "policitian_id" : 5,
+    "politician_id" : 5,
     "first_name" : "abdul",
     "last_name" : "sneidzer",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 6,
-    "policitian_id" : 6,
+    "politician_id" : 6,
     "first_name" : "abdul",
     "last_name" : "haris",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 7,
-    "policitian_id" : 7,
+    "politician_id" : 7,
     "first_name" : "abdul",
     "last_name" : "hanif",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 8,
-    "policitian_id" : 8,
+    "politician_id" : 8,
     "first_name" : "abdul",
     "last_name" : "mukarom",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 9,
-    "policitian_id" : 9,
+    "politician_id" : 9,
     "first_name" : "abdul",
     "last_name" : "budi",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 10,
-    "policitian_id" : 11,
+    "politician_id" : 11,
     "first_name" : "abdul",
     "last_name" : "andi",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 11,
-    "policitian_id" : 10,
+    "politician_id" : 10,
     "first_name" : "Brandon",
     "last_name" : "keith",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 12,
-    "policitian_id" : 12,
+    "politician_id" : 12,
     "first_name" : "Brandon",
     "last_name" : "nathan",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 13,
-    "policitian_id" : 15,
+    "politician_id" : 15,
     "first_name" : "Brandon",
     "last_name" : "anshor",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 14,
-    "policitian_id" : 14,
+    "politician_id" : 14,
     "first_name" : "Brandon",
     "last_name" : "Abdullah",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 15,
-    "policitian_id" : 13,
+    "politician_id" : 13,
     "first_name" : "Brandon",
     "last_name" : "Cane",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 16,
-    "policitian_id" : 2,
+    "politician_id" : 2,
     "first_name" : "Brandon",
     "last_name" : "Devon",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 17,
-    "policitian_id" : 2,
+    "politician_id" : 2,
     "first_name" : "Brandon",
     "last_name" : "Kurts",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 18,
-    "policitian_id" : 3,
+    "politician_id" : 3,
     "first_name" : "Brandon",
     "last_name" : "Duncan",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 19,
-    "policitian_id" : 4,
+    "politician_id" : 4,
     "first_name" : "Brandon",
     "last_name" : "Emma",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 20,
-    "policitian_id" : 5,
+    "politician_id" : 5,
     "first_name" : "Brandon",
     "last_name" : "Rozak",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 21,
-    "policitian_id" : 1,
+    "politician_id" : 1,
     "first_name" : "Bety",
     "last_name" : "nathalia",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 22,
-    "policitian_id" : 1,
+    "politician_id" : 1,
     "first_name" : "Bety",
     "last_name" : "Sonata",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 23,
-    "policitian_id" : 6,
+    "politician_id" : 6,
     "first_name" : "Bety",
     "last_name" : "Anjani",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 24,
-    "policitian_id" : 11,
+    "politician_id" : 11,
     "first_name" : "Bety",
     "last_name" : "Elly",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 25,
-    "policitian_id" : 10,
+    "politician_id" : 10,
     "first_name" : "Bety",
     "last_name" : "Ellios",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 26,
-    "policitian_id" : 11,
+    "politician_id" : 11,
     "first_name" : "Bety",
     "last_name" : "Emmet",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 27,
-    "policitian_id" : 15,
+    "politician_id" : 15,
     "first_name" : "Bety",
     "last_name" : "Anna",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 28,
-    "policitian_id" : 14,
+    "politician_id" : 14,
     "first_name" : "Bety",
     "last_name" : "Maphosa",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 29,
-    "policitian_id" : 3,
+    "politician_id" : 3,
     "first_name" : "Bety",
     "last_name" : "YUna",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 30,
-    "policitian_id" : 10,
+    "politician_id" : 10,
     "first_name" : "Bety",
     "last_name" : "Ang",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 31,
-    "policitian_id" : 9,
+    "politician_id" : 9,
     "first_name" : "Bety",
     "last_name" : "Yuu",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 32,
-    "policitian_id" : 8,
+    "politician_id" : 8,
     "first_name" : "Bety",
     "last_name" : "Xioling",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 33,
-    "policitian_id" : 6,
+    "politician_id" : 6,
     "first_name" : "Aaliyah",
     "last_name" : "Sentosa",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 34,
-    "policitian_id" : 15,
+    "politician_id" : 15,
     "first_name" : "Aaliyah",
     "last_name" : "Nanda",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 35,
-    "policitian_id" : 15,
+    "politician_id" : 15,
     "first_name" : "Aaliyah",
     "last_name" : "Aisyah",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 36,
-    "policitian_id" : 14,
+    "politician_id" : 14,
     "first_name" : "Aaliyah",
     "last_name" : "Humairoh",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 37,
-    "policitian_id" : 13,
+    "politician_id" : 13,
     "first_name" : "Aaliyah",
     "last_name" : "Hamzah",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 38,
-    "policitian_id" : 11,
+    "politician_id" : 11,
     "first_name" : "Aaliyah",
     "last_name" : "Nanda",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 39,
-    "policitian_id" : 1,
+    "politician_id" : 1,
     "first_name" : "Aaliyah",
     "last_name" : "Sinka",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 40,
-    "policitian_id" : 2,
+    "politician_id" : 2,
     "first_name" : "Aaliyah",
     "last_name" : "Barney",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 41,
-    "policitian_id" : 3,
+    "politician_id" : 3,
     "first_name" : "Devon",
     "last_name" : "Douglas",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 42,
-    "policitian_id" : 4,
+    "politician_id" : 4,
     "first_name" : "Devon",
     "last_name" : "Duncan",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 43,
-    "policitian_id" : 5,
+    "politician_id" : 5,
     "first_name" : "Devon",
     "last_name" : "Gabriel",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 44,
-    "policitian_id" : 6,
+    "politician_id" : 6,
     "first_name" : "Devon",
     "last_name" : "Graham",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 45,
-    "policitian_id" : 7,
+    "politician_id" : 7,
     "first_name" : "Devon",
     "last_name" : "Gerald",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 46,
-    "policitian_id" : 8,
+    "politician_id" : 8,
     "first_name" : "Devon",
     "last_name" : "Harley",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 47,
-    "policitian_id" : 9,
+    "politician_id" : 9,
     "first_name" : "Devon",
     "last_name" : "Hudson",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 48,
-    "policitian_id" : 10,
+    "politician_id" : 10,
     "first_name" : "Devon",
     "last_name" : "Hugh",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 49,
-    "policitian_id" : 9,
+    "politician_id" : 9,
     "first_name" : "Devon",
     "last_name" : "Issac",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 50,
-    "policitian_id" : 9,
+    "politician_id" : 9,
     "first_name" : "Devon",
     "last_name" : "Hunter",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 51,
-    "policitian_id" : 4,
+    "politician_id" : 4,
     "first_name" : "Devon",
     "last_name" : "Iva",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 52,
-    "policitian_id" : 3,
+    "politician_id" : 3,
     "first_name" : "Devon",
     "last_name" : "Ivy",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 53,
-    "policitian_id" : 10,
+    "politician_id" : 10,
     "first_name" : "Devon",
     "last_name" : "Ivankov",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 54,
-    "policitian_id" : 11,
+    "politician_id" : 11,
     "first_name" : "Devon",
     "last_name" : "Furman",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 55,
-    "policitian_id" : 12,
+    "politician_id" : 12,
     "first_name" : "Harley",
     "last_name" : "Lakin",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 56,
-    "policitian_id" : 13,
+    "politician_id" : 13,
     "first_name" : "Harley",
     "last_name" : "Kozey",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 57,
-    "policitian_id" : 15,
+    "politician_id" : 15,
     "first_name" : "Harley",
     "last_name" : "Brakus",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 58,
-    "policitian_id" : 1,
+    "politician_id" : 1,
     "first_name" : "Harley",
     "last_name" : "Rohan",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 59,
-    "policitian_id" : 2,
+    "politician_id" : 2,
     "first_name" : "Harley",
     "last_name" : "Sanford",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 60,
-    "policitian_id" : 2,
+    "politician_id" : 2,
     "first_name" : "Harley",
     "last_name" : "Nico",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 61,
-    "policitian_id" : 7,
+    "politician_id" : 7,
     "first_name" : "Harley",
     "last_name" : "Streich",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 62,
-    "policitian_id" : 7,
+    "politician_id" : 7,
     "first_name" : "Harley",
     "last_name" : "Terry",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 63,
-    "policitian_id" : 4,
+    "politician_id" : 4,
     "first_name" : "Harley",
     "last_name" : "Juel",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 64,
-    "policitian_id" : 4,
+    "politician_id" : 4,
     "first_name" : "Harley",
     "last_name" : "Sauer",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 65,
-    "policitian_id" : 5,
+    "politician_id" : 5,
     "first_name" : "Harley",
     "last_name" : "Stoltenberg",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 66,
-    "policitian_id" : 5,
+    "politician_id" : 5,
     "first_name" : "Harley",
     "last_name" : "Kuvalis",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 67,
-    "policitian_id" : 11,
+    "politician_id" : 11,
     "first_name" : "Harley",
     "last_name" : "Thomson",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 68,
-    "policitian_id" : 2,
+    "politician_id" : 2,
     "first_name" : "Harley",
     "last_name" : "Braum",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 69,
-    "policitian_id" : 3,
+    "politician_id" : 3,
     "first_name" : "Harley",
     "last_name" : "Jerder",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 70,
-    "policitian_id" : 4,
+    "politician_id" : 4,
     "first_name" : "Harley",
     "last_name" : "",
     "gender" : "male",
     "age" : 23
 },{
     "voter_id": 71,
-    "policitian_id" : 5,
+    "politician_id" : 5,
     "first_name" : "Iva",
     "last_name" : "Hudson",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 72,
-    "policitian_id" : 8,
+    "politician_id" : 8,
     "first_name" : "Margareth",
     "last_name" : "Hunson",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 73,
-    "policitian_id" : 10,
+    "politician_id" : 10,
     "first_name" : "Margareth",
     "last_name" : "Jones",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 74,
-    "policitian_id" : 10,
+    "politician_id" : 10,
     "first_name" : "Margareth",
     "last_name" : "Reynolds",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 75,
-    "policitian_id" : 14,
+    "politician_id" : 14,
     "first_name" : "Margareth",
     "last_name" : "Abernathy",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 76,
-    "policitian_id" : 12,
+    "politician_id" : 12,
     "first_name" : "Margareth",
     "last_name" : "Woff",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 77,
-    "policitian_id" : 11,
+    "politician_id" : 11,
     "first_name" : "Margareth",
     "last_name" : "Metz",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 78,
-    "policitian_id" : 1,
+    "politician_id" : 1,
     "first_name" : "Margareth",
     "last_name" : "Dach",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 79,
-    "policitian_id" : 3,
+    "politician_id" : 3,
     "first_name" : "Margareth",
     "last_name" : "Durgan",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 80,
-    "policitian_id" : 4,
+    "politician_id" : 4,
     "first_name" : "Margareth",
     "last_name" : "Funk",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 81,
-    "policitian_id" : 5,
+    "politician_id" : 5,
     "first_name" : "Theresia",
     "last_name" : "Little",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 82,
-    "policitian_id" : 6,
+    "politician_id" : 6,
     "first_name" : "Theresia",
     "last_name" : "Woff",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 83,
-    "policitian_id" : 6,
+    "politician_id" : 6,
     "first_name" : "Theresia",
     "last_name" : "Anna",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 84,
-    "policitian_id" : 6,
+    "politician_id" : 6,
     "first_name" : "Theresia",
     "last_name" : "Crona",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 85,
-    "policitian_id" : 9,
+    "politician_id" : 9,
     "first_name" : "Theresia",
     "last_name" : "Leffel",
     "gender" : "female",
     "age" : 23
 },{
     "voter_id": 86,
-    "policitian_id" : 11,
+    "politician_id" : 11,
     "first_name" : "Theresia",
     "last_name" : "Chunning",
     "gender" : "female",
