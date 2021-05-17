@@ -7,10 +7,6 @@ import (
 )
 
 func main() {
-	//helper.Politicians()
-	//helper.Voter()
-	//router.Endpoint()
-
 	// Semua endpoint
 	http.HandleFunc("/", handler.RootHandler)
 	http.HandleFunc("/votings", handler.VotingHandler)
