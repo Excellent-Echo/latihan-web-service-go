@@ -5,33 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"latihan-web-service-go/config"
+	"latihan-web-service-go/entitiy"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type VoterData struct {
-	VoterId      int    `json:"voter_id"`
-	PolicitianId int    `json:"policitian_id"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	Gender       string `json:"gender"`
-	Age          int    `json:"age"`
-}
-type Voters []VoterData
-
-// Koneksi ke database MySQL
-func connectVoting() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "root:root@tcp(localhost)/elections")
-
-	if err != nil {
-		panic(err.Error())
-	}
-	return db, nil
-}
-
 // DecodeVoter untuk decode file json voting
-func DecodeVoter() Voters {
+func DecodeVoter() entitiy.Voters {
 	jsonFile, err := os.Open("json/voting.json")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -45,7 +27,7 @@ func DecodeVoter() Voters {
 	}(jsonFile)
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var voterData Voters
+	var voterData entitiy.Voters
 	err = json.Unmarshal(byteValue, &voterData)
 	if err != nil {
 		fmt.Println(err.Error())
@@ -55,8 +37,8 @@ func DecodeVoter() Voters {
 }
 
 //InsertVoter untuk memasukkan semua data json voter ke database MySQL
-func InsertVoter(data Voters) {
-	db, err := connectVoting()
+func InsertVoter(data entitiy.Voters) {
+	db, err := config.Connection()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -79,8 +61,8 @@ func InsertVoter(data Voters) {
 }
 
 // QueryShowAllVoting Query untuk menampilkan semua data voting
-func QueryShowAllVoting() Voters {
-	db, err := connectVoting()
+func QueryShowAllVoting() entitiy.Voters {
+	db, err := config.Connection()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -91,13 +73,13 @@ func QueryShowAllVoting() Voters {
 		}
 	}(db)
 
-	var votingData Voters
+	var votingData entitiy.Voters
 	data, err := db.Query("SELECT * FROM votings")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for data.Next() {
-		var satuanData VoterData
+		var satuanData entitiy.VoterData
 		if data.Scan(&satuanData.VoterId, &satuanData.PolicitianId, &satuanData.FirstName, &satuanData.LastName, &satuanData.Gender, &satuanData.Age); err != nil {
 			fmt.Println(err.Error())
 		}
@@ -109,7 +91,7 @@ func QueryShowAllVoting() Voters {
 
 // QueryShowMaleWithB Query untuk menampilkan data voters laki-laki yang namanya diawali huruf B
 func QueryShowMaleWithB() {
-	db, err := connectVoting()
+	db, err := config.Connection()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -120,7 +102,7 @@ func QueryShowMaleWithB() {
 		}
 	}(db)
 
-	var votingData []VoterData
+	var votingData []entitiy.VoterData
 
 	var gender = "male"
 	data, err := db.Query("SELECT * FROM votings WHERE gender = ?", gender)
@@ -129,7 +111,7 @@ func QueryShowMaleWithB() {
 		return
 	}
 	for data.Next() {
-		var satuanData VoterData
+		var satuanData entitiy.VoterData
 		if data.Scan(&satuanData.VoterId, &satuanData.PolicitianId, &satuanData.FirstName, &satuanData.LastName, &satuanData.Gender, &satuanData.Age); err != nil {
 			fmt.Println(err.Error())
 			return
@@ -147,8 +129,8 @@ func QueryShowMaleWithB() {
 }
 
 // QueryShowMale Query untuk menampilkan semua data voting yang berjenis kelamin laki-laki
-func QueryShowMale() Voters {
-	db, err := connectVoting()
+func QueryShowMale() entitiy.Voters {
+	db, err := config.Connection()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -159,14 +141,14 @@ func QueryShowMale() Voters {
 		}
 	}(db)
 
-	var votingData Voters
+	var votingData entitiy.Voters
 	var gender = "male"
 	data, err := db.Query("SELECT * FROM votings WHERE gender = ?", gender)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for data.Next() {
-		var satuanData VoterData
+		var satuanData entitiy.VoterData
 		if data.Scan(&satuanData.VoterId, &satuanData.PolicitianId, &satuanData.FirstName, &satuanData.LastName, &satuanData.Gender, &satuanData.Age); err != nil {
 			fmt.Println(err.Error())
 		}
@@ -177,8 +159,8 @@ func QueryShowMale() Voters {
 }
 
 // QueryShowFemale Query untuk menampilkan semua data voting berjenis kelamin perempuan
-func QueryShowFemale() Voters {
-	db, err := connectVoting()
+func QueryShowFemale() entitiy.Voters {
+	db, err := config.Connection()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -189,14 +171,14 @@ func QueryShowFemale() Voters {
 		}
 	}(db)
 
-	var votingData Voters
+	var votingData entitiy.Voters
 	var gender = "female"
 	data, err := db.Query("SELECT * FROM votings WHERE gender = ?", gender)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for data.Next() {
-		var satuanData VoterData
+		var satuanData entitiy.VoterData
 		if data.Scan(&satuanData.VoterId, &satuanData.PolicitianId, &satuanData.FirstName, &satuanData.LastName, &satuanData.Gender, &satuanData.Age); err != nil {
 			fmt.Println(err.Error())
 		}
